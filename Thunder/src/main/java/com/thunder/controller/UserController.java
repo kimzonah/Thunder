@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Description;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -73,7 +74,10 @@ public class UserController {
 		User logoutUser = (User) session.getAttribute("loginUser");
 		if(logoutUser != null) {
 			session.invalidate();
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
-		return new ResponseEntity<Void>(HttpStatus.OK);
+		
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
+	
 }
