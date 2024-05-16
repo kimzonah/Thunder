@@ -29,55 +29,65 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/thunder/user")
 @Tag(name = "UserController", description = "유저 관리 및 조회")
 public class UserController {
-	
+
 	private final UserService userService;
-	
+
 	@Autowired
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-	
-	//회원가입
+
+	// 회원가입
 	@Operation(summary = "회원가입")
 	@PostMapping(value = "/signup")
-	public ResponseEntity<Void> doSignup(@ModelAttribute User user, @RequestPart(name="file", required=false) MultipartFile file){
+	public ResponseEntity<Void> doSignup(@ModelAttribute User user,
+			@RequestPart(name = "file", required = false) MultipartFile file) {
 		int result = userService.registUser(user, file);
-		
-		if(result==1) {
+
+		if (result == 1) {
 			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		 else {
-	            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-	        }
-	}
-	
-	// 로그인
-	@Operation(summary = "로그인")
-	@PostMapping("/login")
-	public ResponseEntity<Void> doLogin(@RequestBody User user, HttpSession session){
-		// 로그인 시도
-		User loginUser = userService.login(user.getId(), user.getPassword());
-		
-		if(loginUser != null) {
-			session.setAttribute("loginUser", loginUser);
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		}
-		else {
+		} else {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
-	
+
+	// 로그인
+	@Operation(summary = "로그인")
+	@PostMapping("/login")
+	public ResponseEntity<Void> doLogin(@RequestBody User user, HttpSession session) {
+		// 로그인 시도
+		User loginUser = userService.login(user.getId(), user.getPassword());
+
+		if (loginUser != null) {
+			session.setAttribute("loginUser", loginUser);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		}
+	}
+
 	// 로그아웃
 	@Operation(summary = "로그아웃")
 	@PostMapping("/logout")
-	public ResponseEntity<Void> doLogout(HttpSession session){
+	public ResponseEntity<Void> doLogout(HttpSession session) {
 		User logoutUser = (User) session.getAttribute("loginUser");
-		if(logoutUser != null) {
+		if (logoutUser != null) {
 			session.invalidate();
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
-		
+
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
-	
+
+	// 로그인 유저 정보 조회
+	@Operation(summary = "로그인 유저 정보 조회")
+	@GetMapping("/loginUser")
+	public ResponseEntity<?> getLoginUser(HttpSession session) {
+		User loginUser = (User) session.getAttribute("loginUser");
+		if (loginUser != null) {
+			return new ResponseEntity<User>(loginUser, HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
 }
