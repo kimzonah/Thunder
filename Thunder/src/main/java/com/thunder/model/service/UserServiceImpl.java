@@ -19,6 +19,9 @@ public class UserServiceImpl implements UserService {
 	// 회원가입
 	@Override
 	public int registUser(User user) {
+		
+		
+		
 		return userDao.insertUser(user);
 	}
 

@@ -24,7 +24,7 @@ public class UserController {
 	//회원가입
 	@PostMapping("/signup")
 	public ResponseEntity<?> signup(@RequestBody User user){
-		int result
+		int result = userService.registUser(user);
 		return null;
 	}
 	
