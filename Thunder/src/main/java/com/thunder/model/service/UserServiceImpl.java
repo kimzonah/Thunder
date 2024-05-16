@@ -2,17 +2,16 @@ package com.thunder.model.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.thunder.controller.UserController;
 import com.thunder.model.dao.UserDao;
 import com.thunder.model.dto.User;
 
@@ -58,6 +57,15 @@ public class UserServiceImpl implements UserService {
 			user.setImage(DEFALT_USER_IMAGE);
 		}
 		return userDao.insertUser(user);
+	}
+	
+	// 로그인
+	@Override
+	public User login(String id, String password) {
+		Map<String, String> user = new HashMap<>();
+		user.put("id", id);
+		user.put("password", password);
+		return userDao.login(user);
 	}
 
 

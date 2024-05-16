@@ -11,4 +11,7 @@ public interface UserService {
 	// 회원가입
 	int registUser(User user, MultipartFile file);
 	
+	// 로그인
+	User login(String id, String password);
+	
 }
