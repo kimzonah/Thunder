@@ -53,4 +53,10 @@ public class Board {
 	public void setCommentCnt(int commentCnt) {
 		this.commentCnt = commentCnt;
 	}
+	
+	@Override
+	public String toString() {
+		return "Board [id=" + id + ", title=" + title + ", content=" + content + ", userId=" + userId + ", regDate="
+				+ regDate + ", scheduleId=" + scheduleId + ", commentCnt=" + commentCnt + "]";
+	}
 }
