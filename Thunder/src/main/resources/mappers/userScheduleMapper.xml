@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.thunder.model.dao.UserScheduleDao">
-	<select id="validate" parameterType="map" resultType="UserSchedule">
+	<select id="validate" parameterType="map" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) FROM userSchedule
-		where user_id = #{userId} AND schedule_id = #{scheduleId};
+		where user_id = #{userId} AND schedule_id = #{scheduleId} AND status = 1;
 	</select>
 </mapper>

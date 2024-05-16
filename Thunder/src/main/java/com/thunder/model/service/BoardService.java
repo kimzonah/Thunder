@@ -10,4 +10,12 @@ public interface BoardService {
 
 	Board getBoard(int scheduleId, int boardId);
 
+	boolean registBoard(String userId, int scheduleId, Board board);
+
+	boolean updateBoard(int scheduleId, int boardId, Board board);
+
+	boolean validateRegist(String userId, int scheduleId, int boardId);
+
+	boolean deleteBoard(int scheduleId, int boardId);
+
 }
