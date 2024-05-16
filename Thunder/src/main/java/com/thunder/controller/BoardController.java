@@ -28,14 +28,31 @@ public class BoardController {
 	}
 	
 	@GetMapping("/{scheduleId}")
-	public ResponseEntity<List<Board>> getBoardList(@PathVariable int scheduleId) {
+	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId) {
+		// 전체 게시글 가져와 list에 담기
 		List<Board> list = boardService.getAllBoard(scheduleId);
 		
-		if (list == null) {
+		if (list == null) { // list가 null이면 404
+			return ResponseEntity.notFound().build();
+		} else if (list.size() == 0) { // list가 비어있으면 204
+			return ResponseEntity.noContent().build();
+		}
+		
+		// 정상 응답
+		return ResponseEntity.ok(list);
+	}
+	
+	@GetMapping("/{scheduleId}/{boardId}")
+	public ResponseEntity<Board> getBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId) {
+		// schedule id와 board id를 통해 게시글 가져오기
+		Board board = boardService.getBoard(scheduleId, boardId);
+		
+		if (board == null) { // board가 null이면 404
 			return ResponseEntity.notFound().build();
 		}
 		
-		return ResponseEntity.ok(list);
+		// 정상 응답
+		return ResponseEntity.ok(board);
 	}
 	
 	
