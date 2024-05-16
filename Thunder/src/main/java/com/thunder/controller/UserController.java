@@ -1,17 +1,29 @@
 package com.thunder.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Description;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thunder.model.dto.User;
 import com.thunder.model.service.UserService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/thunder/user")
+@Tag(name = "UserController", description = "유저 관리 및 조회")
 public class UserController {
 	
 	private final UserService userService;
@@ -22,10 +34,17 @@ public class UserController {
 	}
 	
 	//회원가입
-	@PostMapping("/signup")
-	public ResponseEntity<?> signup(@RequestBody User user){
-		int result = userService.registUser(user);
-		return null;
+	@Operation(summary = "회원가입")
+	@PostMapping(value = "/signup")
+	public ResponseEntity<Void> doSignup(@ModelAttribute User user, @RequestPart(name="file", required=false) MultipartFile file){
+		int result = userService.registUser(user, file);
+		
+		if(result==1) {
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		}
+		 else {
+	            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+	        }
 	}
 	
 }
