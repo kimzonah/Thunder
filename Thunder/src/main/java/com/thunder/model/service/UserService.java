@@ -14,4 +14,7 @@ public interface UserService {
 	// 로그인
 	User login(String id, String password);
 	
+	// 유저 아이디로 유저 정보 조회
+	User getUserById(String userId);
+	
 }
