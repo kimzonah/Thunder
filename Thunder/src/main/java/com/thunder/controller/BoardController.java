@@ -2,6 +2,7 @@ package com.thunder.controller;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,8 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.thunder.model.dto.Board;
 import com.thunder.model.service.BoardService;
+import com.thunder.model.service.UserScheduleService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @RestController
@@ -23,12 +30,25 @@ public class BoardController {
 	
 	private final BoardService boardService;
 	
-	public BoardController(BoardService boardService) {
+	private final UserScheduleService userScheduleService;
+	
+	public BoardController(BoardService boardService, UserScheduleService userScheduleService) {
 		this.boardService = boardService;
+		this.userScheduleService = userScheduleService;
 	}
 	
 	@GetMapping("/{scheduleId}")
-	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId) {
+	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
+		// session 처리
+//		String userId = (String) session.getAttribute("loginUser");
+		String userId = "seonha";
+		
+		// 로그인 유저가 번개에 가입되어 있는지 검증
+		if (!userScheduleService.validateJoin(userId, scheduleId)) {
+			 // 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	    }
+		
 		// 전체 게시글 가져와 list에 담기
 		List<Board> list = boardService.getAllBoard(scheduleId);
 		
@@ -54,6 +74,16 @@ public class BoardController {
 		// 정상 응답
 		return ResponseEntity.ok(board);
 	}
+	
+	@PostMapping("/board/{scheduleId}")
+	public ResponseEntity<Void> registBoard(@PathVariable("scheduleId") int scheduleId, @RequestBody Board board, HttpSession session) {
+		// session을 통해 login User 가져오기
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// board 등록하기
+		return null;
+	}
+	
 	
 	
 }
