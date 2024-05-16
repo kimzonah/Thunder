@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -89,5 +90,17 @@ public class UserController {
 		}
 
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+	}
+	
+	// 번개 상세 게시판 게시글 작성자 조회 가능
+	@Operation(summary = "유저 아이디로 유저 정보 조회")
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> getBoardUserId(@PathVariable("userId") String userId){
+		User user = userService.getUserById(userId);
+		if(user != null)
+			return new ResponseEntity<User>(user,HttpStatus.OK);
+		
+		else
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
 }
