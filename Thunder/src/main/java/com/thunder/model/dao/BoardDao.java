@@ -11,4 +11,12 @@ public interface BoardDao {
 
 	Board selectBoard(Map<String, Integer> map);
 
+	int insertBoard(Board board);
+
+	int updateBoard(Board board);
+
+	int validate(Map<String, Object> params);
+
+	boolean deleteBoard(Map<String, Integer> params);
+
 }
