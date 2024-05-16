@@ -65,4 +65,15 @@ public class UserController {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 	}
+	
+	// 로그아웃
+	@Operation(summary = "로그아웃")
+	@PostMapping("/logout")
+	public ResponseEntity<Void> doLogout(HttpSession session){
+		User logoutUser = (User) session.getAttribute("loginUser");
+		if(logoutUser != null) {
+			session.invalidate();
+		}
+		return new ResponseEntity<Void>(HttpStatus.OK);
+	}
 }
