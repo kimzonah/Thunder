@@ -6,6 +6,8 @@
 <mapper namespace="com.thunder.model.dao.BoardDao">
 	<select id="selectAllBoard" parameterType="int" resultType="Board">
 		SELECT * FROM board
-		WHERE scheduleId = #{scheduleId};
+		WHERE schedule_id = #{scheduleId};
 	</select>
+	
+	
 </mapper>

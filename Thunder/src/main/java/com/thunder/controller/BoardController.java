@@ -33,6 +33,8 @@ public class BoardController {
 		
 		if (list == null) {
 			return ResponseEntity.notFound().build();
+		} else if (list.size() == 0) {
+			return ResponseEntity.noContent().build();
 		}
 		
 		return ResponseEntity.ok(list);
