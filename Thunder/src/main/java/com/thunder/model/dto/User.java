@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 @Schema(description = "User DTO")
 public class User {
-	
 	private String id;
 	private String password;
 	private String name;
@@ -69,7 +68,4 @@ public class User {
 		return "User [id=" + id + ", password=" + password + ", name=" + name + ", favorite=" + favorite + ", image="
 				+ image + ", orgImage=" + orgImage + "]";
 	}
-	
-	
-	
 }

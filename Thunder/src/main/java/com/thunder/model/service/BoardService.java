@@ -8,4 +8,6 @@ public interface BoardService {
 
 	List<Board> getAllBoard(int scheduleId);
 
+	Board getBoard(int scheduleId, int boardId);
+
 }
