@@ -9,5 +9,8 @@
 		WHERE schedule_id = #{scheduleId};
 	</select>
 	
-	
+	<select id="selectBoard" parameterType="map" resultType="Board">
+		SELECT * FROM board
+		WHERE schedule_id = #{scheduleId} AND id = #{boardId};
+	</select>
 </mapper>
