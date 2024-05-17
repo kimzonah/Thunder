@@ -35,8 +35,6 @@ public class ScheduleController {
     @PostMapping("/search")
     public ResponseEntity<?> searchSchedule(@RequestBody ScheduleSearchCondtion condition){
         
-        System.out.println(condition);
-        
         List<Schedule> list = scheduleService.getScheduleList(condition.getDateTime(), condition.getCategoty(), condition.getAddressName());
         
         // 검색 결과가 없을 때 204 응답
