@@ -44,7 +44,7 @@ public class BoardController {
 	@GetMapping("/{scheduleId}")
 	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		System.out.println(userId);
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
@@ -71,7 +71,7 @@ public class BoardController {
 	@GetMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Board> getBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -96,7 +96,7 @@ public class BoardController {
 	@PostMapping("/{scheduleId}")
 	public ResponseEntity<Void> registBoard(@PathVariable("scheduleId") int scheduleId, @RequestBody Board board, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -120,7 +120,7 @@ public class BoardController {
 	@PutMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Void> updateBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, @RequestBody Board board, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -144,7 +144,7 @@ public class BoardController {
 	@DeleteMapping("{scheduleId}/{boardId}")
 	public ResponseEntity<Void> deleteBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		

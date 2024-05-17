@@ -44,7 +44,7 @@ public class ManageController {
 	@GetMapping("/{scheduleId}")
 	public ResponseEntity<List<User>> getApplyUserList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 		
@@ -70,7 +70,7 @@ public class ManageController {
 	@PutMapping("/{scheduleId}/{userId}")
 	public ResponseEntity<Void> updateApplyStatus(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
-		String managerId = ((User) session.getAttribute("loginUser")).getId();
+		String managerId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 		
@@ -92,7 +92,7 @@ public class ManageController {
 	@DeleteMapping("/{scheduleId}/{userId}")
 	public ResponseEntity<Void> refuseApply(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
-		String managerId = ((User) session.getAttribute("loginUser")).getId();
+		String managerId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 
@@ -114,7 +114,7 @@ public class ManageController {
 	@PutMapping("/{scheduleId}")
 	public ResponseEntity<Void> updateSchedule(@PathVariable("scheduleId") int scheduleId, @RequestBody Schedule schedule, HttpSession session) {
 		// session 처리
-		String managerId = ((User) session.getAttribute("loginUser")).getId();
+		String managerId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 
