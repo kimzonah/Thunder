@@ -45,7 +45,6 @@ public class BoardController {
 	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
 		// session 처리
 		String userId = (String) session.getAttribute("loginUser");
-		System.out.println(userId);
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		

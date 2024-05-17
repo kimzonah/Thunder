@@ -21,5 +21,11 @@ public interface ScheduleService {
 	
 	// 번개 참여 요청 보냄
 	int sendJoin(String loginUserId, int scheduleId);
+
+	// 유저 아이디로 예정된 번개 조회
+	List<Schedule> getRemainSchedule(String userId);
+
+	// 유저 아이디로 지난 번개 조회
+	List<Schedule> getPastSchedule(String userId);
 	
 }
