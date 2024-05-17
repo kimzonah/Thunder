@@ -34,6 +34,7 @@ public class CommentServiceImpl implements CommentService {
 		comment.setBoardId(boardId);
 		comment.setUserId(userId);
 		
+		// insert 컬럼 수가 1이면 성공, 아니면 실패
 		return commentDao.insertComment(comment) == 1 ? true : false;
 	}
 
@@ -52,7 +53,8 @@ public class CommentServiceImpl implements CommentService {
 	@Override
 	@Transactional
 	public boolean deleteComment(int commentId) {
-		return commentDao.deleteBoard(commentId) == 1 ? true : false;
+		// 반환 결과 (삭제 컬럼 수)가 1이면 삭제 성공, 아니면 실패
+		return commentDao.deleteComment(commentId) == 1 ? true : false;
 	}
 
 }
