@@ -62,6 +62,14 @@ public class ScheduleController {
 		return ResponseEntity.ok(schedule);
 	}
 	
-	
+	// 번개 생성
+	@Operation(summary = "번개 생성")
+	@PostMapping("")
+	public ResponseEntity<?> registSchedule(@RequestBody Schedule schedule){
+		
+		
+		
+		return ResponseEntity.ok().build();
+	}
 	
 }
