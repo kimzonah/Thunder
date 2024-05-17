@@ -40,18 +40,24 @@ public class UserController {
 
 	// 회원가입
 	@Operation(summary = "회원가입")
-	@PostMapping(value = "/signup", consumes = {"multipart/form-data"})
+	@PostMapping(value = "/signup", consumes = { "multipart/form-data" })
 	public ResponseEntity<Void> doSignup(@ModelAttribute User user,
 			@RequestPart(name = "file", required = false) MultipartFile file) {
-		int result = userService.registUser(user, file);
 
-		if (result == 1) {
-			System.out.println("성공");
-			return ResponseEntity.ok().build();
-		} else {
-			System.out.println("실패");
+		// 이미 존재하는 아이디라면 400 응답
+		if (userService.getUserById(user.getId()) != null) {
+			System.out.println("이미 존재하는 아이디입니다.");
 			return ResponseEntity.badRequest().build();
 		}
+
+		int result = userService.registUser(user, file);
+
+		// 유저 등록이 되지 않았을 때 회원가입 실패(400)
+		if (result == 0) {
+			return ResponseEntity.badRequest().build(); // 회원가입 실패 (400)
+		}
+
+		return ResponseEntity.ok().build(); // 회원가입 성공
 	}
 
 	// 로그인
@@ -60,13 +66,15 @@ public class UserController {
 	public ResponseEntity<Void> doLogin(@RequestBody User user, HttpSession session) {
 		// 로그인 시도
 		User loginUser = userService.login(user.getId(), user.getPassword());
-
-		if (loginUser != null) {
-			session.setAttribute("loginUser", loginUser);
-			return new ResponseEntity<Void>(HttpStatus.OK);
-		} else {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+		
+		// 아이디와 비밀번호가 일치하는 유저가 없다면 로그인 실패 400
+		if (loginUser == null) {
+			return ResponseEntity.badRequest().build();
 		}
+		
+		// 정상 요청일시 로그인 성공
+		session.setAttribute("loginUser", loginUser);
+		return ResponseEntity.ok().build();
 	}
 
 	// 로그아웃
@@ -74,12 +82,15 @@ public class UserController {
 	@PostMapping("/logout")
 	public ResponseEntity<Void> doLogout(HttpSession session) {
 		User logoutUser = (User) session.getAttribute("loginUser");
-		if (logoutUser != null) {
-			session.invalidate();
-			return new ResponseEntity<Void>(HttpStatus.OK);
+		
+		// 세션에 로그아웃할 유저가 없으면 404응답
+		if (logoutUser == null) {
+			return ResponseEntity.badRequest().build();
 		}
-
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		
+		// 정상 요청일시 세션 만료 후 로그아웃 성공
+		session.invalidate();
+		return ResponseEntity.ok().build();
 	}
 
 	// 로그인 유저 정보 조회
@@ -87,22 +98,25 @@ public class UserController {
 	@GetMapping("/loginUser")
 	public ResponseEntity<?> getLoginUser(HttpSession session) {
 		User loginUser = (User) session.getAttribute("loginUser");
-		if (loginUser != null) {
-			return new ResponseEntity<User>(loginUser, HttpStatus.OK);
+		
+		// 로그인 한 유저가 없으면 404응답
+		if (loginUser == null) {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 		}
-
-		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		
+		return new ResponseEntity<User>(loginUser, HttpStatus.OK);
 	}
 
-	// 번개 상세 게시판 게시글 작성자 조회 가능
+	// 유저 아이디로 유저 조회
 	@Operation(summary = "유저 아이디로 유저 정보 조회")
 	@GetMapping("/{userId}")
 	public ResponseEntity<?> getBoardUserId(@PathVariable("userId") String userId) {
 		User user = userService.getUserById(userId);
-		if (user != null)
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-
-		else
+		
+		// 해당 아이디를 갖는 유저가 없으면 404 응답
+		if (user == null)
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			
+		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 }
