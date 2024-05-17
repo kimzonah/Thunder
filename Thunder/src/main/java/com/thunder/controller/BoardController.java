@@ -47,7 +47,7 @@ public class BoardController {
 		// session 처리
 		String userId = (String) session.getAttribute("loginUser");
 		
-		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
+		// 로그인 유저가 번개에 가입되어 있는지 검증
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId)) {
@@ -74,7 +74,7 @@ public class BoardController {
 		// session 처리
 		String userId = (String) session.getAttribute("loginUser");
 		
-		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
+		// 로그인 유저가 번개에 가입되어 있는지 검증
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId)) {
@@ -100,7 +100,7 @@ public class BoardController {
 		// session 처리
 		String userId = (String) session.getAttribute("loginUser");
 		
-		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
+		// 로그인 유저가 번개에 가입되어 있는지 검증
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId)) {

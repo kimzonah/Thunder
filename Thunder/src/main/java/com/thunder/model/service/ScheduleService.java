@@ -27,5 +27,5 @@ public interface ScheduleService {
 
 	// 유저 아이디로 지난 번개 조회
 	List<Schedule> getPastSchedule(String userId);
-	
+
 }
