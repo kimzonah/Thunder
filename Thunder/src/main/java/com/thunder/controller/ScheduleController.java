@@ -111,8 +111,12 @@ public class ScheduleController {
 		//현재 로그인이 접근 가능한 번개라면
 		int result = scheduleService.sendJoin(loginUserId, scheduleId);
 		
+		// 요청 실패시 400 응답
+		if(result == 0) {
+			return ResponseEntity.badRequest().build();
+		}
 		
-		
+		// 요청 성공
 		return ResponseEntity.ok().build();
 	}
 	
