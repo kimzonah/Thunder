@@ -7,7 +7,7 @@ import com.thunder.model.dto.ScheduleSearchCondtion;
 
 public interface ScheduleService {
 	
-	// 스케주
+	// 검색 조건으로 번개 조회
 	List<Schedule> getScheduleList(ScheduleSearchCondtion condition);
 	
 }

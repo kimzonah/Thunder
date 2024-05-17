@@ -26,9 +26,16 @@ public class ScheduleController {
 	
 	
 	// 번개 검색 및 조회
-	@GetMapping("")
+	@GetMapping("/search")
 	public ResponseEntity<?> searchSchedule(@RequestBody ScheduleSearchCondtion condition){
 		List<Schedule> list = scheduleService.getScheduleList(condition);
+		
+		// 검색 결과가 없을 때 204 응답
+		if(list.size()==0) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		// 정상 응답 200
 		return ResponseEntity.ok(list);
 		
 	}

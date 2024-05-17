@@ -2,7 +2,20 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
-<mapper namespace="com.thunder.model.dao.ScheduleDao">
 
+<mapper namespace="com.thunder.model.dao.ScheduleDao">
+	<!-- 검색 조건으로 번개 조회 -->
+	<select id="selectScheduleByCon"
+		parameterType="ScheduleSearchCondtion" resultType="Schedule">
+		SELECT * FROM schedule
+		WHERE date_time >= #{dateTime}
+		<!-- 선택된 카테고리가 있을 때만 적용 -->
+		<if test="category != 'none'">
+			WHERE category LIKE CONCAT('%',#{category},'#');
+		</if>
+		<!-- 입력한 지역이 있을 때만 적용 -->
+		<if test="location != 'none'">
+			WHERE location LIKE CONCAT('%', #{location}, '#);
+		</if>
+	</select>
 </mapper>

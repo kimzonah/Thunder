@@ -1,12 +1,17 @@
 package com.thunder.model.dto;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 
 public class ScheduleSearchCondtion {
 	
 	private Timestamp dateTime;
 	private String categoty = "none";
 	private String location = "none";
+	
+	private ScheduleSearchCondtion() {
+		this.dateTime = Timestamp.from(Instant.now());
+	}
 	
 	public Timestamp getDateTime() {
 		return dateTime;
