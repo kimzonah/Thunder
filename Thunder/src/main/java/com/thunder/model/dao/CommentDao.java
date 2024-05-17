@@ -13,6 +13,6 @@ public interface CommentDao {
 
 	boolean validate(Map<String, Object> params);
 
-	int deleteBoard(int commentId);
+	int deleteComment(int commentId);
 
 }
