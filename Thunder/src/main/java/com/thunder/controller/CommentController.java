@@ -47,7 +47,7 @@ public class CommentController {
 	@GetMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<List<Comment>> getCommentList(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지 검증
 		
@@ -74,7 +74,7 @@ public class CommentController {
 	@PostMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Void> registComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session, @RequestBody Comment comment) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지 검증
 		
@@ -100,7 +100,7 @@ public class CommentController {
 	public ResponseEntity<Void> deleteComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, 
 			@PathVariable("commentId") int commentId, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
