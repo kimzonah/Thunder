@@ -101,10 +101,10 @@ public class UserController {
 		
 		// 로그인 한 유저가 없으면 404응답
 		if (loginUser == null) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 		}
 		
-		return new ResponseEntity<User>(loginUser, HttpStatus.OK);
+		return ResponseEntity.ok(loginUser);
 	}
 
 	// 유저 아이디로 유저 조회
@@ -115,8 +115,8 @@ public class UserController {
 		
 		// 해당 아이디를 갖는 유저가 없으면 404 응답
 		if (user == null)
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+			return ResponseEntity.notFound().build();
 			
-		return new ResponseEntity<User>(user, HttpStatus.OK);
+		return ResponseEntity.ok(user);
 	}
 }
