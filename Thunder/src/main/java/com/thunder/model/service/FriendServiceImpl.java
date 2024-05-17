@@ -18,10 +18,18 @@ public class FriendServiceImpl implements FriendService {
 		this.friendDao = friendDao;
 	}
 	
+	// 전체 유저 조회
+	@Override
+	public List<User> getAllUsers() {
+		return friendDao.selectAllUsers();
+	}
+	
+	
 	// 전체 유저들 중 이름으로 유저 검색
 	@Override
 	public List<User> searchUser(String searchName) {
 		return friendDao.selectUserByName(searchName);
 	}
+
 
 }
