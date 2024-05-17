@@ -4,5 +4,15 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.thunder.model.dao.AlbumDao">
+	<!-- 사진 등록 -->
+	<insert id="insert" parameterType="Album">
+		INSERT INTO album (user_id, image, schedule_id, org_image)
+		VALUE (#{userId}, #{image}, #{scheduleId}, #{orgImage});
+	</insert>
 	
+	<!-- 유저 아이디로 사진 전체 조회 -->
+	<select id="selectAllAlbum" parameterType="String">
+		SELECT * FROM album
+		WHERE user_id = #{userId};
+	</select>
 </mapper>
