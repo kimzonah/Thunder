@@ -25,6 +25,8 @@ import com.thunder.model.service.UserScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin("http://localhost:5173")
@@ -78,11 +80,11 @@ public class ScheduleController {
 	@PostMapping(value = "", consumes = {"multipart/form-data"})
 	public ResponseEntity<Void> registSchedule(@ModelAttribute Schedule schedule,
 			@RequestPart(name = "file", required = false) MultipartFile file, HttpSession session){
-		
-		User loginUser = (User) session.getAttribute("loginUser");
+		// session 처리
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 있다면 그 유저의 아이디를 관리자 아이디로 설정
-		schedule.setManagerId(loginUser.getId());
+		schedule.setManagerId(userId);
 		
 		int result = scheduleService.createSchedule(schedule, file);
 		
@@ -90,6 +92,9 @@ public class ScheduleController {
 		if(result == 0) {
 			return ResponseEntity.badRequest().build();
 		}
+		
+		// 번개가 생성되었다면 번개 참여자에 번개장도 추가
+		userScheduleService.addManager(userId, schedule.getId());
 		
 		// 번개 생성 성공 응답
 		return ResponseEntity.ok().build();
@@ -100,16 +105,15 @@ public class ScheduleController {
 	@PostMapping("/join/{scheduleId}")
 	public ResponseEntity<?> joinSchedule(@PathVariable("scheduleId") int scheduleId, HttpSession session){
 		// 현재 로그인 한 유저
-		User loginUser = (User) session.getAttribute("loginUser");
-		String loginUserId = loginUser.getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 현재 로그인 유저가 이미 가입한 번개라면 접근 금지 403
-		if(userScheduleService.validateJoin(loginUserId, scheduleId)) {
+		if(userScheduleService.validateJoin(userId, scheduleId)) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}
 		
 		//현재 로그인이 접근 가능한 번개라면
-		int result = scheduleService.sendJoin(loginUserId, scheduleId);
+		int result = scheduleService.sendJoin(userId, scheduleId);
 		
 		// 요청 실패시 400 응답
 		if(result == 0) {
@@ -120,4 +124,43 @@ public class ScheduleController {
 		return ResponseEntity.ok().build();
 	}
 	
+	// 나의 예정 번개 조회
+	@Operation(summary = "나의 예정 번개 조회")
+	@GetMapping("/my/remain")
+	public ResponseEntity<List<Schedule>> getRemainScheduleList(HttpSession session) {
+		// session 처리
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// 유저 아이디로 예정된 번개 조회
+		List<Schedule> list = scheduleService.getRemainSchedule(userId);
+		
+		if (list == null) { // 실패 응답 1. list가 null이면 404
+			return ResponseEntity.notFound().build();
+		} else if (list.size() == 0) { // list가 비어있으면 204
+			return ResponseEntity.noContent().build();
+		}
+		
+		// 성공 응답
+		return ResponseEntity.ok(list);
+	}
+	
+	// 나의 지난 번개 조회
+	@Operation(summary = "나의 지난 번개 조회")
+	@GetMapping("/my/past")
+	public ResponseEntity<List<Schedule>> getPastScheduleList(HttpSession session) {
+		// session 처리
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// 유저 아이디로 예정된 번개 조회
+		List<Schedule> list = scheduleService.getPastSchedule(userId);
+		
+		if (list == null) { // 실패 응답 1. list가 null이면 404
+			return ResponseEntity.notFound().build();
+		} else if (list.size() == 0) { // list가 비어있으면 204
+			return ResponseEntity.noContent().build();
+		}
+		
+		// 성공 응답
+		return ResponseEntity.ok(list);
+	}
 }

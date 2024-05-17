@@ -9,19 +9,19 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thunder.model.dto.Comment;
-import com.thunder.model.dto.User;
 import com.thunder.model.service.BoardService;
 import com.thunder.model.service.CommentService;
 import com.thunder.model.service.UserScheduleService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
@@ -44,6 +44,7 @@ public class CommentController {
 	}
 
 	// 1. 번개 게시글 댓글 전체 조회
+	@Operation(summary = "번개 게시글 댓글 전체 조회")
 	@GetMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<List<Comment>> getCommentList(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session) {
 		// session 처리
@@ -71,6 +72,7 @@ public class CommentController {
 	
 	
 	// 2. 번개 게시글 댓글 작성
+	@Operation(summary = "번개 게시글 댓글 작성")
 	@PostMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Void> registComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session, @RequestBody Comment comment) {
 		// session 처리
@@ -96,6 +98,7 @@ public class CommentController {
 	}
 	
 	// 3. 번개 게시글 댓글 삭제
+	@Operation(summary = "번개 게시글 댓글 삭제")
 	@DeleteMapping("/{scheduleId}/{boardId}/{commentId}")
 	public ResponseEntity<Void> deleteComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, 
 			@PathVariable("commentId") int commentId, HttpSession session) {

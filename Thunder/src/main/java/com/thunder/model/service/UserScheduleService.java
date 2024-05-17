@@ -4,4 +4,6 @@ public interface UserScheduleService {
 
 	boolean validateJoin(String userId, int scheduleId);
 
+	void addManager(String userId, int scheduleId);
+
 }

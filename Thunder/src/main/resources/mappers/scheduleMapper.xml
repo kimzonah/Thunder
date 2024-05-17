@@ -33,11 +33,9 @@
 	</select>
 
 	<!-- 번개 등록 -->
-	<insert id="insertSchedule" parameterType="Schedule">
-		INSERT INTO schedule
-		VALUES (0, #{managerId}, #{title}, #{category}, #{scale}, #{image},
-		#{orgImage}, #{description}, #{dateTime}, #{addressName},
-		#{longitude}, #{latitude}, #{chatUrl})
+	<insert id="insertSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO schedule (manager_id, title, category, scale, image, org_image, description, date_time, address_name, longitude, latitude, chat_url)
+		VALUES (#{managerId}, #{title}, #{category}, #{scale}, #{image}, #{orgImage}, #{description}, #{dateTime}, #{addressName}, #{longitude}, #{latitude}, #{chatUrl})
 	</insert>
 	
 	<!-- 번개 참여 신청 -->
@@ -45,5 +43,20 @@
 		INSERT INTO userSchedule (user_id, schedule_id)
 		VALUES (#{userId}, #{scheduleId})
 	</insert>
+	
+	<!-- 예정 번개 조회 -->
+	<select id="selectRemainSchedule" parameterType="string" resultType="Schedule">
+		SELECT s.* 
+		FROM schedule s
+		JOIN userSchedule us ON us.schedule_id = s.id
+		WHERE us.user_id = #{userId} AND us.status = 1 AND s.date_time &gt; CURRENT_TIMESTAMP;
+	</select>
 
+	<!-- 지난 번개 조회 -->
+	<select id="selectPastSchedule" parameterType="string" resultType="Schedule">
+		SELECT s.* 
+		FROM schedule s
+		JOIN userSchedule us ON us.schedule_id = s.id
+		WHERE us.user_id = #{userId} AND us.status = 1 AND s.date_time &lt; CURRENT_TIMESTAMP;
+	</select>
 </mapper>

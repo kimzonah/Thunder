@@ -9,15 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.thunder.model.dto.Album;
-import com.thunder.model.dto.User;
 import com.thunder.model.service.AlbumService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
@@ -37,6 +36,7 @@ public class AlbumController {
 	}
 	
 	// 1. 앨범에 사진 등록
+	@Operation(summary = "앨범에 사진 등록")
 	@PostMapping(value = "/{scheduleId}", consumes = { "multipart/form-data" })
 	public ResponseEntity<Void> registImage(@PathVariable("scheduleId") int scheduleId, @RequestPart(name = "file", required = false) MultipartFile file, HttpSession session) {
 		// session 처리
@@ -51,6 +51,7 @@ public class AlbumController {
 	}
 	
 	// 2. 앨범 사진 전체 조회
+	@Operation(summary = "앨범 사진 전체 조회")
 	@GetMapping("")
 	public ResponseEntity<List<Album>> getAlbumList(HttpSession session) {
 		// session 처리

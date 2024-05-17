@@ -3,8 +3,9 @@ package com.thunder.model.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Options;
+
 import com.thunder.model.dto.Schedule;
-import com.thunder.model.dto.ScheduleSearchCondtion;
 
 public interface ScheduleDao {
 	
@@ -19,5 +20,11 @@ public interface ScheduleDao {
 	
 	// 번개 참여 신청
 	int insertUserSchedule(Map newApply);
+
+	// 유저 아이디로 예정된 번개 조회
+	List<Schedule> selectRemainSchedule(String userId);
+
+	// 유저 아이디로 지난 번개 조회
+	List<Schedule> selectPastSchedule(String userId);
 
 }
