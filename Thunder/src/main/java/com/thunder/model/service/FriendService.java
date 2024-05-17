@@ -2,6 +2,7 @@ package com.thunder.model.service;
 
 import java.util.List;
 
+import com.thunder.model.dto.Schedule;
 import com.thunder.model.dto.User;
 
 public interface FriendService {
@@ -17,6 +18,18 @@ public interface FriendService {
 	
 	// 친구 삭제
 	int deleteFriend(String friendId, String loginUserId);
+	
+	// 받은 친구 요청 조회
+	List<User> getAllRequest(String loginUserId);
+	
+	// 친구 요청 수락
+	int acceptRequest(String friendId, String loginUserId);
+	
+	// 친구 요청 거절
+	int rejectRequest(String friendId, String loginUserId);
+	
+	// 친구가 관리하는 번개 조회
+	List<Schedule> getFriendSchedule(String friendId);
 	
 
 

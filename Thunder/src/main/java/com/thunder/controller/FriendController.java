@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.thunder.model.dto.Schedule;
 import com.thunder.model.dto.User;
 import com.thunder.model.service.FriendService;
 
@@ -90,5 +92,70 @@ public class FriendController {
         // 친구 삭제 성공
         return ResponseEntity.ok().build();
 	}
+	
+	// 친구 요청 조회
+	@Operation(summary = "친구 요청 조회")
+	@GetMapping("/request")
+	public ResponseEntity<List<User>> getRequestList(HttpSession session){
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+        String loginUserId = loginUser.getId();
+        
+        List<User> list = friendService.getAllRequest(loginUserId);
+        
+        //친구 요청이 없을 떄
+        if(list.size()==0) {
+        	return ResponseEntity.noContent().build();
+        }
+        // 친구 요청이 있을 때
+        return ResponseEntity.ok(list);
+		
+	}
+	
+	// 친구 요청 수락하기
+    @Operation(summary = "친구 수락하기")
+    @PutMapping("/request/{friendId}")
+    public ResponseEntity<Void> acceptRequest(@PathVariable("friendId") String friendId, HttpSession session){
+        
+        User loginUser = (User) session.getAttribute("loginUser");
+        String loginUserId = loginUser.getId();
+        
+        int result = friendService.acceptRequest(friendId, loginUserId);
+        // 친구 수락 실패
+        if(result==0) {
+            return ResponseEntity.badRequest().build();
+        }
+        // 친구 수락 성공
+        return ResponseEntity.ok().build();
+    }
+    
+    // 친구 요청 거절하기
+    @Operation(summary = "친구 거절하기, 요청 삭제")
+    @DeleteMapping("/request/{friendId}")
+    public ResponseEntity<Void> rejectRequest(@PathVariable("friendId") String friendId, HttpSession session){
+    	User loginUser = (User) session.getAttribute("loginUser");
+        String loginUserId = loginUser.getId();
+        
+        int result = friendService.rejectRequest(friendId, loginUserId);
+        // 친구 거절 실패
+        if(result==0) {
+            return ResponseEntity.badRequest().build();
+        }
+        // 친구 거절 성공
+        return ResponseEntity.ok().build();
+    }
+    
+    //친구 번개 조회
+    @Operation(summary = "친구가 관리하는 번개 조회")
+    @GetMapping("/{friendId}")
+    public ResponseEntity<List<Schedule>> getFriendSchedule(@PathVariable("friendId") String friendId){
+    	List<Schedule> list = friendService.getFriendSchedule(friendId);
+    	// 조회 결과가 없다면
+    	if(list.size()==0) {
+    		return ResponseEntity.noContent().build();
+    	}
+    	// 조회 결과가 있다면
+    	return ResponseEntity.ok(list);
+    }
 	
 }

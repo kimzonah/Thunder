@@ -29,4 +29,30 @@
 		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
 		AND status = 1
 	</delete>
+	
+	<!--친구 요청 조회-->
+	<select id="selectAllRequest" parameterType="String" resultType="User">
+		SELECT * FROM user
+		WHERE id = (SELECT from_user_id FROM friend
+		WHERE to_user_id = #{loginUserId} AND status = 0)
+	</select>
+	
+	<!--친구 요청 수락-->
+	<update id="updateStatus" parameterType="Map">
+		UPDATE friend
+		SET status = 1
+		WHERE to_user_id = #{loginUserId} AND from_user_id = #{friendId}
+	</update>
+	
+	<!--친구 요청 거절/삭제-->
+	<delete id="deleteRequest" parameterType="Map">
+		DELETE from friend
+		WHERE to_user_id = #{loginUserId} AND from_user_id = #{friendId} AND status=0
+	</delete>
+	
+	<!--친구가 관리하는 번개 조회-->
+	<select id="selectFriendSchedule" parameterType="String" resultType="Schedule">
+		SELECT * FROM schedule
+		WHERE manager_id = #{friendId}
+	</select>
 </mapper>
