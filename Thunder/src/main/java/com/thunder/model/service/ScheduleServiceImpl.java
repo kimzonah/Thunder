@@ -1,6 +1,9 @@
 package com.thunder.model.service;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +21,15 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public ScheduleServiceImpl(ScheduleDao scheduleDao) {
 		this.scheduleDao = scheduleDao;
 	}
-	
+
 	@Override
-	public List<Schedule> getScheduleList(ScheduleSearchCondtion condition) {
+	public List<Schedule> getScheduleList(String dateTime, String category, String addressName) {
+		Map<String, String> condition = new HashMap<>();
+		
+		condition.put("dateTime", dateTime);
+		condition.put("category",category);
+		condition.put("addressName", addressName);
+		
 		return scheduleDao.selectScheduleByCon(condition);
 	}
 	
