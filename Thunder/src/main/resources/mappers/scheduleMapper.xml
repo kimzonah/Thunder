@@ -59,4 +59,10 @@
 		JOIN userSchedule us ON us.schedule_id = s.id
 		WHERE us.user_id = #{userId} AND us.status = 1 AND s.date_time &lt; CURRENT_TIMESTAMP;
 	</select>
+	
+	<!--신청한 번개 조회-->
+	<select id="selectApply" parameterType="Map" resultType="int">
+		SELECT IFNULL(COUNT(*),0) FROM userschedule
+		WHERE user_id = #{userId} AND scheduleId = #{scheduleId}
+	</select>
 </mapper>

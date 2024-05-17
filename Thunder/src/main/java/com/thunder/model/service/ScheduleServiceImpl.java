@@ -99,5 +99,19 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public List<Schedule> getPastSchedule(String userId) {
 		return scheduleDao.selectPastSchedule(userId);
 	}
+	
+	// 신청한 적 없는 번개면 true
+	@Override
+	public boolean noApply(String userId, int scheduleId) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("loginUserId", userId); 
+		map.put("scheduleId", scheduleId);
+		
+		int result = scheduleDao.selectApply(map);
+		
+		// 없으면 0이므로 true
+		if(result==0) return true;
+		return false;
+	}
 
 }

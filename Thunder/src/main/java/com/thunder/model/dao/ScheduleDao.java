@@ -26,5 +26,8 @@ public interface ScheduleDao {
 
 	// 유저 아이디로 지난 번개 조회
 	List<Schedule> selectPastSchedule(String userId);
+	
+	// 신청한 번개 조회
+	int selectApply(Map<String, Object> map);
 
 }

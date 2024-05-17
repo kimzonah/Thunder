@@ -203,4 +203,26 @@ public class ScheduleController {
 		// 성공 응답
 		return ResponseEntity.ok().build();
 	}
+	
+	// 번개 신청 및 가입 여부 확인
+	@Operation(summary = "번개 신청 및 가입 여부 확인 (신청안함:0 / 참여중:1 / 신청후 승인 대기중:2)")
+	@GetMapping("/status/{scheduleId}")
+	public ResponseEntity<Integer> checkStatus(@PathVariable("scheduleId") int scheduleId, HttpSession session){
+		
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// 번개 신청 안한 상태면 0 반환
+		if(scheduleService.noApply(userId, scheduleId)) {
+			return ResponseEntity.ok(0);
+		}
+		
+		// 번개 승인받았고 참여 중이면 1 반환
+		if(userScheduleService.validateJoin(userId, scheduleId)) {
+			return ResponseEntity.ok(1);
+		}
+		
+		// 번개 신청 후 승인 대기 중이면 2반환
+		return ResponseEntity.ok(2);
+		
+	}
 }
