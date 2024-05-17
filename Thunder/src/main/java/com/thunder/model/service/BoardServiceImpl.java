@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thunder.model.dao.BoardDao;
 import com.thunder.model.dto.Board;
@@ -21,11 +22,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 	
 	@Override
+	@Transactional
 	public List<Board> getAllBoard(int scheduleId) {
 		return boardDao.selectAllBoard(scheduleId);
 	}
 
 	@Override
+	@Transactional
 	public Board getBoard(int scheduleId, int boardId) {
 		Map<String, Integer> params = new HashMap<>();
 		
@@ -36,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public boolean registBoard(String userId, int scheduleId, Board board) {
 		board.setUserId(userId);
 		board.setScheduleId(scheduleId);
@@ -44,6 +48,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public boolean updateBoard(int scheduleId, int boardId, Board board) {
 		board.setId(boardId);
 		board.setScheduleId(scheduleId);
@@ -52,6 +57,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public boolean validateRegist(String userId, int scheduleId, int boardId) {
 		Map<String, Object> params = new HashMap<>();
 		
@@ -63,6 +69,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteBoard(int scheduleId, int boardId) {
 		Map<String, Integer> params = new HashMap<>();
 		

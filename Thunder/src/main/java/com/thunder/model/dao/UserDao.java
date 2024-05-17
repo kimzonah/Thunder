@@ -13,6 +13,7 @@ public interface UserDao {
 	User login(Map<String, String> user);
 	
 	// 유저 아이디로 유저 정보 불러오기
-	User selectUserById(String userId);	
+	User selectUserById(String userId);
+	
 
 }
