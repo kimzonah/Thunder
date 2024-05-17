@@ -38,7 +38,7 @@ public interface FriendService {
 	List<User> searchFriend(String loginUserId, String searchName);
 	
 	// 친구가 아닌지 확인 (상태 0)
-	boolean notFriend(User loginUser, String friendId);
+	boolean haveRelation(User loginUser, String friendId);
 	
 
 
