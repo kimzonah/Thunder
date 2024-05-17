@@ -16,5 +16,8 @@ public interface ScheduleDao {
 	
 	// 번개 등록
 	int insertSchedule(Schedule schedule);
+	
+	// 번개 참여 신청
+	int insertUserSchedule(Map newApply);
 
 }
