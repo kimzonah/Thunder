@@ -40,15 +40,17 @@ public class UserController {
 
 	// 회원가입
 	@Operation(summary = "회원가입")
-	@PostMapping(value = "/signup")
+	@PostMapping(value = "/signup", consumes = {"multipart/form-data"})
 	public ResponseEntity<Void> doSignup(@ModelAttribute User user,
 			@RequestPart(name = "file", required = false) MultipartFile file) {
 		int result = userService.registUser(user, file);
 
 		if (result == 1) {
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			System.out.println("성공");
+			return ResponseEntity.ok().build();
 		} else {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			System.out.println("실패");
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
@@ -91,15 +93,15 @@ public class UserController {
 
 		return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
-	
+
 	// 번개 상세 게시판 게시글 작성자 조회 가능
 	@Operation(summary = "유저 아이디로 유저 정보 조회")
 	@GetMapping("/{userId}")
-	public ResponseEntity<?> getBoardUserId(@PathVariable("userId") String userId){
+	public ResponseEntity<?> getBoardUserId(@PathVariable("userId") String userId) {
 		User user = userService.getUserById(userId);
-		if(user != null)
-			return new ResponseEntity<User>(user,HttpStatus.OK);
-		
+		if (user != null)
+			return new ResponseEntity<User>(user, HttpStatus.OK);
+
 		else
 			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
 	}
