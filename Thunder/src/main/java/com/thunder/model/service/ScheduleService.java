@@ -27,5 +27,8 @@ public interface ScheduleService {
 
 	// 유저 아이디로 지난 번개 조회
 	List<Schedule> getPastSchedule(String userId);
+	
+	// 로그인 유저가 신청한적 없는지 조회
+	boolean noApply(String userId, int scheduleId);
 
 }
