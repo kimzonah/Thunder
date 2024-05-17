@@ -73,7 +73,7 @@ public class UserController {
 		}
 		
 		// 정상 요청일시 로그인 성공
-		session.setAttribute("loginUser", loginUser);
+		session.setAttribute("loginUser", loginUser.getId());
 		return ResponseEntity.ok().build();
 	}
 
@@ -81,10 +81,10 @@ public class UserController {
 	@Operation(summary = "로그아웃")
 	@PostMapping("/logout")
 	public ResponseEntity<Void> doLogout(HttpSession session) {
-		User logoutUser = (User) session.getAttribute("loginUser");
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 세션에 로그아웃할 유저가 없으면 404응답
-		if (logoutUser == null) {
+		if (userId == null) {
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -97,7 +97,8 @@ public class UserController {
 	@Operation(summary = "로그인 유저 정보 조회")
 	@GetMapping("/loginUser")
 	public ResponseEntity<?> getLoginUser(HttpSession session) {
-		User loginUser = (User) session.getAttribute("loginUser");
+		String userId = (String) session.getAttribute("loginUser");
+		User loginUser = userService.getUserById(userId);
 		
 		// 로그인 한 유저가 없으면 404응답
 		if (loginUser == null) {
