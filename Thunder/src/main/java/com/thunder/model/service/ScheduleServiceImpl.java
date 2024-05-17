@@ -75,6 +75,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 			// 중복 방지 파일명 저장
 			schedule.setImage(UUID.randomUUID().toString() + "_" + DEFALT_SCHEDULE_IMAGE);
 		}
+		
 		return scheduleDao.insertSchedule(schedule);
 
 	}
@@ -86,6 +87,16 @@ public class ScheduleServiceImpl implements ScheduleService {
 		newApply.put("scheduleId", scheduleId);
 		
 		return scheduleDao.insertUserSchedule(newApply);
+	}
+
+	@Override
+	public List<Schedule> getRemainSchedule(String userId) {
+		return scheduleDao.selectRemainSchedule(userId);
+	}
+
+	@Override
+	public List<Schedule> getPastSchedule(String userId) {
+		return scheduleDao.selectPastSchedule(userId);
 	}
 
 }

@@ -8,4 +8,9 @@
 		SELECT IFNULL(COUNT(*), 0) FROM userSchedule
 		where user_id = #{userId} AND schedule_id = #{scheduleId} AND status = 1;
 	</select>
+	
+	<insert id="insertManager" parameterType="map">
+		INSERT INTO userSchedule (user_id, schedule_id, status)
+		VALUE (#{userId}, #{scheduleId}, 1)
+	</insert>
 </mapper>

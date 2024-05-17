@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,7 @@ import com.thunder.model.dto.User;
 import com.thunder.model.service.ManageService;
 import com.thunder.model.service.UserScheduleService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
@@ -41,6 +41,7 @@ public class ManageController {
 	}
 	
 	// 1. 번개 신청 조회
+	@Operation(summary = "번개 신청 조회")
 	@GetMapping("/{scheduleId}")
 	public ResponseEntity<List<User>> getApplyUserList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
 		// session 처리
@@ -67,6 +68,7 @@ public class ManageController {
 	}
 	
 	// 2. 번개 신청 수락
+	@Operation(summary = "번개 신청 수락")
 	@PutMapping("/{scheduleId}/{userId}")
 	public ResponseEntity<Void> updateApplyStatus(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
@@ -89,6 +91,7 @@ public class ManageController {
 	}
 	
 	// 3. 번개 신청 거절
+	@Operation(summary = "번개 신청 거절")
 	@DeleteMapping("/{scheduleId}/{userId}")
 	public ResponseEntity<Void> refuseApply(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
@@ -111,6 +114,7 @@ public class ManageController {
 	}
 	
 	// 4. 번개 일정 수정
+	@Operation(summary = "번개 일정 수정")
 	@PutMapping("/{scheduleId}")
 	public ResponseEntity<Void> updateSchedule(@PathVariable("scheduleId") int scheduleId, @RequestBody Schedule schedule, HttpSession session) {
 		// session 처리
@@ -130,6 +134,5 @@ public class ManageController {
 		
 		return ResponseEntity.ok().build();
 	}
-	
 	
 }
