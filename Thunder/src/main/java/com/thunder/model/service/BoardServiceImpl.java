@@ -78,5 +78,18 @@ public class BoardServiceImpl implements BoardService {
 		
 		return boardDao.deleteBoard(params);
 	}
+
+	@Override
+	@Transactional
+	public void addComment(int boardId) {
+		boardDao.increaseCommentCnt(boardId);
+	}
+
+	@Override
+	@Transactional
+	public void deleteComment(int boardId) {
+		boardDao.decreaseCommentCnt(boardId);
+		
+	}
 	
 }
