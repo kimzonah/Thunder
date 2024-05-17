@@ -32,6 +32,12 @@ public interface FriendDao {
 	// 친구가 관리하는 번개 조회
 	List<Schedule> selectFriendSchedule(String friendId);
 	
+	// 친구 전체 조회
+	List<User> selectAllFriend(String loginUserId);
+	
+	// 검색어로 친구 검색 조회
+	List<User> selectFriendByName(Map<String, String> searchCon);
+	
 	
 
 }

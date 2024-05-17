@@ -55,4 +55,35 @@
 		SELECT * FROM schedule
 		WHERE manager_id = #{friendId}
 	</select>
+	
+	<!--친구 전체 조회-->
+	<select id="selectAllFriend" parameterType="String" resultType="User">
+		SELECT * FROM user
+		WHERE 
+		id = (
+			SELECT from_user_id FROM friend
+			WHERE to_user_id = #{loginUserId} AND status=1
+		)
+		OR
+		id = (
+			SELECT to_user_id FROM friend
+			WHERE from_user_id = #{loginUserId} AND status=1
+		)
+	</select>
+	
+	<!--검색어로 친구 검색 조회-->
+	<select id="selectFriendByName" parameterType="Map" resultType="User">
+		SELECT * FROM user
+		WHERE 
+		(id = (
+			SELECT from_user_id FROM friend
+			WHERE to_user_id = #{loginUserId} AND status=1
+		)
+		OR
+		id = (
+			SELECT to_user_id FROM friend
+			WHERE from_user_id = #{loginUserId} AND status=1
+		)) 
+		AND name LIKE CONCAT ('%', #{searchName},'%')
+	</select>
 </mapper>

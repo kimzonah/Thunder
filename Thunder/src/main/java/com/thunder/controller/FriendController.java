@@ -38,7 +38,7 @@ public class FriendController {
 	// 전체 유저 조회 및 검색
 	@Operation(summary = "전체 유저 조회 및 검색")
 	@GetMapping("/search")
-	public ResponseEntity<?> getUserList(@RequestParam(required = false) String searchName) {
+	public ResponseEntity<List<User>> getUserList(@RequestParam(required = false) String searchName) {
 
 		List<User> list;
 
@@ -49,6 +49,32 @@ public class FriendController {
 		// 검색어가 있다면 검색 조회
 		else {
 			list = friendService.searchUser(searchName);
+		}
+
+		// 조회된 결과가 0개일때 not found
+		if (list.size() == 0) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.ok(list);
+	}
+	
+	// 내 친구 조회 및 검색
+	@Operation(summary = "내 친구 조회 및 검색")
+	@GetMapping("/my/search")
+	public ResponseEntity<List<User>> getMyFreind(@RequestParam(required = false) String searchName, HttpSession session) {
+		
+		User loginUser = (User) session.getAttribute("loginUser");
+        String loginUserId = loginUser.getId();
+        
+		List<User> list;
+
+		// 만약 검색어가 없다면 전체 조회
+		if (searchName == null || searchName.isEmpty()) {
+			list = friendService.getAllFriend(loginUserId);
+		}
+		// 검색어가 있다면 검색 조회
+		else {
+			list = friendService.searchFriend(loginUserId, searchName);
 		}
 
 		// 조회된 결과가 0개일때 not found
@@ -158,4 +184,5 @@ public class FriendController {
     	return ResponseEntity.ok(list);
     }
 	
+    
 }

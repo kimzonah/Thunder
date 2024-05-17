@@ -31,6 +31,12 @@ public interface FriendService {
 	// 친구가 관리하는 번개 조회
 	List<Schedule> getFriendSchedule(String friendId);
 	
+	// 친구 전체 조회
+	List<User> getAllFriend(String loginUserId);
+	
+	// 검색으로 친구 조회
+	List<User> searchFriend(String loginUserId, String searchName);
+	
 
 
 }

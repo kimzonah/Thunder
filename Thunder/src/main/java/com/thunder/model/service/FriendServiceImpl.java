@@ -86,6 +86,22 @@ public class FriendServiceImpl implements FriendService {
 		return friendDao.selectFriendSchedule(friendId);
 	}
 	
+	// 친구 전체 조회
+	@Override
+	public List<User> getAllFriend(String loginUserId) {
+		return friendDao.selectAllFriend(loginUserId);
+	}
+	
+	// 친구 이름으로 검색 조회
+	@Override
+	public List<User> searchFriend(String loginUserId, String searchName) {
+		Map<String,String> searchCon = new HashMap<>();
+		searchCon.put("loginUserId", loginUserId); 
+		searchCon.put("searchName", searchName);
+		
+		return friendDao.selectFriendByName(searchCon);
+	}
+	
 
 
 }
