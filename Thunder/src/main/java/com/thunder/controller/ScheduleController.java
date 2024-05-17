@@ -92,4 +92,13 @@ public class ScheduleController {
 		return ResponseEntity.ok().build();
 	}
 	
+	// 번개 참여 신청
+	@Operation(summary = "번개 참여 신청")
+	@PostMapping("/join/{scheduleId}")
+	public ResponseEntity<?> joinSchedule(@PathVariable("scheduleId") int scheduleId){
+		
+		
+		return ResponseEntity.ok().build();
+	}
+	
 }
