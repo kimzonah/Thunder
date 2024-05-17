@@ -30,6 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	@Transactional
 	public Board getBoard(int scheduleId, int boardId) {
+		// borad를 가져오기 위한 id 넘기기
 		Map<String, Integer> params = new HashMap<>();
 		
 		params.put("scheduleId", scheduleId);
@@ -44,6 +45,7 @@ public class BoardServiceImpl implements BoardService {
 		board.setUserId(userId);
 		board.setScheduleId(scheduleId);
 		
+		// 등록한 board 개수가 1이면 성공 
 		return boardDao.insertBoard(board) == 1 ? true : false;
 	}
 
