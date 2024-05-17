@@ -42,6 +42,7 @@ public class UserScheduleServiceImpl implements UserScheduleService {
 	}
 
 	@Override
+	@Transactional
 	public boolean deleteSchedule(String userId, int scheduleId) {
 		Map<String, Object> params = new HashMap<>();
 		
@@ -49,6 +50,12 @@ public class UserScheduleServiceImpl implements UserScheduleService {
 		params.put("scheduleId", scheduleId);
 		
 		return userScheduleDao.deleteSchedule(params) == 1 ? true : false;
+	}
+
+	@Override
+	@Transactional
+	public int getJoinUserCnt(int scheduleId) {
+		return userScheduleDao.selectJoinUserCnt(scheduleId);
 	}
 
 }

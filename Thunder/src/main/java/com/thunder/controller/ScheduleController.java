@@ -81,6 +81,17 @@ public class ScheduleController {
 		return ResponseEntity.ok(schedule);
 	}
 	
+	// 번개 참여인원 조회
+	@Operation(summary = "번개 참여인원 조회	")
+	@GetMapping("/join/{scheduleId}")
+	public ResponseEntity<Integer> getJoinUserCnt(@PathVariable("scheduleId") int scheduleId){
+		
+		int cnt = userScheduleService.getJoinUserCnt(scheduleId);
+		
+		// 조회된 번개가 있으면 번개 정보와 200 응답
+		return ResponseEntity.ok(cnt);
+	}
+	
 	// 번개 생성
 	@Operation(summary = "번개 생성")
 	@PostMapping(value = "", consumes = {"multipart/form-data"})

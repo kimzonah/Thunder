@@ -4,18 +4,27 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
 <mapper namespace="com.thunder.model.dao.UserScheduleDao">
+	<!-- 번개 가입자 검증 -->
 	<select id="validate" parameterType="map" resultType="int">
 		SELECT IFNULL(COUNT(*), 0) FROM userSchedule
-		where user_id = #{userId} AND schedule_id = #{scheduleId} AND status = 1;
+		WHERE user_id = #{userId} AND schedule_id = #{scheduleId} AND status = 1;
 	</select>
 	
+	<!-- 번개장 번개 등록 -->
 	<insert id="insertManager" parameterType="map">
 		INSERT INTO userSchedule (user_id, schedule_id, status)
 		VALUE (#{userId}, #{scheduleId}, 1)
 	</insert>
 	
+	<!-- 번개 삭제 -->
 	<delete id="deleteSchedule" parameterType="map">
 		DELETE FROM userSchedule
 		WHERE user_id = #{userId} AND schedule_id = #{scheduleId};
 	</delete>
+	
+	<!-- 번개 참여 인원 조회 -->
+	<select id="selectJoinUserCnt" parameterType="int" resultType="int">
+		SELECT COUNT(*) FROM userSchedule
+		WHERE schedule_id = #{scheduleId} AND status = 1;
+	</select>
 </mapper>
