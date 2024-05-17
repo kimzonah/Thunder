@@ -5,10 +5,30 @@
 
 <mapper namespace="com.thunder.model.dao.ScheduleDao">
 	
+	<!-- 검색 조건으로 번개 조회 -->
+    <select id="selectScheduleByCon"
+        parameterType="Map" resultType="Schedule">
+        SELECT * FROM schedule
+        <where>
+        <!-- date_time 조건 -->
+        date_time >= #{dateTime}
+
+        <!-- 선택된 카테고리가 있을 때만 적용 -->
+        <if test="category != 'none'">
+            AND category LIKE CONCAT('%', #{category}, '%')
+        </if>
+
+        <!-- 입력한 지역이 있을 때만 적용 -->
+        <if test="addressName != 'none'">
+            AND address_name LIKE CONCAT('%', #{addressName}, '%')
+        </if>
+    </where>
+    </select>
+	
 	<!-- 번개 상세 조회 -->
 	<select id="selectOneSchedule" parameterType="int" resultType="Schedule">
 		SELECT * FROM schedule
-		WHERE id = #{scheduleId};
+		WHERE id = #{scheduleId}
 	</select>
 	
 </mapper>

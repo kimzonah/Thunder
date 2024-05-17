@@ -22,6 +22,17 @@ public class ScheduleServiceImpl implements ScheduleService {
 		this.scheduleDao = scheduleDao;
 	}
 	
+	@Override
+    public List<Schedule> getScheduleList(String dateTime, String category, String addressName) {
+        Map<String, String> condition = new HashMap<>();
+        
+        condition.put("dateTime", dateTime);
+        condition.put("category",category);
+        condition.put("addressName", addressName);
+        
+        return scheduleDao.selectScheduleByCon(condition);
+    }
+	
 	// 번개 상세 조회
 	@Override
 	public Schedule getOneSchedule(int scheduleId) {

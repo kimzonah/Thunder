@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,7 +30,26 @@ public class ScheduleController {
 		this.scheduleService = scheduleService;
 	}
 	
-	
+	// 번개 검색 및 조회
+    @Operation(summary = "번개 조회 및 검색")
+    @PostMapping("/search")
+    public ResponseEntity<?> searchSchedule(@RequestBody ScheduleSearchCondtion condition){
+        
+        System.out.println(condition);
+        
+        List<Schedule> list = scheduleService.getScheduleList(condition.getDateTime(), condition.getCategoty(), condition.getAddressName());
+        
+        // 검색 결과가 없을 때 204 응답
+        if(list.size()==0) {
+            return ResponseEntity.noContent().build();
+        }
+        
+        // 정상 응답 200
+        return ResponseEntity.ok(list);
+        
+    }
+    
+    
 	// 상세 번개 조회
 	@Operation(summary = "상세 번개 조회")
 	@GetMapping("/{scheduleId}")
@@ -40,9 +60,10 @@ public class ScheduleController {
 		if(schedule == null) {
 			return ResponseEntity.notFound().build();
 		}
-		// 조회된 번개가 있으면 번개 정보 반환
+		// 조회된 번개가 있으면 번개 정보와 200 응답
 		return ResponseEntity.ok(schedule);
-		
 	}
+	
+	
 	
 }
