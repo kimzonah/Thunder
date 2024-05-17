@@ -8,4 +8,6 @@ public interface UserScheduleDao {
 
 	void insertManager(Map<String, Object> params);
 
+	int deleteSchedule(Map<String, Object> params);
+
 }

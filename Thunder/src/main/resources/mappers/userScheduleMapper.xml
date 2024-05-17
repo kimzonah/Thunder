@@ -13,4 +13,9 @@
 		INSERT INTO userSchedule (user_id, schedule_id, status)
 		VALUE (#{userId}, #{scheduleId}, 1)
 	</insert>
+	
+	<delete id="deleteSchedule" parameterType="map">
+		DELETE FROM userSchedule
+		WHERE user_id = #{userId} AND schedule_id = #{scheduleId};
+	</delete>
 </mapper>

@@ -6,4 +6,6 @@ public interface UserScheduleService {
 
 	void addManager(String userId, int scheduleId);
 
+	boolean deleteSchedule(String userId, int scheduleId);
+
 }

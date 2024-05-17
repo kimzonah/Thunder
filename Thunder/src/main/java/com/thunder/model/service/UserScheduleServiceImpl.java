@@ -41,4 +41,14 @@ public class UserScheduleServiceImpl implements UserScheduleService {
 		userScheduleDao.insertManager(params);
 	}
 
+	@Override
+	public boolean deleteSchedule(String userId, int scheduleId) {
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("userId", userId);
+		params.put("scheduleId", scheduleId);
+		
+		return userScheduleDao.deleteSchedule(params) == 1 ? true : false;
+	}
+
 }

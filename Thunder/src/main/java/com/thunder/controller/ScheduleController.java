@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.thunder.model.dto.Schedule;
 import com.thunder.model.dto.ScheduleSearchCondtion;
 import com.thunder.model.dto.User;
+import com.thunder.model.service.ManageService;
 import com.thunder.model.service.ScheduleService;
 import com.thunder.model.service.UserScheduleService;
 
@@ -35,12 +37,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ScheduleController {
 	
 	private final ScheduleService scheduleService;
+	
 	private final UserScheduleService userScheduleService;
 	
+	private final ManageService manageService;
+	
 	@Autowired
-	public ScheduleController(ScheduleService scheduleService, UserScheduleService userScheduleService) {
+	public ScheduleController(ScheduleService scheduleService, UserScheduleService userScheduleService, ManageService manageService) {
 		this.scheduleService = scheduleService;
 		this.userScheduleService = userScheduleService;
+		this.manageService = manageService;
 	}
 	
 	// 번개 검색 및 조회
@@ -162,5 +168,28 @@ public class ScheduleController {
 		
 		// 성공 응답
 		return ResponseEntity.ok(list);
+	}
+	
+	// 번개 나가기
+	@Operation(summary = "번개 나가기")
+	@DeleteMapping("/my/{scheduleId}")
+	public ResponseEntity<Void> deleteMySchedule(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
+		// session 처리
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// 로그인 유저가 번개에 가입되어 있는지 검증
+		
+		// 실패 응답 1. 번개에 가입되어 있지 않거나 번개장이라면 접근 거부 응답 반환 (403)
+		if (!userScheduleService.validateJoin(userId, scheduleId) || manageService.validateManager(userId, scheduleId)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	    }
+		
+		// 실패 응답 2. 번개 나가기에 실패하면 notFound (404)
+		if (!userScheduleService.deleteSchedule(userId, scheduleId)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		// 성공 응답
+		return ResponseEntity.ok().build();
 	}
 }
