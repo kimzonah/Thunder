@@ -40,7 +40,7 @@ public class AlbumController {
 	@PostMapping(value = "/{scheduleId}", consumes = { "multipart/form-data" })
 	public ResponseEntity<Void> registImage(@PathVariable("scheduleId") int scheduleId, @RequestPart(name = "file", required = false) MultipartFile file, HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 앨범에 이미지 등록에 실패하면 badRequest 반환
 		if (!albumService.registImage(userId, file, scheduleId)) {
@@ -54,7 +54,7 @@ public class AlbumController {
 	@GetMapping("")
 	public ResponseEntity<List<Album>> getAlbumList(HttpSession session) {
 		// session 처리
-		String userId = ((User) session.getAttribute("loginUser")).getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
 		List<Album> list = albumService.getAllAlbum(userId);
 		return ResponseEntity.ok(list);
