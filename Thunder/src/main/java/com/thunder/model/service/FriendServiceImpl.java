@@ -102,6 +102,12 @@ public class FriendServiceImpl implements FriendService {
 		return friendDao.selectFriendByName(searchCon);
 	}
 	
+	// 친구관계가 있는지
+	@Override
+	public boolean haveRelation(User loginUser, String friendId) {
+		return friend
+	}
+	
 
 
 }

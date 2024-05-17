@@ -184,5 +184,20 @@ public class FriendController {
     	return ResponseEntity.ok(list);
     }
 	
-    
+    // 친구 관계 현재 상태
+    @Operation(summary = "현재 친구 관계 상태 반환(친구 아니고 요청없음:0 / 친구:1 / 로그인유저가 요청 보내고 승인대기중:2 / 로그인유저가 요청 받음:3)")
+    @GetMapping("/request/status/{friendId}")
+    public ResponseEntity<Integer> getStatus(@PathVariable("friendId") String friendId, HttpSession session){
+		
+    	User loginUser = (User) session.getAttribute("loginUser");
+        String loginUserId = loginUser.getId();
+    	
+    	// 0 상태인지
+    	if(friendService.haveRelation(loginUser, friendId)) {
+    		
+    	}
+    	
+    	return null;
+    	
+    }
 }
