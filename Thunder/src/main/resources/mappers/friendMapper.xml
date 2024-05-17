@@ -5,12 +5,28 @@
   
 <mapper namespace="com.thunder.model.dao.FriendDao">
 	
+	<!--전체 유저 조회-->
 	<select id="selectAllUsers" resultType="User">
 		SELECT * FROM user
 	</select>
 	
+	<!--전체 유저 중 검색 조회-->
 	<select id="selectUserByName" parameterType="String" resultType="User">
 		SELECT * FROM user
 		WHERE name LIKE CONCAT ('%', #{searchName},'%')
 	</select>
+	
+	<!--친구 맺기-->
+	<insert id="insertFriend" parameterType="Map">
+		INSERT INTO friend (from_user_id, to_user_id)
+		VALUES(#{fromUserId}, #{toUserId})		
+	</insert>
+	
+	<!--친구 삭제-->
+	<delete id="deleteFriend" parameterType="Map">
+		DELETE FROM friend
+		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
+		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+		AND status = 1
+	</delete>
 </mapper>
