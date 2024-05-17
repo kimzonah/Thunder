@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
 @RequestMapping("/thunder/board")
-@Tag(name="BoardController", description="게시판 CRUD")
-@CrossOrigin("http://localhost:5173") // 개개인의 메서드에 설정할 때는 value
+@Tag(name="BoardController", description="번개 게시판 관련 기능")
+@CrossOrigin("http://localhost:5173")
 public class BoardController {
 	
 	private final BoardService boardService;
@@ -46,16 +46,17 @@ public class BoardController {
 		// session 처리
 		String userId = (String) session.getAttribute("loginUser");
 		
-		// 로그인 유저가 번개에 가입되어 있는지 검증
+		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
+		
+		// 실패 응답 1. 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId)) {
-			 // 번개에 가입되어 있지 않다면 접근 거부 응답 반환 (403)
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		
 		// 전체 게시글 가져와 list에 담기
 		List<Board> list = boardService.getAllBoard(scheduleId);
 		
-		if (list == null) { // list가 null이면 404
+		if (list == null) { // 실패 응답 2. list가 null이면 404
 			return ResponseEntity.notFound().build();
 		} else if (list.size() == 0) { // list가 비어있으면 204
 			return ResponseEntity.noContent().build();
