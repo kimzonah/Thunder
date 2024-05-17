@@ -7,7 +7,8 @@ import com.thunder.model.dto.Schedule;
 import com.thunder.model.dto.ScheduleSearchCondtion;
 
 public interface ScheduleDao {
-
-	List<Schedule> selectScheduleByCon(Map<String, String> condition);
+	
+	// 번개 상세 조회
+	Schedule selectOneSchedule(int scheduleId);
 
 }

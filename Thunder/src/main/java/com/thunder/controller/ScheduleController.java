@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,22 +30,18 @@ public class ScheduleController {
 	}
 	
 	
-	// 번개 검색 및 조회
-	@Operation(summary = "번개 조회 및 검색")
-	@GetMapping("/search")
-	public ResponseEntity<?> searchSchedule(@RequestBody ScheduleSearchCondtion condition){
+	// 상세 번개 조회
+	@Operation(summary = "상세 번개 조회")
+	@GetMapping("/{scheduleId}")
+	public ResponseEntity<?> getScheduleDetail(@PathVariable("scheduleId") int scheduleId){
 		
-		System.out.println(condition);
-		
-		List<Schedule> list = scheduleService.getScheduleList(condition.getDateTime(), condition.getCategoty(), condition.getAddressName());
-		
-		// 검색 결과가 없을 때 204 응답
-		if(list.size()==0) {
-			return ResponseEntity.noContent().build();
+		Schedule schedule = scheduleService.getOneSchedule(scheduleId);
+		// 조회된 번개가 없으면 not found
+		if(schedule == null) {
+			return ResponseEntity.notFound().build();
 		}
-		
-		// 정상 응답 200
-		return ResponseEntity.ok(list);
+		// 조회된 번개가 있으면 번개 정보 반환
+		return ResponseEntity.ok(schedule);
 		
 	}
 	
