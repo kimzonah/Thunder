@@ -63,18 +63,17 @@ public class FriendController {
 	@GetMapping("/my/search")
 	public ResponseEntity<List<User>> getMyFreind(@RequestParam(required = false) String searchName, HttpSession session) {
 		
-		User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+		String userId = (String) session.getAttribute("loginUser");
         
 		List<User> list;
 
 		// 만약 검색어가 없다면 전체 조회
 		if (searchName == null || searchName.isEmpty()) {
-			list = friendService.getAllFriend(loginUserId);
+			list = friendService.getAllFriend(userId);
 		}
 		// 검색어가 있다면 검색 조회
 		else {
-			list = friendService.searchFriend(loginUserId, searchName);
+			list = friendService.searchFriend(userId, searchName);
 		}
 
 		// 조회된 결과가 0개일때 not found
@@ -89,10 +88,9 @@ public class FriendController {
 	@PostMapping("/{friendId}")
 	public ResponseEntity<Void> addFriend(@PathVariable("friendId") String friendId, HttpSession session){
 		
-		User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
-		int result = friendService.addFriend(friendId, loginUserId);
+		int result = friendService.addFriend(friendId, userId);
 		// 친구 맺기 요청 실패시
 		if(result==0) {
 			return ResponseEntity.badRequest().build();
@@ -107,10 +105,9 @@ public class FriendController {
 	@DeleteMapping("/{friendId}")
 	public ResponseEntity<Void> deleteFriend(@PathVariable("friendId") String friendId, HttpSession session){
 		
-		User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+		String userId = (String) session.getAttribute("loginUser");
 		
-        int result = friendService.deleteFriend(friendId, loginUserId);
+        int result = friendService.deleteFriend(friendId, userId);
         // 친구 삭제 실패
         if(result==0) {
         	return ResponseEntity.badRequest().build();
@@ -124,10 +121,9 @@ public class FriendController {
 	@GetMapping("/request")
 	public ResponseEntity<List<User>> getRequestList(HttpSession session){
 		
-		User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+		String userId = (String) session.getAttribute("loginUser");
         
-        List<User> list = friendService.getAllRequest(loginUserId);
+        List<User> list = friendService.getAllRequest(userId);
         
         //친구 요청이 없을 떄
         if(list.size()==0) {
@@ -143,10 +139,9 @@ public class FriendController {
     @PutMapping("/request/{friendId}")
     public ResponseEntity<Void> acceptRequest(@PathVariable("friendId") String friendId, HttpSession session){
         
-        User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+    	String userId = (String) session.getAttribute("loginUser");
         
-        int result = friendService.acceptRequest(friendId, loginUserId);
+        int result = friendService.acceptRequest(friendId, userId);
         // 친구 수락 실패
         if(result==0) {
             return ResponseEntity.badRequest().build();
@@ -159,10 +154,9 @@ public class FriendController {
     @Operation(summary = "친구 거절하기, 요청 삭제")
     @DeleteMapping("/request/{friendId}")
     public ResponseEntity<Void> rejectRequest(@PathVariable("friendId") String friendId, HttpSession session){
-    	User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+    	String userId = (String) session.getAttribute("loginUser");
         
-        int result = friendService.rejectRequest(friendId, loginUserId);
+        int result = friendService.rejectRequest(friendId, userId);
         // 친구 거절 실패
         if(result==0) {
             return ResponseEntity.badRequest().build();
@@ -187,17 +181,27 @@ public class FriendController {
     // 친구 관계 현재 상태
     @Operation(summary = "현재 친구 관계 상태 반환(친구 아니고 요청없음:0 / 친구:1 / 로그인유저가 요청 보내고 승인대기중:2 / 로그인유저가 요청 받음:3)")
     @GetMapping("/request/status/{friendId}")
-    public ResponseEntity<Integer> getStatus(@PathVariable("friendId") String friendId, HttpSession session){
+    public ResponseEntity<Integer> checkStatus(@PathVariable("friendId") String friendId, HttpSession session){
 		
-    	User loginUser = (User) session.getAttribute("loginUser");
-        String loginUserId = loginUser.getId();
+    	String userId = (String) session.getAttribute("loginUser");
     	
-    	// 0 상태인지
-    	if(friendService.haveRelation(loginUser, friendId)) {
-    		
+    	// 친구 관계가 없으면 0 반환
+    	if(friendService.noRelation(userId, friendId)) {
+    		return ResponseEntity.ok(0);
     	}
     	
-    	return null;
+    	// 친구 상태면 1반환
+    	if(friendService.isFriend(userId, friendId)) {
+    		return ResponseEntity.ok(1);
+    	}
+    	
+    	// 로그인 유저가 요청을 보내놓은 친구라면 2 반환
+    	if(friendService.waitingAccept(userId, friendId)) {
+    		return ResponseEntity.ok(2);
+    	}
+    	
+    	// 로그인 유저가 요청을 받은 경우 3 반환
+    	return ResponseEntity.ok(3);
     	
     }
 }

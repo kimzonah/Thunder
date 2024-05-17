@@ -38,7 +38,13 @@ public interface FriendService {
 	List<User> searchFriend(String loginUserId, String searchName);
 	
 	// 친구가 아닌지 확인 (상태 0)
-	boolean haveRelation(User loginUser, String friendId);
+	boolean noRelation(String loginUserId, String friendId);
+	
+	// 친구가 맞는지 확인 (상태1)
+	boolean isFriend(String loginUserId, String friendId);
+	
+	// 로그인 유저가 상대방의 승인을 대기중일 때 (상태2)
+	boolean waitingAccept(String loginUserId, String friendId);
 	
 
 

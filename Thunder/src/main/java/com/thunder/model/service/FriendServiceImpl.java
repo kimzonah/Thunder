@@ -102,10 +102,43 @@ public class FriendServiceImpl implements FriendService {
 		return friendDao.selectFriendByName(searchCon);
 	}
 	
-	// 친구관계가 있는지
+	// 친구관계가 없으면 true
 	@Override
-	public boolean haveRelation(User loginUser, String friendId) {
-		return friend
+	public boolean noRelation(String loginUserId, String friendId) {
+		Map<String,String> map = new HashMap<>();
+		map.put("loginUserId", loginUserId); 
+		map.put("friendId", friendId);
+		
+		int result = friendDao.selectNoFriend(map);
+		
+		if(result==0) return true;
+		return false;
+	}
+	
+	// 친구면 true
+	@Override
+	public boolean isFriend(String loginUserId, String friendId) {
+		Map<String,String> map = new HashMap<>();
+		map.put("loginUserId", loginUserId); 
+		map.put("friendId", friendId);
+		
+		int result = friendDao.selectFriend(map);
+		
+		if(result==0) return false;
+		return true;
+	}
+	
+	// 로그인 유저가 친구 요청 보내고 승인 대기중 true
+	@Override
+	public boolean waitingAccept(String loginUserId, String friendId) {
+		Map<String,String> map = new HashMap<>();
+		map.put("loginUserId", loginUserId); 
+		map.put("friendId", friendId);
+		
+		int result = friendDao.selectWait(map);
+		
+		if(result==0) return false;
+		return true;
 	}
 	
 

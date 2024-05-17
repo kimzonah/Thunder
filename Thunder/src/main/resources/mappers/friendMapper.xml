@@ -86,4 +86,25 @@
 		)) 
 		AND name LIKE CONCAT ('%', #{searchName},'%')
 	</select>
+	
+	<!--친구요청도 없고 찬규도 아닌 관계인지 확인-->
+	<select id="selectNoFriend" parameterType="Map" resultType="int">
+		SELECT IFNULL(COUNT(*),0) FROM friend
+		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
+		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+	</select>
+	
+	<!--친구인지 확인-->
+	<select id="selectFriend" parameterType="map" resultType="int">
+		SELECT IFNULL(COUNT(*),0) FROM friend
+		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
+		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+		AND status = 1
+	</select>
+	
+	<!--로그인 유저사 요청 보낸 친구인지-->
+	<select id="selectWait" parameterType="map" resultType="int">
+		SELECT IFNULL(COUNT(*),0) FROM friend
+		WHERE from_user_id = #{loginUserId} AND to_user_id = #{friendId} AND status=0
+	</select>
 </mapper>

@@ -38,6 +38,15 @@ public interface FriendDao {
 	// 검색어로 친구 검색 조회
 	List<User> selectFriendByName(Map<String, String> searchCon);
 	
+	// 친구 테이블에 없는 관계인지 확인
+	int selectNoFriend(Map<String, String> map);
+	
+	// 친구인지 확인
+	int selectFriend(Map<String, String> map);
+	
+	// 로그인 유저가 from 친구가 to status는 0
+	int selectWait(Map<String, String> map);
+	
 	
 
 }
