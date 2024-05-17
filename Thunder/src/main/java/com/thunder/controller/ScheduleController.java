@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpSession;
 @RestController
 @CrossOrigin("http://localhost:5173")
 @RequestMapping("/thunder")
-@Tag(name = "ScheduleController", description = "번개 CRUD")
+@Tag(name = "ScheduleController", description = "전체 번개 관련 기능")
 public class ScheduleController {
 	
 	private final ScheduleService scheduleService;
@@ -109,6 +109,9 @@ public class ScheduleController {
 		}
 		
 		//현재 로그인이 접근 가능한 번개라면
+		int result = scheduleService.sendJoin(loginUserId, scheduleId);
+		
+		
 		
 		return ResponseEntity.ok().build();
 	}

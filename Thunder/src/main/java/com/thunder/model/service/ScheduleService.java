@@ -19,4 +19,7 @@ public interface ScheduleService {
 	// 번개 생성
 	int createSchedule(Schedule schedule, MultipartFile file);
 	
+	// 번개 참여 요청 보냄
+	int sendJoin(String loginUserId, int scheduleId);
+	
 }

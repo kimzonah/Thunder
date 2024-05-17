@@ -79,4 +79,13 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 	}
 
+	@Override
+	public int sendJoin(String loginUserId, int scheduleId) {
+		Map<String,Object> newApply = new HashMap<>();
+		newApply.put("userId", loginUserId);
+		newApply.put("scheduleId", scheduleId);
+		
+		return scheduleDao.insertUserSchedule(newApply);
+	}
+
 }

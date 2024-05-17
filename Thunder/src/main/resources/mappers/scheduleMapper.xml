@@ -39,5 +39,11 @@
 		#{orgImage}, #{description}, #{dateTime}, #{addressName},
 		#{longitude}, #{latitude}, #{chatUrl})
 	</insert>
+	
+	<!-- 번개 참여 신청 -->
+	<insert id="insertUserSchedule" parameterType="Map">
+		INSERT INTO userSchedule (user_id, schedule_id)
+		VALUES (#{userId}, #{scheduleId})
+	</insert>
 
 </mapper>
