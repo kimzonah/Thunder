@@ -25,6 +25,8 @@ import com.thunder.model.service.UserScheduleService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @CrossOrigin("http://localhost:5173")
@@ -118,6 +120,22 @@ public class ScheduleController {
 		
 		// 요청 성공
 		return ResponseEntity.ok().build();
+	}
+	
+	// 나의 예정 번개 조회
+	@GetMapping("/my/remain")
+	public ResponseEntity<List<Schedule>> get(@RequestParam String param, HttpSession session) {
+		// session 처리
+		String userId = (String) session.getAttribute("loginUser");
+		
+		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
+		
+		// 실패 응답 1. 번개에 가입되어 있지 않거나 게시글을 작성하지 않았다면 접근 거부 응답 반환 (403)
+		if (!userScheduleService.remain(userId, scheduleId) || !boardService.validateRegist(userId, scheduleId, boardId)) {
+	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+	    }
+		
+		return ResponseEntity.ok(list);
 	}
 	
 }
