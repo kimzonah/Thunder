@@ -18,4 +18,8 @@ public interface BoardService {
 
 	boolean deleteBoard(int scheduleId, int boardId);
 
+	void addComment(int boardId);
+
+	void deleteComment(int boardId);
+
 }

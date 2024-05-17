@@ -19,4 +19,8 @@ public interface BoardDao {
 
 	boolean deleteBoard(Map<String, Integer> params);
 
+	void increaseCommentCnt(int boardId);
+
+	void decreaseCommentCnt(int boardId);
+
 }
