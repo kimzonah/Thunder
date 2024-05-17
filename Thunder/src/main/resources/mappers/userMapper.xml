@@ -16,5 +16,10 @@
 		SELECT * FROM user
 		WHERE id=#{id} AND password=#{password};
 	</select>
-
+	
+	<!--유저 아이디로 유저 정보 추출-->
+	<select id="selectUserById" parameterType="String" resultType="User">
+		SELECT * FROM user
+		WHERE id = #{id};
+	</select>
 </mapper>
