@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thunder.model.dto.Comment;
+import com.thunder.model.dto.User;
 import com.thunder.model.service.BoardService;
 import com.thunder.model.service.CommentService;
 import com.thunder.model.service.UserScheduleService;
@@ -46,8 +47,7 @@ public class CommentController {
 	@GetMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<List<Comment>> getCommentList(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session) {
 		// session 처리
-//		String userId = (String) session.getAttribute("loginUser");
-		String userId = "newUser"; // TODO
+		String userId = ((User) session.getAttribute("loginUser")).getId();
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -74,8 +74,7 @@ public class CommentController {
 	@PostMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Void> registComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, HttpSession session, @RequestBody Comment comment) {
 		// session 처리
-//		String userId = (String) session.getAttribute("loginUser");
-		String userId = "seonha"; // TODO
+		String userId = ((User) session.getAttribute("loginUser")).getId();
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -101,8 +100,7 @@ public class CommentController {
 	public ResponseEntity<Void> deleteComment(@PathVariable("scheduleId") int scheduleId, @PathVariable("boardId") int boardId, 
 			@PathVariable("commentId") int commentId, HttpSession session) {
 		// session 처리
-//		String userId = (String) session.getAttribute("loginUser");
-		String userId = "seonha"; // TODO
+		String userId = ((User) session.getAttribute("loginUser")).getId();
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 게시글을 작성한 유저가 맞는지 검증
 		
@@ -119,6 +117,7 @@ public class CommentController {
 		// 번개 삭제 시 board의 comment_cnt 감소
 		boardService.deleteComment(boardId);
 				
+		// 성공 응답
 		return ResponseEntity.ok().build();
 	}
 }
