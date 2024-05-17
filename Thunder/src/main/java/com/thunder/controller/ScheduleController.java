@@ -81,8 +81,7 @@ public class ScheduleController {
 	public ResponseEntity<Void> registSchedule(@ModelAttribute Schedule schedule,
 			@RequestPart(name = "file", required = false) MultipartFile file, HttpSession session){
 		// session 처리
-//		String userId = (String) session.getAttribute("loginUser");
-		String userId = "seonha";
+		String userId = (String) session.getAttribute("loginUser");
 		
 		// 로그인 유저가 있다면 그 유저의 아이디를 관리자 아이디로 설정
 		schedule.setManagerId(userId);
@@ -126,6 +125,7 @@ public class ScheduleController {
 	}
 	
 	// 나의 예정 번개 조회
+	@Operation(summary = "나의 예정 번개 조회")
 	@GetMapping("/my/remain")
 	public ResponseEntity<List<Schedule>> getRemainScheduleList(HttpSession session) {
 		// session 처리
@@ -145,6 +145,7 @@ public class ScheduleController {
 	}
 	
 	// 나의 지난 번개 조회
+	@Operation(summary = "나의 지난 번개 조회")
 	@GetMapping("/my/past")
 	public ResponseEntity<List<Schedule>> getPastScheduleList(HttpSession session) {
 		// session 처리

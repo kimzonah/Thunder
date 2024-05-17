@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thunder.model.dto.Board;
-import com.thunder.model.dto.User;
 import com.thunder.model.service.BoardService;
 import com.thunder.model.service.UserScheduleService;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
@@ -41,6 +41,7 @@ public class BoardController {
 	}
 	
 	// 1. 번개 게시글 전체 조회
+	@Operation(summary = "번개 게시글 전체 조회")
 	@GetMapping("/{scheduleId}")
 	public ResponseEntity<List<Board>> getBoardList(@PathVariable("scheduleId") int scheduleId, HttpSession session) {
 		// session 처리
@@ -67,6 +68,7 @@ public class BoardController {
 	}
 	
 	// 2. 번개 게시글 상세 조회
+	@Operation(summary = "번개 게시글 상세 조회")
 	@GetMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Board> getBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, HttpSession session) {
 		// session 처리
@@ -92,6 +94,7 @@ public class BoardController {
 	}
 	
 	// 3. 번개 게시글 작성
+	@Operation(summary = "번개 게시글 작성")
 	@PostMapping("/{scheduleId}")
 	public ResponseEntity<Void> registBoard(@PathVariable("scheduleId") int scheduleId, @RequestBody Board board, HttpSession session) {
 		// session 처리
@@ -116,6 +119,7 @@ public class BoardController {
 	}
 
 	// 4. 번개 게시글 수정
+	@Operation(summary = "번개 게시글 수정")
 	@PutMapping("/{scheduleId}/{boardId}")
 	public ResponseEntity<Void> updateBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, @RequestBody Board board, HttpSession session) {
 		// session 처리
@@ -140,6 +144,7 @@ public class BoardController {
 	}
 	
 	// 5. 번개 게시글 삭제
+	@Operation(summary = "번개 게시글 삭제")
 	@DeleteMapping("{scheduleId}/{boardId}")
 	public ResponseEntity<Void> deleteBoard(@PathVariable("scheduleId") int scheduleId, @PathVariable int boardId, HttpSession session) {
 		// session 처리
