@@ -13,5 +13,8 @@ public interface ScheduleDao {
 	
 	// 번개 상세 조회
 	Schedule selectOneSchedule(int scheduleId);
+	
+	// 번개 등록
+	int insertSchedule(Schedule schedule);
 
 }

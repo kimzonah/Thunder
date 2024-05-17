@@ -30,10 +30,6 @@ public class UserServiceImpl implements UserService {
 	}
 	
 
-	// resource 경로를 가져오기 위해 ResourceLoader를 주입 받는다.
-	@Autowired
-	ResourceLoader resLoader;
-
 	// 회원가입
 	@Transactional
 	@Override
