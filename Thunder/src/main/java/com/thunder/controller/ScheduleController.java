@@ -3,22 +3,30 @@ package com.thunder.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.thunder.model.dto.Schedule;
 import com.thunder.model.dto.ScheduleSearchCondtion;
+import com.thunder.model.dto.User;
 import com.thunder.model.service.ScheduleService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpSession;
 
 @RestController
+@CrossOrigin("http://localhost:5173")
 @RequestMapping("/thunder")
 @Tag(name = "ScheduleController", description = "번개 CRUD")
 public class ScheduleController {
@@ -64,11 +72,23 @@ public class ScheduleController {
 	
 	// 번개 생성
 	@Operation(summary = "번개 생성")
-	@PostMapping("")
-	public ResponseEntity<?> registSchedule(@RequestBody Schedule schedule){
+	@PostMapping(value = "", consumes = {"multipart/form-data"})
+	public ResponseEntity<Void> registSchedule(@ModelAttribute Schedule schedule,
+			@RequestPart(name = "file", required = false) MultipartFile file, HttpSession session){
 		
+		User loginUser = (User) session.getAttribute("loginUser");
 		
+		// 로그인 유저가 있다면 그 유저의 아이디를 관리자 아이디로 설정
+		schedule.setManagerId(loginUser.getId());
 		
+		int result = scheduleService.createSchedule(schedule, file);
+		
+		// 번개 생성 실패시 400
+		if(result == 0) {
+			return ResponseEntity.badRequest().build();
+		}
+		
+		// 번개 생성 성공 응답
 		return ResponseEntity.ok().build();
 	}
 	

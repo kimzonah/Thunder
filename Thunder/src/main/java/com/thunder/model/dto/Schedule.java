@@ -9,13 +9,13 @@ public class Schedule {
 	private String category;
 	private int scale;
 	private String image;
+	private String orgImage;
 	private String description;
-	private Timestamp dateTime;
+	private String dateTime;
 	private String addressName;
 	private String longitude;
 	private String latitude;
 	private String chatUrl;
-	private String orgImage;
 	
 	public int getId() {
 		return id;
@@ -59,10 +59,10 @@ public class Schedule {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public Timestamp getDateTime() {
+	public String getDateTime() {
 		return dateTime;
 	}
-	public void setDateTime(Timestamp dateTime) {
+	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
 	public String getAddressName() {
