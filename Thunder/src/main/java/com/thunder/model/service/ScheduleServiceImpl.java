@@ -50,8 +50,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	// 번개 생성
-	@Transactional
 	@Override
+	@Transactional
 	public int createSchedule(Schedule schedule, MultipartFile file) {
 		// 업로드한 파일 있으면
 		if (file != null && file.getSize() > 0) {
@@ -81,6 +81,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
+	@Transactional
 	public int sendJoin(String loginUserId, int scheduleId) {
 		Map<String,Object> newApply = new HashMap<>();
 		newApply.put("userId", loginUserId);

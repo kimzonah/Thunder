@@ -41,4 +41,21 @@ public class UserScheduleServiceImpl implements UserScheduleService {
 		userScheduleDao.insertManager(params);
 	}
 
+	@Override
+	@Transactional
+	public boolean deleteSchedule(String userId, int scheduleId) {
+		Map<String, Object> params = new HashMap<>();
+		
+		params.put("userId", userId);
+		params.put("scheduleId", scheduleId);
+		
+		return userScheduleDao.deleteSchedule(params) == 1 ? true : false;
+	}
+
+	@Override
+	@Transactional
+	public int getJoinUserCnt(int scheduleId) {
+		return userScheduleDao.selectJoinUserCnt(scheduleId);
+	}
+
 }
