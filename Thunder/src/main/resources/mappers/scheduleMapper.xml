@@ -62,7 +62,7 @@
 	
 	<!--신청한 번개 조회-->
 	<select id="selectApply" parameterType="Map" resultType="int">
-		SELECT IFNULL(COUNT(*),0) FROM userschedule
+		SELECT IFNULL(COUNT(*),0) FROM userSchedule
 		WHERE user_id = #{userId} AND schedule_id = #{scheduleId}
 	</select>
 </mapper>
