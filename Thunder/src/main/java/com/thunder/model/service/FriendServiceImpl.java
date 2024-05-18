@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.thunder.model.dao.FriendDao;
 import com.thunder.model.dto.Schedule;
@@ -30,12 +31,17 @@ public class FriendServiceImpl implements FriendService {
 	
 	// 전체 유저들 중 이름으로 유저 검색
 	@Override
-	public List<User> searchUser(String searchName) {
-		return friendDao.selectUserByName(searchName);
+	public List<User> searchUser(String searchName, String userId) {
+		Map<String,String> map = new HashMap<>();
+		map.put("searchName", searchName); // 친구 요청 보낸 사람(로그인 유저)
+		map.put("loginUserId", userId); // 친구 요청 받은 사람
+		
+		return friendDao.selectUserByName(map);
 	}
 	
 	// 친구 맺기
 	@Override
+	@Transactional
 	public int addFriend(String friendId, String loginUserId) {
 		Map<String,String> friendReq = new HashMap<>();
 		friendReq.put("fromUserId", loginUserId); // 친구 요청 보낸 사람(로그인 유저)
@@ -46,6 +52,7 @@ public class FriendServiceImpl implements FriendService {
 	
 	// 친구 삭제
 	@Override
+	@Transactional
 	public int deleteFriend(String friendId, String loginUserId) {
 		Map<String,String> friendReq = new HashMap<>();
 		friendReq.put("loginUserId", loginUserId); 
@@ -62,6 +69,7 @@ public class FriendServiceImpl implements FriendService {
 	
 	// 친구 요청 수락
 	@Override
+	@Transactional
 	public int acceptRequest(String friendId, String loginUserId) {
 		Map<String,String> friendReq = new HashMap<>();
 		friendReq.put("loginUserId", loginUserId); 
@@ -72,6 +80,7 @@ public class FriendServiceImpl implements FriendService {
 	
 	// 친구 요청 거절
 	@Override
+	@Transactional
 	public int rejectRequest(String friendId, String loginUserId) {
 		Map<String,String> friendReq = new HashMap<>();
 		friendReq.put("loginUserId", loginUserId); 
@@ -140,7 +149,16 @@ public class FriendServiceImpl implements FriendService {
 		if(result==0) return false;
 		return true;
 	}
+
+	// 친구 요청 검증
+	@Override
+	public boolean validateRequest(String userId, String friendId) {
+		Map<String,String> map = new HashMap<>();
+		
+		map.put("loginUserId", userId); 
+		map.put("friendId", friendId);
+		
+		return friendDao.validate(map) >= 1 ? true : false;
+	}
 	
-
-
 }

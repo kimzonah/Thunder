@@ -23,4 +23,6 @@ public interface BoardDao {
 
 	void decreaseCommentCnt(int boardId);
 
+	int isExist(int boardId);
+
 }

@@ -93,5 +93,10 @@ public class BoardServiceImpl implements BoardService {
 		boardDao.decreaseCommentCnt(boardId);
 		
 	}
+
+	@Override
+	public boolean isExist(int boardId) {
+		return boardDao.isExist(boardId) == 1 ? true : false;
+	}
 	
 }

@@ -11,9 +11,9 @@
 	</select>
 	
 	<!--전체 유저 중 검색 조회-->
-	<select id="selectUserByName" parameterType="String" resultType="User">
+	<select id="selectUserByName" parameterType="map" resultType="User">
 		SELECT * FROM user
-		WHERE name LIKE CONCAT ('%', #{searchName},'%')
+		WHERE name LIKE CONCAT ('%', #{searchName},'%') AND id != #{loginUserId};
 	</select>
 	
 	<!--친구 맺기-->
@@ -87,7 +87,7 @@
 		AND name LIKE CONCAT ('%', #{searchName},'%')
 	</select>
 	
-	<!--친구요청도 없고 찬규도 아닌 관계인지 확인-->
+	<!--친구요청도 없고 친구도 아닌 관계인지 확인-->
 	<select id="selectNoFriend" parameterType="Map" resultType="int">
 		SELECT IFNULL(COUNT(*),0) FROM friend
 		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
@@ -102,9 +102,16 @@
 		AND status = 1
 	</select>
 	
-	<!--로그인 유저사 요청 보낸 친구인지-->
+	<!--로그인 유저가 요청 보낸 친구인지-->
 	<select id="selectWait" parameterType="map" resultType="int">
 		SELECT IFNULL(COUNT(*),0) FROM friend
 		WHERE from_user_id = #{loginUserId} AND to_user_id = #{friendId} AND status=0
+	</select>
+	
+	<!-- 이미 친구이거나 친구 요청을 보낸 경우 count -->
+	<select id="validate" parameterType="map">
+		SELECT COUNT(*) FROM friend
+		WHERE (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} ) OR
+		( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
 	</select>
 </mapper>
