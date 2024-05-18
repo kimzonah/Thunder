@@ -85,7 +85,12 @@ public class CommentController {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		
-		// 실패 응답 2. 번개 등록에 실패하면 badRequest
+		// 실패 응답 2. 없는 게시글이면 notFound (404)
+		if (!boardService.isExist(boardId)) {
+			return ResponseEntity.notFound().build();
+		}
+		
+		// 실패 응답 3. 댓글 등록에 실패하면 badRequest (400)
 		if (!commentService.registComment(boardId, userId, comment)) {
 			return ResponseEntity.badRequest().build();
 		}
@@ -112,7 +117,7 @@ public class CommentController {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		
-		// 실패 응답 2. 댓글 삭제를 실패하면 badRequest
+		// 실패 응답 2. 댓글 삭제를 실패하면 badRequest (400)
 		if(!commentService.deleteComment(commentId)) {
 			return ResponseEntity.badRequest().build();
 		}

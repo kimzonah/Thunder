@@ -68,6 +68,12 @@ public class AlbumController {
 		String userId = (String) session.getAttribute("loginUser");
 		
 		List<Album> list = albumService.getAllAlbum(userId);
+		
+		// 조회된 사진이 없다면 noContent
+		if (list.size() == 0) {
+			return ResponseEntity.noContent().build();
+		}
+		
 		return ResponseEntity.ok(list);
 	}
 	
