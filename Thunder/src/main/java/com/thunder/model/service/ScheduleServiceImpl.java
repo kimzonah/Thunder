@@ -104,14 +104,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 	@Override
 	public boolean noApply(String userId, int scheduleId) {
 		Map<String,Object> map = new HashMap<>();
-		map.put("loginUserId", userId); 
+		map.put("userId", userId); 
 		map.put("scheduleId", scheduleId);
 		
-		int result = scheduleDao.selectApply(map);
+		return (scheduleDao.selectApply(map) == 0 ? true : false);
 		
-		// 없으면 0이므로 true
-		if(result==0) return true;
-		return false;
 	}
 
 }
