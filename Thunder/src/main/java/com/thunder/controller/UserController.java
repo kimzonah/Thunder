@@ -126,7 +126,8 @@ public class UserController {
 		// 해당 아이디를 갖는 유저가 없으면 404 응답
 		if (user == null)
 			return ResponseEntity.notFound().build();
-			
+		
+		user.setPassword(null);
 		return ResponseEntity.ok(user);
 	}
 }
