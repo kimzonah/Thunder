@@ -112,8 +112,6 @@ public class UserController {
 			return ResponseEntity.notFound().build();
 		}
 		
-		loginUser.setPassword(null);
-		
 		return ResponseEntity.ok(loginUser);
 	}
 
@@ -127,7 +125,6 @@ public class UserController {
 		if (user == null)
 			return ResponseEntity.notFound().build();
 		
-		user.setPassword(null);
 		return ResponseEntity.ok(user);
 	}
 }
