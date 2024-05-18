@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @CrossOrigin("http://localhost:5173")
-@RequestMapping("/thunder/user")
+@RequestMapping("/user")
 @Tag(name = "UserController", description = "유저 관리 및 조회")
 public class UserController {
 
@@ -65,7 +65,6 @@ public class UserController {
 	@Operation(summary = "로그인")
 	@PostMapping("/login")
 	public ResponseEntity<Void> doLogin(@RequestBody User user, HttpSession session) {
-		
 		// 세션에 이미 로그인 유저가 있다면 로그인 금지
 		if(session.getAttribute("loginUser") != null) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -82,6 +81,7 @@ public class UserController {
 		// 정상 요청일시 로그인 성공
 		session.setAttribute("loginUser", loginUser.getId());
 		return ResponseEntity.ok().build();
+		
 	}
 
 	// 로그아웃

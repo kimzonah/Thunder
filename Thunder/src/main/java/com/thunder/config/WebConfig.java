@@ -7,6 +7,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.thunder.interceptor.AuthInterceptor;
+
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 	
@@ -22,5 +24,20 @@ public class WebConfig implements WebMvcConfigurer {
             .allowedMethods("GET", "POST", "PUT", "DELETE") // 허용할 HTTP method
             .allowCredentials(true) // 쿠키 인증 요청 허용
             .maxAge(3000); // 원하는 시간만큼 pre-flight 리퀘스트를 캐싱
+    }
+	
+	@Autowired
+	private AuthInterceptor authInterceptor;
+	
+	@Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authInterceptor)
+                .addPathPatterns("/**") // 모든 요청에 인터셉터 적용
+                .excludePathPatterns(
+                		"/swagger-resources/**",
+                		"/swagger-ui/**",
+                		"/v3/api-docs",
+                		"**/user/signup", 
+                		"**/user/login"); // 예외 처리 URL 패턴
     }
 }
