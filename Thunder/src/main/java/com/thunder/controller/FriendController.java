@@ -38,8 +38,9 @@ public class FriendController {
 	// 전체 유저 조회 및 검색
 	@Operation(summary = "전체 유저 조회 및 검색")
 	@GetMapping("/search")
-	public ResponseEntity<List<User>> getUserList(@RequestParam(required = false) String searchName) {
-
+	public ResponseEntity<List<User>> getUserList(@RequestParam(required = false) String searchName, HttpSession session) {
+		String userId = (String) session.getAttribute("loginUser");
+		
 		List<User> list;
 
 		// 만약 검색어가 없다면 전체 조회
@@ -48,12 +49,12 @@ public class FriendController {
 		}
 		// 검색어가 있다면 검색 조회
 		else {
-			list = friendService.searchUser(searchName);
+			list = friendService.searchUser(searchName, userId);
 		}
 
-		// 조회된 결과가 0개일때 not found
+		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok(list);
 	}
@@ -76,9 +77,9 @@ public class FriendController {
 			list = friendService.searchFriend(userId, searchName);
 		}
 
-		// 조회된 결과가 0개일때 not found
+		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.ok(list);
 	}
@@ -89,6 +90,11 @@ public class FriendController {
 	public ResponseEntity<Void> addFriend(@PathVariable("friendId") String friendId, HttpSession session){
 		
 		String userId = (String) session.getAttribute("loginUser");
+		
+		// 친구 요청을 이미 보냈는지 검증
+		if (friendService.validateRequest(userId, friendId)) {
+			return ResponseEntity.badRequest().build(); // 이미 요청을 보낸 유저라면 badRequest (400)
+		}
 		
 		int result = friendService.addFriend(friendId, userId);
 		// 친구 맺기 요청 실패시

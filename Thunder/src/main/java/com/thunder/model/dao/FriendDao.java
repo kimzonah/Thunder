@@ -12,7 +12,7 @@ public interface FriendDao {
 	List<User> selectAllUsers();
 	
 	// 전체 유저에서 검색 조회
-	List<User> selectUserByName(String searchName);
+	List<User> selectUserByName(Map<String, String> map);
 	
 	// 친구 맺기 : 친구 요청 생성
 	int insertFriend(Map<String, String> friendReq);
@@ -46,6 +46,9 @@ public interface FriendDao {
 	
 	// 로그인 유저가 from 친구가 to status는 0
 	int selectWait(Map<String, String> map);
+
+	// 두 유저간 요청이 이미 있거나 이미 친구인 경우
+	int validate(Map<String, String> map);
 	
 	
 

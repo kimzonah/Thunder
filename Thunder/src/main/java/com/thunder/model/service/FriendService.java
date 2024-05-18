@@ -11,7 +11,7 @@ public interface FriendService {
 	List<User> getAllUsers();
 	
 	// 전체 유저 중 이름으로 검색
-	List<User> searchUser(String searchName);
+	List<User> searchUser(String searchName, String userId);
 	
 	// 친구 맺기
 	int addFriend(String friendId, String loginUserId);
@@ -45,6 +45,9 @@ public interface FriendService {
 	
 	// 로그인 유저가 상대방의 승인을 대기중일 때 (상태2)
 	boolean waitingAccept(String loginUserId, String friendId);
+
+	// 친구 요청을 이미 보낸 유저인지 확인
+	boolean validateRequest(String userId, String friendId);
 	
 
 
