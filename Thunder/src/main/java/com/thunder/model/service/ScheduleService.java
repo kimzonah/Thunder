@@ -30,5 +30,8 @@ public interface ScheduleService {
 	
 	// 로그인 유저가 신청한적 없는지 조회
 	boolean noApply(String userId, int scheduleId);
+	
+	// 전체 조회
+	List<Schedule> getAllSchedule();
 
 }

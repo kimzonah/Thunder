@@ -49,12 +49,25 @@ public class ScheduleController {
 		this.manageService = manageService;
 	}
 	
+	// 번개 전체 조회
+	@Operation(summary = "번개 전체 조회")
+	@GetMapping("")
+	public ResponseEntity<List<Schedule>> getAllSchedule(){
+		List<Schedule> list = scheduleService.getAllSchedule();
+		
+		if(list.size()==0) {
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.ok(list);
+	}
+	
 	// 번개 검색 및 조회
     @Operation(summary = "번개 조회 및 검색")
     @PostMapping("/search")
     public ResponseEntity<?> searchSchedule(@RequestBody ScheduleSearchCondtion condition){
         
-        List<Schedule> list = scheduleService.getScheduleList(condition.getDateTime(), condition.getCategoty(), condition.getAddressName());
+        List<Schedule> list = scheduleService.getScheduleList(condition.getDateTime(), condition.getCategory(), condition.getAddressName());
         
         // 검색 결과가 없을 때 204 응답
         if(list.size()==0) {

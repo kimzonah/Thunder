@@ -110,5 +110,11 @@ public class ScheduleServiceImpl implements ScheduleService {
 		return (scheduleDao.selectApply(map) == 0 ? true : false);
 		
 	}
+	
+	// 전체 조회
+	@Override
+	public List<Schedule> getAllSchedule() {
+		return scheduleDao.selectAllSchedule();
+	}
 
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 public class ScheduleSearchCondtion {
 	
 	private String dateTime;
-	private String categoty = "none";
+	private String category = "none";
 	private String addressName = "none";
 	
 	// 현재 시간을 가져오기
@@ -20,7 +20,7 @@ public class ScheduleSearchCondtion {
 	
 	
 	private ScheduleSearchCondtion() {
-		this.dateTime = formattedDate;
+//		this.dateTime = formattedDate;
 	}
 	
 	public String getDateTime() {
@@ -29,11 +29,11 @@ public class ScheduleSearchCondtion {
 	public void setDateTime(String dateTime) {
 		this.dateTime = dateTime;
 	}
-	public String getCategoty() {
-		return categoty;
+	public String getCategory() {
+		return category;
 	}
-	public void setCategoty(String categoty) {
-		this.categoty = categoty;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	
 	
@@ -47,7 +47,7 @@ public class ScheduleSearchCondtion {
 
 	@Override
 	public String toString() {
-		return "ScheduleSearchCondtion [dateTime=" + dateTime + ", categoty=" + categoty + ", addressName=" + addressName
+		return "ScheduleSearchCondtion [dateTime=" + dateTime + ", categoty=" + category + ", addressName=" + addressName
 				+ "]";
 	}
 	

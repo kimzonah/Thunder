@@ -4,14 +4,21 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thunder.model.dao.ScheduleDao">
-
+	
 	<!-- 검색 조건으로 번개 조회 -->
 	<select id="selectScheduleByCon" parameterType="Map"
 		resultType="Schedule">
 		SELECT * FROM schedule
 		<where>
-			<!-- date_time 조건 -->
-			date_time >= #{dateTime}
+			
+			<!-- dateTime이 null 또는 빈 문자열인 경우 현재 시간 이후의 데이터 -->
+            <if test="dateTime == null or dateTime == ''">
+                date_time >= CURRENT_TIMESTAMP
+            </if>
+            <!-- dateTime이 빈 문자열이 아닌 경우 date_time에 포함되는 데이터 -->
+            <if test="dateTime != null and dateTime != ''">
+                AND date_time LIKE CONCAT('%', #{dateTime}, '%')
+            </if>
 
 			<!-- 선택된 카테고리가 있을 때만 적용 -->
 			<if test="category != 'none'">
@@ -22,6 +29,7 @@
 			<if test="addressName != 'none'">
 				AND address_name LIKE CONCAT('%', #{addressName}, '%')
 			</if>
+			
 		</where>
 	</select>
 
@@ -64,5 +72,11 @@
 	<select id="selectApply" parameterType="Map" resultType="int">
 		SELECT IFNULL(COUNT(*),0) FROM userSchedule
 		WHERE user_id = #{userId} AND schedule_id = #{scheduleId}
+	</select>
+	
+	<!--전체 조회-->
+	<select id="selectAllSchedule" resultType="Schedule">
+		SELECT * FROM schedule
+		WHERE date_time >= now()
 	</select>
 </mapper>

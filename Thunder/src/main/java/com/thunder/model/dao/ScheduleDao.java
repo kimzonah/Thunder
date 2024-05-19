@@ -29,5 +29,8 @@ public interface ScheduleDao {
 	
 	// 신청한 번개 조회
 	int selectApply(Map<String, Object> map);
+	
+	// 전체 조회
+	List<Schedule> selectAllSchedule();
 
 }
