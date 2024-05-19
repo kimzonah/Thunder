@@ -28,7 +28,7 @@ import jakarta.servlet.http.HttpSession;
 
 @RestController
 @CrossOrigin("http://localhost:5173")
-@RequestMapping("/thunder/user")
+@RequestMapping("/user")
 @Tag(name = "UserController", description = "유저 관리 및 조회")
 public class UserController {
 
