@@ -2,13 +2,16 @@ package com.thunder.model.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Timestamp;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -17,11 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.thunder.model.dao.ScheduleDao;
 import com.thunder.model.dto.Schedule;
-import com.thunder.model.dto.ScheduleSearchCondtion;
 
 @Service
 public class ScheduleServiceImpl implements ScheduleService {
 
+	@Value("${file.desktop-dir}")
+	private String desktopDir;
+	
 	private final ScheduleDao scheduleDao;
 	private final ResourceLoader resourceLoader;
 	private static final String DEFALT_SCHEDULE_IMAGE = "default_schedule.jpg";
@@ -48,7 +53,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	public Schedule getOneSchedule(int scheduleId) {
 		return scheduleDao.selectOneSchedule(scheduleId);
 	}
-
+	
 	// 번개 생성
 	@Override
 	@Transactional
@@ -56,17 +61,24 @@ public class ScheduleServiceImpl implements ScheduleService {
 		// 업로드한 파일 있으면
 		if (file != null && file.getSize() > 0) {
 			try {
-				// 원본 파일명 저장
-				schedule.setOrgImage(file.getOriginalFilename());
-				// 중복 방지 파일명 저장
-				schedule.setImage(UUID.randomUUID().toString() + "_" + file.getOriginalFilename());
-
-				Resource resource = resourceLoader.getResource("classpath:/static/img");
-				file.transferTo(new File(resource.getFile(), schedule.getImage()));
-
+				// 파일 저장
+				Path uploadPath = Paths.get(desktopDir);
+	
+		        // 디렉토리가 존재하지 않으면 생성
+		        if (!Files.exists(uploadPath)) {
+		            Files.createDirectories(uploadPath);
+		        }
+	
+		        schedule.setOrgImage(file.getOriginalFilename());
+		        schedule.setImage( UUID.randomUUID().toString() + "_" + file.getOriginalFilename());
+		        Path filePath = uploadPath.resolve(schedule.getImage());
+	
+		        // 파일 저장
+		        Files.copy(file.getInputStream(), filePath);
 			} catch (IllegalStateException | IOException e) {
 				e.printStackTrace();
 			}
+	
 		}
 
 		// 업로드한 파일 없으면 기본 이미지 저장

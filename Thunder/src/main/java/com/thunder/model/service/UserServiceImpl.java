@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
 		this.resourceLoader = resourceLoader;
 	}
 	
-
 	// 회원가입
 	@Transactional
 	@Override
