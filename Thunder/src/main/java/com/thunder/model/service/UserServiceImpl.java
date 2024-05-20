@@ -1,12 +1,15 @@
 package com.thunder.model.service;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ import com.thunder.model.dto.User;
 @Service
 public class UserServiceImpl implements UserService {
 
+	@Value("${file.desktop-dir}")
+    private String desktopDir;
+	
 	private final UserDao userDao;
 	private final ResourceLoader resourceLoader;
 	private static final String DEFALT_USER_IMAGE = "default_user.jpg";
@@ -34,16 +40,24 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	@Override
 	public int registUser(User user, MultipartFile file){
+		
 		// 업로드한 파일 있으면
 		if (file != null && file.getSize() > 0) {
 			try {
-				// 원본 파일명 저장
-				user.setOrgImage(file.getOriginalFilename());
-				// 중복 방지 파일명 저장
-				user.setImage( UUID.randomUUID().toString() + "_" + file.getOriginalFilename());
-				
-				Resource resource = resourceLoader.getResource("classpath:/static/img");
-				file.transferTo(new File(resource.getFile(), user.getImage()));
+				// 파일 저장
+				Path uploadPath = Paths.get(desktopDir);
+
+		        // 디렉토리가 존재하지 않으면 생성
+		        if (!Files.exists(uploadPath)) {
+		            Files.createDirectories(uploadPath);
+		        }
+
+		        user.setOrgImage(file.getOriginalFilename());
+		        user.setImage( UUID.randomUUID().toString() + "_" + file.getOriginalFilename());
+		        Path filePath = uploadPath.resolve(user.getImage());
+
+		        // 파일 저장
+		        Files.copy(file.getInputStream(), filePath);
 				
 			} catch (IllegalStateException | IOException e) {
                 e.printStackTrace();
@@ -72,6 +86,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(String userId) {
 		User user = userDao.selectUserById(userId);
+		
+		// id로 유저 조회가 되지 않는다면 null값 반환
+		if (user == null) return null;
+		
 		user.setPassword(null);
 		return user;
 	}
