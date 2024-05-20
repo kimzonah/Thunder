@@ -72,6 +72,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(String userId) {
 		User user = userDao.selectUserById(userId);
+		
+		// 유저가 조회되지 않은 경우 
+		if (user == null) {
+			return null;
+		}
+		
 		user.setPassword(null);
 		return user;
 	}
