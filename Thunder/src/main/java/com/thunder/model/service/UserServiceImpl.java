@@ -26,13 +26,10 @@ public class UserServiceImpl implements UserService {
     private String desktopDir;
 	
 	private final UserDao userDao;
-	private final ResourceLoader resourceLoader;
-	private static final String DEFALT_USER_IMAGE = "default_user.jpg";
 	
 	@Autowired
-	public UserServiceImpl(UserDao userDao, ResourceLoader resourceLoader) {
+	public UserServiceImpl(UserDao userDao) {
 		this.userDao = userDao;
-		this.resourceLoader = resourceLoader;
 	}
 	
 	// 회원가입
@@ -63,9 +60,6 @@ public class UserServiceImpl implements UserService {
             }
 		}
 		
-		// 업로드한 파일 없으면 기본 이미지 저장
-		else {
-		}
 		return userDao.insertUser(user);
 	}
 	
@@ -85,11 +79,9 @@ public class UserServiceImpl implements UserService {
 
 		// id로 유저 조회가 되지 않는다면 null값 반환
 		if (user == null) return null;
-
 		
 		user.setPassword(null);
 		return user;
 	}
-
 
 }

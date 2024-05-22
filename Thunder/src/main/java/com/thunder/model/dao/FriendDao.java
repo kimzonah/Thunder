@@ -49,7 +49,5 @@ public interface FriendDao {
 
 	// 두 유저간 요청이 이미 있거나 이미 친구인 경우
 	int validate(Map<String, String> map);
-	
-	
 
 }

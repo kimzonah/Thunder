@@ -69,51 +69,23 @@
 		date_time >= CURRENT_TIMESTAMP
 	</select>
 
-	<!--친구 전체 조회 -->
-	<!-- <select id="selectAllFriend" parameterType="String" resultType="User"> 
-		SELECT * FROM user 
-		WHERE id = ( 
-			SELECT from_user_id FROM friend 
-			WHERE to_user_id = #{loginUserId} AND status=1 
-			) 
-		OR id = ( 
-			SELECT to_user_id FROM friend 
-			WHERE from_user_id = #{loginUserId} AND status=1 
-			) 
-	</select> -->
 	<select id="selectAllFriend" parameterType="String" resultType="User">
-    SELECT DISTINCT u.* 
-    FROM user u
-    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
-    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
-    WHERE f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL
-</select>
+	    SELECT DISTINCT u.* 
+	    FROM user u
+	    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
+	    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
+	    WHERE f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL
+	</select>
 	
-
-
-
-	<!--검색어로 친구 검색 조회 -->
-	<!-- <select id="selectFriendByName" parameterType="Map" resultType="User"> 
-		SELECT * FROM user 
-		WHERE (
-			id = ( SELECT from_user_id FROM friend 
-					WHERE to_user_id = #{loginUserId} AND status=1 ) 
-			OR 
-			id = ( SELECT to_user_id FROM friend 
-					WHERE from_user_id = #{loginUserId} AND status=1 )) 
-			AND name LIKE CONCAT ('%', #{searchName},'%') 
-	</select> -->
 	<select id="selectFriendByName" parameterType="Map" resultType="User">
-    SELECT DISTINCT u.* 
-    FROM user u
-    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
-    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
-    WHERE (f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL)
-    AND u.name LIKE CONCAT('%', #{searchName}, '%')
-</select>
+	    SELECT DISTINCT u.* 
+	    FROM user u
+	    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
+	    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
+	    WHERE (f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL)
+	    AND u.name LIKE CONCAT('%', #{searchName}, '%')
+	</select>
 	
-
-
 	<!--친구요청도 없고 친구도 아닌 관계인지 확인 -->
 	<select id="selectNoFriend" parameterType="Map" resultType="int">
 		SELECT IFNULL(COUNT(*),0) FROM friend

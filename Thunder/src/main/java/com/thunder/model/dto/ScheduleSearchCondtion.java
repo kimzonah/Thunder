@@ -11,17 +11,7 @@ public class ScheduleSearchCondtion {
 	private String category = "none";
 	private String addressName = "none";
 	
-	// 현재 시간을 가져오기
-    Date now = new Date();
-
-    // 원하는 형식의 문자열로 포맷팅하기
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    String formattedDate = dateFormat.format(now);
-	
-	
-	private ScheduleSearchCondtion() {
-//		this.dateTime = formattedDate;
-	}
+	private ScheduleSearchCondtion() {}
 	
 	public String getDateTime() {
 		return dateTime;
@@ -50,7 +40,5 @@ public class ScheduleSearchCondtion {
 		return "ScheduleSearchCondtion [dateTime=" + dateTime + ", categoty=" + category + ", addressName=" + addressName
 				+ "]";
 	}
-	
-	
 	
 }

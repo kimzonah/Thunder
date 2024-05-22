@@ -146,15 +146,12 @@ public class ScheduleController {
 		
 		//현재 로그인이 접근 가능한 번개라면
 		int result = scheduleService.sendJoin(userId, scheduleId);
-		System.out.println(userId + "는(은) "+ scheduleId+ "번 번개 신청");
 		// 요청 실패시 400 응답
 		if(result == 0) {
-			System.out.println("실패");
 			return ResponseEntity.badRequest().build();
 		}
 		
 		// 요청 성공
-		System.out.println("성공");
 		return ResponseEntity.ok().build();
 	}
 	
@@ -209,8 +206,6 @@ public class ScheduleController {
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않거나 번개장이라면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId) || manageService.validateManager(userId, scheduleId)) {
-			System.out.println(userScheduleService.validateJoin(userId, scheduleId));
-			System.out.println(manageService.validateManager(userId, scheduleId));
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		

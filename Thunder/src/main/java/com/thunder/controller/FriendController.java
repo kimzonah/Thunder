@@ -35,14 +35,6 @@ public class FriendController {
 		this.friendService = friendService;
 	}
 	
-//	// 전체 유저 조회
-//	@Operation(summary = "전체 유저 조회")
-//	@GetMapping("/all")
-//	public ResponseEntity<List<User>> getAllUserList(){
-//		List<User> list = friendService.getAllUsers();
-//		return ResponseEntity.status(list)
-//	}
-
 	// 전체 유저 조회 및 검색
 	@Operation(summary = "전체 검색")
 	@GetMapping("/search")
@@ -60,9 +52,6 @@ public class FriendController {
 			list = friendService.searchUser(searchName);
 		}
 		
-		System.out.println("Search Name :" + searchName); // 검색어 디버깅
-	    System.out.println("User List :" + list); // 결과 리스트 디버깅
-
 		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {
 			return ResponseEntity.noContent().build();
@@ -87,9 +76,6 @@ public class FriendController {
 		else {
 			list = friendService.searchFriend(userId, searchName);
 		}
-		
-		System.out.println("MySearch :" +searchName);
-		System.out.println("MyFriend :"+list);
 
 		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {

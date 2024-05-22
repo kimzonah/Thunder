@@ -11,9 +11,7 @@ public class User {
 	private String image;
 	private String orgImage;
 	
-	public User() {
-		
-	}
+	public User() {}
 
 	public String getId() {
 		return id;

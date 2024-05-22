@@ -28,7 +28,6 @@ public class FriendServiceImpl implements FriendService {
 		return friendDao.selectAllUsers();
 	}
 	
-	
 	// 전체 유저들 중 이름으로 유저 검색
 	@Override
 	public List<User> searchUser(String searchName) {

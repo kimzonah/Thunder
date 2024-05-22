@@ -22,8 +22,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpSession;
 
-
-
 @RestController
 @RequestMapping("/album")
 @Tag(name="AlbumController", description="사진첩 관련 기능")

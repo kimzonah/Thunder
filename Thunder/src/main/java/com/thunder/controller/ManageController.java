@@ -73,13 +73,11 @@ public class ManageController {
 	public ResponseEntity<Void> updateApplyStatus(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
 		String managerId = (String) session.getAttribute("loginUser");
-		System.out.println(managerId);
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않거나 번개장이 아니라면 접근 거부 응답 반환 (403)
 		if (!manageService.validateManager(managerId, scheduleId)) {
-			System.out.println(scheduleId);
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		
@@ -98,7 +96,6 @@ public class ManageController {
 	public ResponseEntity<Void> refuseApply(@PathVariable("scheduleId") int scheduleId, @PathVariable("userId") String userId, HttpSession session) {
 		// session 처리
 		String managerId = (String) session.getAttribute("loginUser");
-//		System.out.println(managerId);
 		
 		// 로그인 유저가 번개에 가입되어 있는지, 번개장이 맞는지 검증
 

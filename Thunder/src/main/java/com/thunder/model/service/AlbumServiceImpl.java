@@ -27,12 +27,9 @@ public class AlbumServiceImpl implements AlbumService {
 	
 	private final AlbumDao albumDao;
 	
-	private final ResourceLoader resourceLoader;
-	
 	@Autowired
-	public AlbumServiceImpl(AlbumDao albumDao, ResourceLoader resourceLoader) {
+	public AlbumServiceImpl(AlbumDao albumDao) {
 		this.albumDao = albumDao;
-		this.resourceLoader = resourceLoader;
 	}
 
 	@Override

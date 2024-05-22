@@ -47,7 +47,6 @@ public class UserController {
 
 		// 이미 존재하는 아이디라면 400 응답
 		if (userService.getUserById(user.getId()) != null) {
-			System.out.println("이미 존재하는 아이디입니다.");
 			return ResponseEntity.badRequest().build();
 		}
 

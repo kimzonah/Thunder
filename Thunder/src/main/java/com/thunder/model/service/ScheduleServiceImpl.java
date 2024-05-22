@@ -28,13 +28,10 @@ public class ScheduleServiceImpl implements ScheduleService {
 	private String desktopDir;
 	
 	private final ScheduleDao scheduleDao;
-	private final ResourceLoader resourceLoader;
-	private static final String DEFALT_SCHEDULE_IMAGE = "default_schedule.jpg";
 
 	@Autowired
-	public ScheduleServiceImpl(ScheduleDao scheduleDao, ResourceLoader resourceLoader) {
+	public ScheduleServiceImpl(ScheduleDao scheduleDao) {
 		this.scheduleDao = scheduleDao;
-		this.resourceLoader = resourceLoader;
 	}
 
 	@Override
@@ -80,11 +77,6 @@ public class ScheduleServiceImpl implements ScheduleService {
 				e.printStackTrace();
 			}
 	
-		}
-
-		// 업로드한 파일 없으면 기본 이미지 저장
-		else {
-			
 		}
 		
 		return scheduleDao.insertSchedule(schedule);
