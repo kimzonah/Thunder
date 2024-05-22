@@ -1,117 +1,153 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.thunder.model.dao.FriendDao">
-	
-	<!--전체 유저 조회-->
+
+	<!--전체 유저 조회 -->
 	<select id="selectAllUsers" resultType="User">
 		SELECT * FROM user
 	</select>
-	
-	<!--전체 유저 중 검색 조회-->
-	<select id="selectUserByName" parameterType="map" resultType="User">
+
+	<!--전체 유저 중 검색 조회 -->
+	<select id="selectUserByName" parameterType="String"
+		resultType="User">
 		SELECT * FROM user
-		WHERE name LIKE CONCAT ('%', #{searchName},'%') AND id != #{loginUserId};
+		WHERE name LIKE CONCAT ('%',
+		#{searchName},'%')
 	</select>
-	
-	<!--친구 맺기-->
+
+	<!--친구 맺기 -->
 	<insert id="insertFriend" parameterType="Map">
-		INSERT INTO friend (from_user_id, to_user_id)
-		VALUES(#{fromUserId}, #{toUserId})		
+		INSERT INTO friend
+		(from_user_id, to_user_id)
+		VALUES(#{fromUserId}, #{toUserId})
 	</insert>
-	
-	<!--친구 삭제-->
+
+	<!--친구 삭제 -->
 	<delete id="deleteFriend" parameterType="Map">
 		DELETE FROM friend
-		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
-		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
-		AND status = 1
+		WHERE
+		(( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
+		OR (
+		to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+		AND
+		status = 1
 	</delete>
-	
-	<!--친구 요청 조회-->
-	<select id="selectAllRequest" parameterType="String" resultType="User">
+
+	<!-- 친구 요청 조회 -->
+	<select id="selectAllRequest" parameterType="String"
+		resultType="User">
 		SELECT * FROM user
-		WHERE id = (SELECT from_user_id FROM friend
-		WHERE to_user_id = #{loginUserId} AND status = 0)
+		WHERE id IN (
+		SELECT from_user_id FROM
+		friend
+		WHERE to_user_id = #{loginUserId} AND status = 0
+		)
 	</select>
-	
-	<!--친구 요청 수락-->
+
+
+	<!--친구 요청 수락 -->
 	<update id="updateStatus" parameterType="Map">
 		UPDATE friend
-		SET status = 1
+		SET status
+		= 1
 		WHERE to_user_id = #{loginUserId} AND from_user_id = #{friendId}
 	</update>
-	
-	<!--친구 요청 거절/삭제-->
+
+	<!--친구 요청 거절/삭제 -->
 	<delete id="deleteRequest" parameterType="Map">
 		DELETE from friend
-		WHERE to_user_id = #{loginUserId} AND from_user_id = #{friendId} AND status=0
+		WHERE to_user_id = #{loginUserId} AND from_user_id = #{friendId} AND
+		status=0
 	</delete>
-	
-	<!--친구가 관리하는 번개 조회-->
-	<select id="selectFriendSchedule" parameterType="String" resultType="Schedule">
+
+	<!--친구가 관리하는 번개 조회 -->
+	<select id="selectFriendSchedule" parameterType="String"
+		resultType="Schedule">
 		SELECT * FROM schedule
-		WHERE manager_id = #{friendId}
+		WHERE manager_id = #{friendId} AND
+		date_time >= CURRENT_TIMESTAMP
 	</select>
-	
-	<!--친구 전체 조회-->
+
+	<!--친구 전체 조회 -->
+	<!-- <select id="selectAllFriend" parameterType="String" resultType="User"> 
+		SELECT * FROM user 
+		WHERE id = ( 
+			SELECT from_user_id FROM friend 
+			WHERE to_user_id = #{loginUserId} AND status=1 
+			) 
+		OR id = ( 
+			SELECT to_user_id FROM friend 
+			WHERE from_user_id = #{loginUserId} AND status=1 
+			) 
+	</select> -->
 	<select id="selectAllFriend" parameterType="String" resultType="User">
-		SELECT * FROM user
-		WHERE 
-		id = (
-			SELECT from_user_id FROM friend
-			WHERE to_user_id = #{loginUserId} AND status=1
-		)
-		OR
-		id = (
-			SELECT to_user_id FROM friend
-			WHERE from_user_id = #{loginUserId} AND status=1
-		)
-	</select>
+    SELECT DISTINCT u.* 
+    FROM user u
+    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
+    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
+    WHERE f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL
+</select>
 	
-	<!--검색어로 친구 검색 조회-->
+
+
+
+	<!--검색어로 친구 검색 조회 -->
+	<!-- <select id="selectFriendByName" parameterType="Map" resultType="User"> 
+		SELECT * FROM user 
+		WHERE (
+			id = ( SELECT from_user_id FROM friend 
+					WHERE to_user_id = #{loginUserId} AND status=1 ) 
+			OR 
+			id = ( SELECT to_user_id FROM friend 
+					WHERE from_user_id = #{loginUserId} AND status=1 )) 
+			AND name LIKE CONCAT ('%', #{searchName},'%') 
+	</select> -->
 	<select id="selectFriendByName" parameterType="Map" resultType="User">
-		SELECT * FROM user
-		WHERE 
-		(id = (
-			SELECT from_user_id FROM friend
-			WHERE to_user_id = #{loginUserId} AND status=1
-		)
-		OR
-		id = (
-			SELECT to_user_id FROM friend
-			WHERE from_user_id = #{loginUserId} AND status=1
-		)) 
-		AND name LIKE CONCAT ('%', #{searchName},'%')
-	</select>
+    SELECT DISTINCT u.* 
+    FROM user u
+    LEFT JOIN friend f1 ON u.id = f1.from_user_id AND f1.to_user_id = #{loginUserId} AND f1.status = 1
+    LEFT JOIN friend f2 ON u.id = f2.to_user_id AND f2.from_user_id = #{loginUserId} AND f2.status = 1
+    WHERE (f1.from_user_id IS NOT NULL OR f2.to_user_id IS NOT NULL)
+    AND u.name LIKE CONCAT('%', #{searchName}, '%')
+</select>
 	
-	<!--친구요청도 없고 친구도 아닌 관계인지 확인-->
+
+
+	<!--친구요청도 없고 친구도 아닌 관계인지 확인 -->
 	<select id="selectNoFriend" parameterType="Map" resultType="int">
 		SELECT IFNULL(COUNT(*),0) FROM friend
-		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
-		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+		WHERE (( from_user_id =
+		#{loginUserId} AND to_user_id = #{friendId} )
+		OR ( to_user_id =
+		#{loginUserId} AND from_user_id = #{friendId} ))
 	</select>
-	
-	<!--친구인지 확인-->
+
+	<!--친구인지 확인 -->
 	<select id="selectFriend" parameterType="map" resultType="int">
-		SELECT IFNULL(COUNT(*),0) FROM friend
-		WHERE  (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
-		OR ( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
+		SELECT
+		IFNULL(COUNT(*),0) FROM friend
+		WHERE (( from_user_id = #{loginUserId}
+		AND to_user_id = #{friendId} )
+		OR ( to_user_id = #{loginUserId} AND
+		from_user_id = #{friendId} ))
 		AND status = 1
 	</select>
-	
-	<!--로그인 유저가 요청 보낸 친구인지-->
+
+	<!--로그인 유저가 요청 보낸 친구인지 -->
 	<select id="selectWait" parameterType="map" resultType="int">
-		SELECT IFNULL(COUNT(*),0) FROM friend
-		WHERE from_user_id = #{loginUserId} AND to_user_id = #{friendId} AND status=0
+		SELECT
+		IFNULL(COUNT(*),0) FROM friend
+		WHERE from_user_id = #{loginUserId} AND
+		to_user_id = #{friendId} AND
+		status=0
 	</select>
-	
+
 	<!-- 이미 친구이거나 친구 요청을 보낸 경우 count -->
 	<select id="validate" parameterType="map">
 		SELECT COUNT(*) FROM friend
-		WHERE (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} ) OR
+		WHERE (( from_user_id = #{loginUserId} AND to_user_id = #{friendId} )
+		OR
 		( to_user_id = #{loginUserId} AND from_user_id = #{friendId} ))
 	</select>
 </mapper>

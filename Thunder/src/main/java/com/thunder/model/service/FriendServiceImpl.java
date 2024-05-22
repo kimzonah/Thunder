@@ -31,12 +31,8 @@ public class FriendServiceImpl implements FriendService {
 	
 	// 전체 유저들 중 이름으로 유저 검색
 	@Override
-	public List<User> searchUser(String searchName, String userId) {
-		Map<String,String> map = new HashMap<>();
-		map.put("searchName", searchName); // 친구 요청 보낸 사람(로그인 유저)
-		map.put("loginUserId", userId); // 친구 요청 받은 사람
-		
-		return friendDao.selectUserByName(map);
+	public List<User> searchUser(String searchName) {
+		return friendDao.selectUserByName(searchName);
 	}
 	
 	// 친구 맺기

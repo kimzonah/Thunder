@@ -34,11 +34,19 @@ public class FriendController {
 	public FriendController(FriendService friendService) {
 		this.friendService = friendService;
 	}
+	
+//	// 전체 유저 조회
+//	@Operation(summary = "전체 유저 조회")
+//	@GetMapping("/all")
+//	public ResponseEntity<List<User>> getAllUserList(){
+//		List<User> list = friendService.getAllUsers();
+//		return ResponseEntity.status(list)
+//	}
 
 	// 전체 유저 조회 및 검색
-	@Operation(summary = "전체 유저 조회 및 검색")
+	@Operation(summary = "전체 검색")
 	@GetMapping("/search")
-	public ResponseEntity<List<User>> getUserList(@RequestParam(required = false) String searchName, HttpSession session) {
+	public ResponseEntity<List<User>> getUserList(@RequestParam(name = "searchName", required = false) String searchName, HttpSession session) {
 		String userId = (String) session.getAttribute("loginUser");
 		
 		List<User> list;
@@ -49,8 +57,11 @@ public class FriendController {
 		}
 		// 검색어가 있다면 검색 조회
 		else {
-			list = friendService.searchUser(searchName, userId);
+			list = friendService.searchUser(searchName);
 		}
+		
+		System.out.println("Search Name :" + searchName); // 검색어 디버깅
+	    System.out.println("User List :" + list); // 결과 리스트 디버깅
 
 		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {
@@ -62,7 +73,7 @@ public class FriendController {
 	// 내 친구 조회 및 검색
 	@Operation(summary = "내 친구 조회 및 검색")
 	@GetMapping("/my/search")
-	public ResponseEntity<List<User>> getMyFreind(@RequestParam(required = false) String searchName, HttpSession session) {
+	public ResponseEntity<List<User>> getMyFreind(@RequestParam(name = "searchName", required = false) String searchName, HttpSession session) {
 		
 		String userId = (String) session.getAttribute("loginUser");
         
@@ -76,6 +87,9 @@ public class FriendController {
 		else {
 			list = friendService.searchFriend(userId, searchName);
 		}
+		
+		System.out.println("MySearch :" +searchName);
+		System.out.println("MyFriend :"+list);
 
 		// 조회된 결과가 0개일때 noContent
 		if (list.size() == 0) {
@@ -190,7 +204,7 @@ public class FriendController {
     public ResponseEntity<Integer> checkStatus(@PathVariable("friendId") String friendId, HttpSession session){
 		
     	String userId = (String) session.getAttribute("loginUser");
-    	
+//    	System.out.println(userId);
     	// 친구 관계가 없으면 0 반환
     	if(friendService.noRelation(userId, friendId)) {
     		return ResponseEntity.ok(0);
