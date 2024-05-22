@@ -11,7 +11,7 @@ public interface FriendService {
 	List<User> getAllUsers();
 	
 	// 전체 유저 중 이름으로 검색
-	List<User> searchUser(String searchName, String userId);
+	List<User> searchUser(String searchName);
 	
 	// 친구 맺기
 	int addFriend(String friendId, String loginUserId);

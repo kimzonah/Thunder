@@ -144,13 +144,15 @@ public class ScheduleController {
 		
 		//현재 로그인이 접근 가능한 번개라면
 		int result = scheduleService.sendJoin(userId, scheduleId);
-		
+		System.out.println(userId + "는(은) "+ scheduleId+ "번 번개 신청");
 		// 요청 실패시 400 응답
 		if(result == 0) {
+			System.out.println("실패");
 			return ResponseEntity.badRequest().build();
 		}
 		
 		// 요청 성공
+		System.out.println("성공");
 		return ResponseEntity.ok().build();
 	}
 	

@@ -22,7 +22,7 @@ import com.thunder.model.dto.User;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Value("${file.desktop-dir}")
+	@Value("${file.desktop-user-dir}")
     private String desktopDir;
 	
 	private final UserDao userDao;
@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
 		this.resourceLoader = resourceLoader;
 	}
 	
-
 	// 회원가입
 	@Transactional
 	@Override
@@ -86,9 +85,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUserById(String userId) {
 		User user = userDao.selectUserById(userId);
-		
+
 		// id로 유저 조회가 되지 않는다면 null값 반환
 		if (user == null) return null;
+
 		
 		user.setPassword(null);
 		return user;
