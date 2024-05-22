@@ -1,7 +1,7 @@
 <template>
     <div>
         <FriendSearch />
-        <h3>내 친구</h3>
+        <h2>내 친구</h2>
         <div v-if="filteredMyFriends.length === 0">
             검색된 친구가 없습니다.
         </div>
@@ -52,8 +52,16 @@ const loginUserId = sessionStorage.getItem("loginUser");
 
 // 온마운트 : 처음엔 검색어 없음(전체 조회)
 onMounted(async () => {
-    await updateFriendLists();
-    console.log(loginUserId);
+    const userSession = sessionStorage.getItem('loginUser')
+  if(!userSession) {
+    alert('로그인이 필요합니다.')
+    router.push({name:'home'})
+  }
+  else{
+
+      await updateFriendLists();
+      console.log(loginUserId);
+    }
 });
 
 // 번개 보러가기

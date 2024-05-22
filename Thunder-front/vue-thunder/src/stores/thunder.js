@@ -96,7 +96,7 @@ export const useThunderStore = defineStore('thunder', () => {
           regionPoint.value = { x: location.x, y: location.y };
           regionName.value = location.address_name;
         } else {
-          alert('검색 결과가 없습니다.');
+          alert('해당 지역은 검색할 수 없습니다.');
           return;
         }
       } catch (error) {

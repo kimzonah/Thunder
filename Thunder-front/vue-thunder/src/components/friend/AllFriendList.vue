@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>전체 친구</h3>
+        <h2>전체 친구</h2>
         <div v-if="filteredFriends.length === 0">
             검색된 친구가 없습니다.
         </div>
