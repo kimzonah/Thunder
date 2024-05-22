@@ -86,10 +86,12 @@ public class ScheduleController {
 	public ResponseEntity<?> getScheduleDetail(@PathVariable("scheduleId") int scheduleId){
 		
 		Schedule schedule = scheduleService.getOneSchedule(scheduleId);
+		
 		// 조회된 번개가 없으면 not found
 		if(schedule == null) {
 			return ResponseEntity.notFound().build();
 		}
+		
 		// 조회된 번개가 있으면 번개 정보와 200 응답
 		return ResponseEntity.ok(schedule);
 	}
@@ -205,6 +207,8 @@ public class ScheduleController {
 		
 		// 실패 응답 1. 번개에 가입되어 있지 않거나 번개장이라면 접근 거부 응답 반환 (403)
 		if (!userScheduleService.validateJoin(userId, scheduleId) || manageService.validateManager(userId, scheduleId)) {
+			System.out.println(userScheduleService.validateJoin(userId, scheduleId));
+			System.out.println(manageService.validateManager(userId, scheduleId));
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
 		

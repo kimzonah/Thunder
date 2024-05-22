@@ -22,11 +22,13 @@ public class UserScheduleServiceImpl implements UserScheduleService {
 	@Override
 	@Transactional
 	public boolean validateJoin(String userId, int scheduleId) {
+//		System.out.println(userId);
 		Map<String, Object> params = new HashMap<>();
 		
 		params.put("userId", userId);
 		params.put("scheduleId", scheduleId);
 		
+//		System.out.println(userScheduleDao.validate(params));
 		return (userScheduleDao.validate(params) >= 1 ? true : false);
 	}
 
