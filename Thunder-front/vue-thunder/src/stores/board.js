@@ -8,6 +8,7 @@ const REST_BOARD_API = 'http://localhost:8080/thunder/board'
 export const useBoardStore = defineStore('board', () => {
   const boards = ref([])
   const board = ref({ thunderId: '', title: '', content: '' })
+  const isExistBoard = ref(true)
 
   const fetchBoards = (thunderId) => {
     const userId = sessionStorage.getItem('loginUser')
@@ -21,7 +22,9 @@ export const useBoardStore = defineStore('board', () => {
       })
       .then((response) => {
         boards.value = response.data
-        // console.log(response)
+        if (response.status == 204) {
+          isExistBoard.value = false;
+        }
       })
       .catch((error) => {
         // console.log(error)
@@ -73,6 +76,7 @@ export const useBoardStore = defineStore('board', () => {
     }
   }
 
+  // board 삭제하기
   const deleteBoard = (thunderId, boardId) => {
     // console.log(boardId)
     axios.delete(`${REST_BOARD_API}/${thunderId}/${boardId}`, {
@@ -104,5 +108,5 @@ export const useBoardStore = defineStore('board', () => {
     }
   };
 
-  return { boards, fetchBoards, board, submitForm, deleteBoard, updateBoard, fetchBoardDetail }
+  return { boards, fetchBoards, board, submitForm, deleteBoard, updateBoard, fetchBoardDetail, isExistBoard }
 })

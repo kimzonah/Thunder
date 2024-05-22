@@ -6,6 +6,9 @@
       :board="board"
       :loginUserId="userStore.loginUser.id"
     />
+    <div v-if="!boardStore.isExistBoard">
+      게시글을 등록해보세요
+    </div>
   </div>
 </template>
 
