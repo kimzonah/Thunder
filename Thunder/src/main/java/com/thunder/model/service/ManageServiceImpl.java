@@ -30,7 +30,7 @@ public class ManageServiceImpl implements ManageService {
 		params.put("userId", userId);
 		params.put("scheduleId", scheduleId);
 		
-		return manageDao.validate(params) == 1 ? true : false;
+		return manageDao.validate(params) >= 1 ? true : false;
 	}
 
 	@Override

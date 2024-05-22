@@ -22,7 +22,7 @@ import com.thunder.model.dto.User;
 @Service
 public class UserServiceImpl implements UserService {
 
-	@Value("${file.desktop-dir}")
+	@Value("${file.desktop-user-dir}")
     private String desktopDir;
 	
 	private final UserDao userDao;
@@ -35,7 +35,6 @@ public class UserServiceImpl implements UserService {
 		this.resourceLoader = resourceLoader;
 	}
 	
-
 	// 회원가입
 	@Transactional
 	@Override
@@ -66,9 +65,6 @@ public class UserServiceImpl implements UserService {
 		
 		// 업로드한 파일 없으면 기본 이미지 저장
 		else {
-			user.setOrgImage(DEFALT_USER_IMAGE);
-			// 중복 방지 파일명 저장
-			user.setImage( UUID.randomUUID().toString() + "_" + DEFALT_USER_IMAGE);
 		}
 		return userDao.insertUser(user);
 	}
