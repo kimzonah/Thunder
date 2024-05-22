@@ -12,7 +12,7 @@
 	
 	<!-- 요청을 보낸 사용자 전체 조회 -->
 	<select id="selectAllApplyUser" parameterType="int" resultType="User">
-	    SELECT u.id, u.name, u.org_image
+	    SELECT u.id, u.name, u.image, u.org_image
 	    FROM User u
 	    JOIN UserSchedule us ON u.id = us.user_id
 	    WHERE us.schedule_id = #{scheduleId} AND us.status = 0;

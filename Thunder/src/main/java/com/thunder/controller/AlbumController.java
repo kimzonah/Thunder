@@ -51,7 +51,7 @@ public class AlbumController {
 		if (!userScheduleService.validateJoin(userId, scheduleId)) {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 	    }
-		
+				
 		// 실패 응답 2. 앨범에 이미지 등록에 실패하면 badRequest 반환
 		if (!albumService.registImage(userId, file, scheduleId)) {
 			return ResponseEntity.badRequest().build();

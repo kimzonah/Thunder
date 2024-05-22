@@ -84,9 +84,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 
 		// 업로드한 파일 없으면 기본 이미지 저장
 		else {
-			schedule.setOrgImage(DEFALT_SCHEDULE_IMAGE);
-			// 중복 방지 파일명 저장
-			schedule.setImage(UUID.randomUUID().toString() + "_" + DEFALT_SCHEDULE_IMAGE);
+			
 		}
 		
 		return scheduleDao.insertSchedule(schedule);
