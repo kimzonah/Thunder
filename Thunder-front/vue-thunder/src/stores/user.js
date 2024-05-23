@@ -25,7 +25,6 @@ export const useUserStore = defineStore('user', () => {
                 loginUser.value = response.data
             })
             .catch((error) => {
-                alert('다시 시도해보세요.')
                 isLoggedIn.value = false;
             })
         } else {
