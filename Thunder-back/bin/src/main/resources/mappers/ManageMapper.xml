@@ -1,1 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.thunder.model.dao.ManageDao">
+	<!-- 번개장이 맞는지 검증 -->
+	<select id="validate" parameterType="Map">
+		SELECT COUNT(*) FROM schedule
+		WHERE id = #{scheduleId} AND manager_id = #{userId};
+	</select>
+	
+	<!-- 요청을 보낸 사용자 전체 조회 -->
+	<select id="selectAllApplyUser" parameterType="int" resultType="User">
+	    SELECT u.id, u.name, u.image, u.org_image
+	    FROM User u
+	    JOIN UserSchedule us ON u.id = us.user_id
+	    WHERE us.schedule_id = #{scheduleId} AND us.status = 0;
+	</select>
+
+	<!-- 번개 가입 신청 수락 -->
+	<update id="update" parameterType="Map">
+		UPDATE userSchedule SET status = 1
+		WHERE schedule_id = #{scheduleId} AND user_id = #{userId};
+	</update>
+	
+	<!-- 번개 가입 신청 삭제 (거절) -->
+	<delete id="delete" parameterType="Map">
+		DELETE FROM userSchedule
+		WHERE schedule_id = #{scheduleId} AND user_id = #{userId};
+	</delete>
+	
+	<!-- 번개 일정 수정 -->
+	<update id="updateSchedule" parameterType="schedule">
+		UPDATE schedule SET date_time = #{dateTime}, latitude = #{latitude}, longitude = #{longitude}, address_name = #{addressName}
+		WHERE id = #{id};
+	</update>
+</mapper>
