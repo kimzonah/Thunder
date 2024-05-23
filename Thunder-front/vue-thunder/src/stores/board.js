@@ -43,6 +43,7 @@ export const useBoardStore = defineStore('board', () => {
           withCredentials: true, // 쿠키를 포함한 요청
         })
         .then(() => {
+          isExistBoard.value = true;
           router.push({ name: 'boardList', params: { thunderId } }) // 게시물 리스트 페이지로 이동
         })
         .catch((error) => {

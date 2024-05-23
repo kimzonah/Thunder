@@ -67,6 +67,7 @@ onMounted(() => {
   align-items: center;
   padding: 50px 10px;
   border-right: 1px solid #e9e9e9;
+  z-index: 2; 
 }
 
 .profile {

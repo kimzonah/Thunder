@@ -3,21 +3,23 @@
     <header class="header">
       <div class="header-title">
         <h1>나의 사진첩</h1>
-        <div class="upload-section" @click="triggerFileUpload">
+      </div>
+        <div class="upload-section">
           <img src="../icons/common/upload.png" alt="upload icon" class="upload-icon">
           <label class="upload-label" for="file-upload">사진 등록</label>
         </div>
-      </div>
       <div class="header-controls">
         <select v-model="selectedThunderId" @change="updateSelectedThunder">
           <option v-for="thunder in myThunderStore.thunders" :key="thunder.id" :value="thunder.id">
             {{ thunder.title }} - {{ thunder.dateTime }}
           </option>
         </select>
+        <button class="select-picture" @click="triggerFileUpload">사진 선택</button>
         <input id="file-upload" accept="image/*" type="file" @change="onFileChange" style="display: none;">
         <input type="text" placeholder="파일을 등록하세요" class="file-name" readonly>
-        <button @click="registerPhoto">사진 등록하기</button>
+        <button class="regist-picture" @click="registerPhoto">사진 등록하기</button>
       </div>
+      <!-- <div class="hr-divider"></div> -->
     </header>
   </div>
 </template>
@@ -66,6 +68,7 @@ const registerPhoto = async () => {
   formData.append('file', selectedFile.value);
 
   try {
+    console.log(formData)
     await albumStore.createPhoto(formData, selectedThunderId.value);
     window.location.reload();
     // alert('사진이 성공적으로 등록되었습니다!');
@@ -81,40 +84,29 @@ const triggerFileUpload = () => {
 
 <style scoped>
 .header {
-  display: flex;
-  flex-direction: column;
-  background-color: white;
   padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  border-bottom: 2px solid #eaeaea;
 }
 
 .header-title {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .header-title h1 {
-  font-size: 1.2rem; 
-  color: #333;
+  font-size: 24px;
+  margin: 0;
+  color: #333333;
+  font-weight: bold;
+  margin-right: 20px;
 }
 
 .upload-section {
   display: flex;
   align-items: center;
   cursor: pointer;
-  border: 1px solid #ddd; 
-  padding: 5px 10px; 
-  border-radius: 5px; 
-  background-color: #f9f9f9; 
-  transition: background-color 0.3s ease; 
-}
-
-.upload-section:hover {
-  background-color: #f1f1f1; 
 }
 
 .upload-icon {
@@ -124,45 +116,62 @@ const triggerFileUpload = () => {
 }
 
 .upload-label {
-  font-size: 1rem;
-  color: #007bff;
-  cursor: pointer;
+  font-size: 16px;
+  font-weight: 800;
 }
 
 .header-controls {
   display: flex;
   align-items: center;
-  margin-top: 10px;
-  gap: 10px; 
-}
-
-.header-controls select,
-.header-controls .file-name,
-.header-controls button {
-  padding: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  margin-top: 20px;
 }
 
 .header-controls select {
-  flex: 2;
+  width: 250px;
+  height: 40px;
+  margin-right: 10px;
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid #dddddd;
+  border-radius: 15px;
 }
 
 .header-controls .file-name {
-  flex: 2;
+  margin-left: 10px;
+  width: 200px;
+  padding: 12px;
+  font-size: 12px;
+  border: 1px solid #dddddd;
+  border-radius: 15px;
+  margin-right: 10px;
 }
 
-.header-controls button {
-  background-color: #007bff;
-  color: white;
+.select-picture {
+  background-color: #E0E5E9;
   border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  border-radius: 15px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
-  flex: 1;
 }
 
-.header-controls button:hover {
-  background-color: #0056b3;
+.select-picture:hover {
+  background-color: #d9dbdc;
 }
+
+.regist-picture {
+  background-color: #F3D849;
+  border: none;
+  padding: 10px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 15px;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.regist-picture:hover {
+  background-color: #eec90e;
+}
+
 </style>
