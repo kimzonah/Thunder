@@ -68,7 +68,7 @@ const confirmDeleteThunder = () => {
   flex-direction: column;
   padding: 20px;
   background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 2px solid #e9ecef;
   position: relative;
 }
 

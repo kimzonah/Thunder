@@ -58,11 +58,13 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import AddressModal from '@/components/thunder/AddressModal.vue';
 import { useThunderStore } from '@/stores/thunder';
+import { useRouter } from 'vue-router';
 
 const store = useThunderStore();
+const router = useRouter();
 
 const categories = [
   { label: '배드민턴', value: '배드민턴' },
@@ -95,6 +97,14 @@ const minDateTime = ref(new Date().toISOString().slice(0, 16));
 
 const isModalOpen = ref(false);
 const file = ref(null);
+
+onMounted(() => {
+  const userSession = sessionStorage.getItem('loginUser')
+  if(!userSession) {
+    alert('로그인이 필요합니다.')
+    router.push({name:'home'})
+  }
+});
 
 function openModal() {
   isModalOpen.value = true;

@@ -2,13 +2,21 @@
   <div class="schedule-manage-container">
     <div class="header">
       <div class="header-left">
-        <router-link :to="{ name: 'remain' }" class="back-button">＜</router-link>
+        <router-link :to="{ name: 'remain' }" class="back-button">
+          <img class="arrow-left" src="@/components/icons/common/arrow-left.png" alt="뒤로가기">
+        </router-link>
         <h1 class="title">{{ thunderStore.thunder.title }} 관리페이지</h1>
       </div>
-      <div class="header-right">
-        <input type="datetime-local" v-model="datetime" class="datetime-input" />
-        <input :value="formattedAddress(thunderStore.address)" class="address-input" type="text" placeholder="주소 검색" @click="openModal" readonly>
-        <button class="update-button" @click="updateSchedule">일정 및 장소 변경</button>
+      <div class="form-container">
+        <div class="form-item">
+          <input type="datetime-local" v-model="datetime" class="datetime-input" />
+        </div>
+        <div class="form-item">
+          <input :value="formattedAddress(thunderStore.address)" class="address-input" type="text" placeholder="주소 검색" @click="openModal" readonly>
+        </div>
+        <div class="form-btn">
+          <button class="update-button" @click="updateSchedule">일정 및 장소 변경</button>
+        </div>
       </div>
     </div>
     <AddressModal :isModalOpen="isModalOpen" :closeModal="closeModal" @selectAddress="setAddress"/>
@@ -102,24 +110,28 @@ function formattedAddress(address) {
 }
 </script>
 
-
 <style scoped>
 .schedule-manage-container {
-  padding: 20px;
+  padding: 20px 20px 0 20px;
 }
 
 .header {
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 20px;
+  /* background-color: #ffffff; */
+  border-bottom: 1px solid #eaeaea;
 }
 
 .header-left {
   display: flex;
   align-items: center;
+}
+
+.arrow-left {
+  width: 24px;
+  margin-top: 10px;
 }
 
 .back-button {
@@ -130,33 +142,54 @@ function formattedAddress(address) {
 }
 
 .title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: bold;
 }
 
-.header-right {
+.form-container {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  /* flex: 1; */
+  width: 300px;
+  margin-right: 10px;
+}
+
+.form-btn {
+  margin-left: auto;
+
 }
 
 .datetime-input,
 .address-input {
-  padding: 10px;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
+  padding: 10px 15px;
+  border: 1px solid #dddddd;
+  border-radius: 30px;
+  font-family: "Noto Sans KR", sans-serif; /* 원하는 글꼴로 변경 */
+  font-size: 14px;
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .update-button {
   padding: 10px 20px;
-  background-color: #007bff;
+  background-color: #ffd118;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: 30px;
   cursor: pointer;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 10px;
 }
 
 .update-button:hover {
-  background-color: #0056b3;
+  background-color: #f9c90b;
 }
 </style>

@@ -1,199 +1,211 @@
 <template>
-    <div class="board-detail">
-      <div class="board-header">
-        <div class="header-content">
-          <h1 class="board-title">{{ board.title }}</h1>
-          <p class="board-date">{{ formatDate(board.regDate) }}</p>
-          <div class="board-user">
-            <img :src="userImage" alt="user image" class="user-image" />
-            <span class="user-name">{{ userName }}</span>
+  <div class="board-detail">
+    <div class="board-header">
+      <img :src="userImage" alt="user image" class="user-image" />
+      <div class="board-info">
+        <div class="user-name">{{ userName }}</div>
+        <div class="board-date">
+          {{ formatDate(board.regDate) }}
+          <div v-if="board.userId === loginUserId" class="board-actions">
+            <button @click="updateBoard" class="edit-button">수정</button>
+            <button @click="deleteBoard(board.id)" class="delete-button">삭제</button>
           </div>
         </div>
       </div>
-      <div class="board-content">
-        <p>{{ board.content }}</p>
-      </div>
-      <CommentRegist :board="board" @commentAdded="loadComments" />
-      <CommentList :comments="comments" :board="board"/>
     </div>
-  </template>
-  
-  <script setup>
-  import { ref, onMounted } from 'vue';
-  import { useRoute } from 'vue-router';
-  import { useCommentStore } from '@/stores/comment';
-  import { useUserStore } from '@/stores/user';
-  import { useBoardStore } from '@/stores/board';
-  import CommentRegist from './CommentRegist.vue';
-  import CommentList from './CommentList.vue';
-  
-  const route = useRoute();
-  const thunderId = route.params.thunderId;
-  const boardId = route.params.boardId;
-  
-  const boardStore = useBoardStore();
-  const commentStore = useCommentStore();
-  const userStore = useUserStore();
-  
-  const board = ref({});
-  const comments = ref([]);
-  const userName = ref('');
-  const userImage = ref('');
-  
-  const loadData = async () => {
-    try {
-      const boardData = await boardStore.fetchBoardDetail(thunderId, boardId);
-      board.value = boardData;
-      await loadUser(boardData.userId);
-      loadComments();
-    } catch (error) {
-      console.error('Failed to load data:', error);
-    }
+    <div class="board-title">
+      {{ board.title }}
+    </div>
+    <div class="board-content">
+      <p>{{ board.content }}</p>
+    </div>
+  </div>
+  <CommentRegist :board="board" @commentAdded="loadComments" />
+  <CommentList :comments="comments" :board="board"/>
+</template>
+
+<script setup>
+import { ref, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import { useCommentStore } from '@/stores/comment';
+import { useUserStore } from '@/stores/user';
+import { useBoardStore } from '@/stores/board';
+import CommentRegist from './CommentRegist.vue';
+import CommentList from './CommentList.vue';
+import router from '@/router';
+
+const route = useRoute();
+const thunderId = route.params.thunderId;
+const boardId = route.params.boardId;
+
+const boardStore = useBoardStore();
+const commentStore = useCommentStore();
+const userStore = useUserStore();
+
+const board = ref({});
+const comments = ref([]);
+const userName = ref('');
+const userImage = ref('');
+const loginUserId = userStore.loginUser.id;
+
+const loadData = async () => {
+  try {
+    const boardData = await boardStore.fetchBoardDetail(thunderId, boardId);
+    board.value = boardData;
+    await loadUser(boardData.userId);
+    loadComments();
+  } catch (error) {
+    // console.error('Failed to load data:', error);
+  }
+};
+
+const loadUser = async (userId) => {
+  try {
+    await userStore.getUserById(userId);
+    const userData = userStore.user
+    userName.value = userData.name;
+
+    userImage.value = userData.image
+      ? new URL(`/src/assets/userProfile/${userData.image}`, import.meta.url).href
+      : new URL(`/src/assets/userProfile/profile.png`, import.meta.url).href;
+
+  } catch (error) {
+    console.error('Failed to fetch user data:', error);
+  }
+};
+
+const loadComments = async () => {
+  try {
+    comments.value = await commentStore.fetchComments(thunderId, boardId);
+  } catch (error) {
+    console.error('Failed to load comments:', error);
+  }
+};
+
+onMounted(() => {
+  loadData();
+});
+
+const formatDate = (dateString) => {
+  const options = {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+    hour12: false,
   };
-  
-  const loadUser = async (userId) => {
-    try {
-      const userData = await userStore.loginUser;
-      userName.value = userData.name;
-      userImage.value = userData.image
-        ? new URL(`/src/assets/userProfile/${userData.image}`, import.meta.url).href
-        : new URL(`/src/assets/userProfile/profile.png`, import.meta.url).href;
-    } catch (error) {
-      console.error('Failed to fetch user data:', error);
-    }
-  };
-  
-  const loadComments = async () => {
-    try {
-      comments.value = await commentStore.fetchComments(thunderId, boardId);
-    } catch (error) {
-      console.error('Failed to load comments:', error);
-    }
-  };
-  
-  onMounted(() => {
-    loadData();
-  });
-  
-  const formatDate = (dateString) => {
-    const options = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: false,
-    };
-    const date = new Date(dateString);
-    return date.toLocaleString('sv-SE', options).replace(' ', 'T').replace('T', ' ').replace(/\//g, '-');
-  };
-  </script>
-  
-  <style scoped>
-  .board-detail {
-    padding: 20px;
-    max-width: 800px;
-    margin: auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  const date = new Date(dateString);
+  return date.toLocaleString('sv-SE', options).replace(' ', 'T').replace('T', ' ').replace(/\//g, '-');
+};
+
+const updateBoard = () => {
+  router.push({name:'boardUpdate', params: {thunderId: route.params.thunderId, boardId: board.value.id}});
+};
+
+const deleteBoard = async (boardId) => {
+  try {
+    await boardStore.deleteBoard(route.params.thunderId, boardId);
+    router.push({ name: 'boardList', params: { thunderId: route.params.thunderId } });
+  } catch (error) {
+    console.error('Failed to delete board:', error);
   }
-  
-  .board-header {
-    padding: 20px;
-    border-bottom: 1px solid #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .header-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  
-  .board-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 8px;
-  }
-  
-  .board-date {
-    font-size: 14px;
-    color: #888;
-  }
-  
-  .board-user {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .user-image {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-    margin-right: 10px;
-  }
-  
-  .user-name {
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  .board-content {
-    padding: 20px;
-    font-size: 16px;
-    line-height: 1.6;
-  }
-  
-  .board-comments {
-    padding: 20px;
-    border-top: 1px solid #e0e0e0;
-  }
-  
-  .comments-title {
-    font-size: 18px;
-    margin-bottom: 20px;
-  }
-  
-  .loading {
-    text-align: center;
-    font-size: 16px;
-    color: #666;
-  }
-  
-  .comment-item {
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-  }
-  
-  .comment-header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  
-  .comment-user-name {
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-  }
-  
-  .comment-date {
-    font-size: 12px;
-    color: #888;
-  }
-  
-  .comment-content {
-    font-size: 14px;
-    color: #555;
-  }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+.board-detail {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin: 20px auto;
+}
+
+.board-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 15px;
+}
+
+.user-image {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgb(230, 230, 230);
+}
+
+.board-info {
+  flex-grow: 1;
+  margin-left: 10px;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.board-date {
+  font-size: 12px;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.board-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.edit-button,
+.delete-button {
+  background-color: transparent;
+  border: none;
+  color: rgb(169, 169, 169);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0;
+  margin-left: 5px;
+}
+
+.edit-button:hover,
+.delete-button:hover {
+  text-decoration: underline;
+  color: #ffcc00;
+}
+
+.board-title {
+  margin-top: 20px;
+  margin-left: 10px;
+  /* font-size: 24px; */
+  font-weight: bold;
+}
+
+.board-content {
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.board-footer {
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.comment-count {
+  font-size: 12px;
+  color: #6c757d;
+  cursor: pointer;
+}
+
+.comment-count:hover {
+  text-decoration: underline;
+  color: #ffcc00;
+}
+</style>

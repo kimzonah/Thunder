@@ -1,7 +1,9 @@
 <template>
   <div class="album-container">
-    <h1>사진첩</h1>
-    <div class="photo-gallery">
+    <div v-if="albumStore.albums.length === 0" class="no-photos">
+      등록된 사진이 없습니다.
+    </div>
+    <div v-else class="photo-gallery">
       <AlbumItem v-for="photo in albumStore.albums" :key="photo.id" :photo="photo" />
     </div>
   </div>
@@ -19,29 +21,25 @@ const thunderStore = useMyThunderStore();
 onMounted(async () => {
   await thunderStore.fetchPastThunders();
   await albumStore.fetchAlbum();
-  console.log(albumStore.albums);
 });
 </script>
 
 <style scoped>
 .album-container {
   padding: 20px;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .photo-gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  justify-items: center;
 }
 
-.photo-item {
-  /* width: calc(33.333% - 20px); */
-  background-color: white;
-  padding: 10px;
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.no-photos {
+  text-align: center;
+  font-size: 16px;
+  color: #888;
+  margin-top: 20px;
 }
 </style>

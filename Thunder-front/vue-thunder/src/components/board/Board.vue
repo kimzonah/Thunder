@@ -87,7 +87,7 @@ const viewComments = () => {
 .board-item {
   background-color: #fff;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -105,7 +105,8 @@ const viewComments = () => {
 }
 
 .board-title {
-  margin-top: 10px;
+  margin-top: 20px;
+  margin-left: 10px;
 }
 
 .board-info {
@@ -152,6 +153,7 @@ const viewComments = () => {
   font-size: 14px;
   color: #333;
   margin-top: 10px;
+  margin-left: 10px;
 }
 
 .board-footer {
