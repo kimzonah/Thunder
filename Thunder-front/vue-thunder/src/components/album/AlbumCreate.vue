@@ -68,7 +68,6 @@ const registerPhoto = async () => {
   formData.append('file', selectedFile.value);
 
   try {
-    console.log(formData)
     await albumStore.createPhoto(formData, selectedThunderId.value);
     window.location.reload();
     // alert('사진이 성공적으로 등록되었습니다!');

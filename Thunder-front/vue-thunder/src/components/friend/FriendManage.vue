@@ -41,12 +41,10 @@ const imageUrl = (friendImage) => {
 const addFriend = async (friendId) => {
     try {
         await axios.put(`${REST_FRIEND_API}/request/${friendId}`, {}, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend request accepted successfully');
         // 친구 요청 리스트에서 해당 요청 제거
         friendStore.friendRequestList = friendStore.friendRequestList.filter(friend => friend.id !== friendId);
         alert("요청을 수락했습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
     }
 };
 
@@ -54,12 +52,11 @@ const addFriend = async (friendId) => {
 const rejectFriend = async (friendId) => {
     try {
         await axios.delete(`${REST_FRIEND_API}/request/${friendId}`, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend request rejected successfully');
         // 친구 요청 리스트에서 해당 요청 제거
         friendStore.friendRequestList = friendStore.friendRequestList.filter(friend => friend.id !== friendId);
         alert("요청을 거절했습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
+        alert('문제가 발생했습니다. 다시 시도해주세요.')
     }
 };
 </script>

@@ -44,7 +44,7 @@
       // commentStore.fetchComments(thunderId, boardId); // 새 댓글 목록 불러오기
       window.location.reload();
     } catch (error) {
-      console.error('Failed to add comment:', error);
+      alert('문제가 발생했습니다. 다시 시도해주세요.')
     }
   };
   </script>

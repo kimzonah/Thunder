@@ -55,7 +55,7 @@ const loadData = async () => {
     await loadUser(boardData.userId);
     loadComments();
   } catch (error) {
-    // console.error('Failed to load data:', error);
+    alert('문제가 발생했습니다. 다시 시도해주세요.')
   }
 };
 
@@ -70,7 +70,7 @@ const loadUser = async (userId) => {
       : new URL(`/src/assets/userProfile/profile.png`, import.meta.url).href;
 
   } catch (error) {
-    console.error('Failed to fetch user data:', error);
+    alert('문제가 발생했습니다. 다시 시도해주세요.')
   }
 };
 
@@ -78,7 +78,7 @@ const loadComments = async () => {
   try {
     comments.value = await commentStore.fetchComments(thunderId, boardId);
   } catch (error) {
-    console.error('Failed to load comments:', error);
+    alert('문제가 발생했습니다. 다시 시도해주세요.')
   }
 };
 
@@ -109,7 +109,7 @@ const deleteBoard = async (boardId) => {
     await boardStore.deleteBoard(route.params.thunderId, boardId);
     router.push({ name: 'boardList', params: { thunderId: route.params.thunderId } });
   } catch (error) {
-    console.error('Failed to delete board:', error);
+    alert('문제가 발생했습니다. 다시 시도해주세요.')
   }
 };
 </script>

@@ -79,7 +79,7 @@ const initMap = function () {
 
 const addMarkers = (thunders) => {
   if (!window.kakao || !window.kakao.maps) {
-    console.error("Kakao Maps API is not loaded yet.");
+    // console.error("Kakao Maps API is not loaded yet.");
     return;
   }
 

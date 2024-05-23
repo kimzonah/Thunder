@@ -62,6 +62,9 @@ const handleLogin = async () => {
 img {
   border-radius: 50%; /* 원형으로 변경 */
   margin-bottom: 30px;
+  background-color: white;
+  padding: 10px;
+  /* border: 0.5px solid #F3D849; */
 }
 
 .login-header img {

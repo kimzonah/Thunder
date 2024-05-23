@@ -55,7 +55,7 @@ async function searchAddress() {
     });
     addresses.value = response.data.documents;
   } catch (error) {
-    console.error('Error fetching address:', error.response.status, error.response.statusText);
+    alert('문제가 발생했습니다. 다시 시도해보세요.')
   } finally {
     searching.value = false;
   }

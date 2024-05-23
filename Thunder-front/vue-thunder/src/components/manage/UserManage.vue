@@ -32,11 +32,9 @@ const route = useRoute();
 
 onMounted(() => {
   manageStore.fetchApplyUsers(route.params.thunderId);
-  // console.log(manageStore.applyUsers)
 });
 
 const getImageUrl = (imagePath) => {
-  // console.log(imagePath)
   return imagePath
     ? new URL(`/src/assets/userProfile/${imagePath}`, import.meta.url).href
     : new URL(`@/assets/userProfile/profile.png`, import.meta.url).href;

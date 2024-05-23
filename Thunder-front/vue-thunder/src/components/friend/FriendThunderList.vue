@@ -33,7 +33,6 @@ const route = useRoute();
 
 onMounted(() => {
   userStore.getUserById(route.params.friendId)
-  console.log(route.params.friendId)
   friendStore.getFriendThunder(route.params.friendId)
 });
 

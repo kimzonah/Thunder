@@ -63,9 +63,7 @@ onMounted(async () => {
         router.push({ name: 'login' })
     }
     else {
-
         await updateFriendLists();
-        console.log(loginUserId);
     }
 });
 
@@ -80,11 +78,10 @@ const goFriendThunder = (friendId) => {
 const addFriend = async (friendId) => {
     try {
         await axios.post(`${REST_FRIEND_API}/request`, { friendId }, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend request sent successfully');
         await updateFriendLists();
         alert("친구 요청을 보냈습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
+        alert('문제가 발생했습니다. 다시 시도해보세요.')
     }
 };
 
@@ -92,11 +89,10 @@ const addFriend = async (friendId) => {
 const removeFriend = async (friendId) => {
     try {
         await axios.delete(`${REST_FRIEND_API}/${friendId}`, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend removed successfully');
         friendStore.setFriendRelationStatus(friendId, 0); // 상태를 친구 아님으로 업데이트
         alert("친구를 끊었습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
+        alert('문제가 발생했습니다. 다시 시도해보세요.')
     }
 };
 
