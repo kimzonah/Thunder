@@ -51,7 +51,6 @@ const loginUserId = sessionStorage.getItem("loginUser");
 // 온마운트 : 처음엔 검색어 없음(전체 조회)
 onMounted(async () => {
     await friendStore.getAllFriendList('');
-    console.log(loginUserId);
 });
 
 // 번개 보러가기
@@ -65,11 +64,10 @@ const goFriendThunder = (friendId) => {
 const addFriend = async (friendId) => {
     try {
         await axios.post(`${REST_FRIEND_API}/${friendId}`, {}, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend request sent successfully');
         friendStore.setFriendRelationStatus(friendId, 2); // 상태를 승인 대기중으로 업데이트
         alert("친구 요청을 보냈습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
+        alert('문제가 발생했습니다. 다시 시도해주세요.')
     }
 };
 
@@ -77,11 +75,10 @@ const addFriend = async (friendId) => {
 const removeFriend = async (friendId) => {
     try {
         await axios.delete(`${REST_FRIEND_API}/${friendId}`, { withCredentials: true }); // 쿠키를 포함한 요청
-        console.log('Friend removed successfully');
         friendStore.setFriendRelationStatus(friendId, 0); // 상태를 친구 아님으로 업데이트
         alert("친구를 끊었습니다.")
     } catch (error) {
-        console.error('There was an error!', error);
+        alert('문제가 발생했습니다. 다시 시도해주세요.')
     }
 };
 
