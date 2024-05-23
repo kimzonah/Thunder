@@ -110,9 +110,7 @@ const thunderImageUrl = (thunderImage) => {
 
 onMounted(async () => {
   await thunderStore.getThunderDetail(route.params.thunderId); // 데이터를 가져올 때까지 기다림
-  console.log(thunderStore.thunder.managerId); // 가져온 후에 콘솔 출력
   await thunderStore.checkJoinStatus(route.params.thunderId);
-  // console.log(thunderStore.joinStatus)
   await thunderStore.countJoin(route.params.thunderId);
   if (thunderStore.thunder.managerId) {
     userStore.getUserById(thunderStore.thunder.managerId);
@@ -141,7 +139,6 @@ watch(
 watch(
   () => thunderStore.joinStatus,
   (newStatus) => {
-    console.log("Join status changed:", newStatus);
   }
 );
 
@@ -159,22 +156,12 @@ const joinThunder = async (thunderId) => {
       alert("번개 참여 신청 완료");
     }
   } catch (error) {
-    console.error('There was an error!', error);
+    alert('문제가 발생했습니다. 다시 시도해보세요.')
   }
 }
 </script>
 
 <style scoped>
-/* .thunder-detail {
-  width: 100%;
-  max-width: 1400px;
-  margin: 10px auto;
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 10px;
-} */
-
 .thunder-detail{
   padding: 10px 30px 30px 30px;
   background-color: white;

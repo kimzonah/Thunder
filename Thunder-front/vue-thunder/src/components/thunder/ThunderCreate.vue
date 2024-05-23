@@ -116,7 +116,6 @@ function closeModal() {
 
 function onImageChange(event) {
   file.value = event.target.files[0];
-  console.log(file.value);
   if (file.value) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -148,15 +147,12 @@ function handleSubmit() {
   formData.append('latitude', store.latitude);
   formData.append('chatUrl', chatUrl.value);
 
-  console.log(file)
   if (file.value) {
     formData.append('file', file.value);
   } else {
     const defaultFile = new File([], 'defaultThunder.png');
     formData.append('file', defaultFile);
   }
-
-  console.log(formData)
   store.createThunder(formData);
 }
 

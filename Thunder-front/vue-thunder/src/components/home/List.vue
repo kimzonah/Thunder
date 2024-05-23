@@ -115,7 +115,6 @@ const getAddressName = (address) => {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
   position: relative;
-  /* 수정: 자식 요소의 절대 위치를 위해 상대 위치로 설정 */
 }
 
 .thunder-item:hover {
