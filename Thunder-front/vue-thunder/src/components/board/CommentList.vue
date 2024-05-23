@@ -8,10 +8,6 @@
     <div v-else>
       <div v-for="comment in comments" :key="comment.id" class="comment-item">
         <CommentUser :userId="comment.userId" />
-        <div class="comment-header">
-          <span class="comment-user-name">{{ comment.userId }}</span>
-          <!-- <span class="comment-date">{{ formatDate(comment.regDate) }}</span> -->
-        </div>
         <p class="comment-content">{{ comment.content }}</p>
         <div v-if="comment.userId === userStore.loginUser.id" class="board-actions">
           <button @click="deleteComment(comment.id)" class="delete-button">삭제</button>

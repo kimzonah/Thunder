@@ -30,10 +30,9 @@ onMounted(async () => {
 }
 
 .photo-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  justify-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 .no-photos {
