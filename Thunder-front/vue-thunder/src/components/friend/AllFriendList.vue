@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="allfriend-header">
-            <h2>전체 친구</h2>
+            <h2>전체 회원</h2>
             <p>{{ filteredFriends.length }}명</p>
         </div>
         <div class="nothing" v-if="filteredFriends.length === 0">
