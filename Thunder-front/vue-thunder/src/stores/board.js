@@ -27,7 +27,7 @@ export const useBoardStore = defineStore('board', () => {
         }
       })
       .catch((error) => {
-        // console.log(error)
+        alert('다시 시도해보세요.')
       })
   }
 
@@ -47,7 +47,7 @@ export const useBoardStore = defineStore('board', () => {
           router.push({ name: 'boardList', params: { thunderId } }) // 게시물 리스트 페이지로 이동
         })
         .catch((error) => {
-        //   console.log(error)
+          alert('다시 시도해보세요.')
         })
     } else {
       alert('제목과 내용을 입력해주세요.')
@@ -56,7 +56,6 @@ export const useBoardStore = defineStore('board', () => {
 
   // board 업데이트
   const updateBoard = (thunderId, boardId) => {
-    // console.log('update')
     if (board.value.title && board.value.content) {
       board.value.thunderId = thunderId
       axios
@@ -70,7 +69,7 @@ export const useBoardStore = defineStore('board', () => {
           router.push({ name: 'boardList', params: { thunderId } }) // 게시물 리스트 페이지로 이동
         })
         .catch((error) => {
-        //   console.log(error)
+          alert('다시 시도해보세요.')
         })
     } else {
       alert('제목과 내용을 입력해주세요.')
@@ -79,7 +78,6 @@ export const useBoardStore = defineStore('board', () => {
 
   // board 삭제하기
   const deleteBoard = (thunderId, boardId) => {
-    // console.log(boardId)
     axios.delete(`${REST_BOARD_API}/${thunderId}/${boardId}`, {
       headers: {
         'Content-Type': 'application/json',
@@ -93,7 +91,7 @@ export const useBoardStore = defineStore('board', () => {
       });
     })
     .catch((error) => {
-      // console.log(error)
+      alert('다시 시도해보세요.')
     })
   }
 
@@ -104,8 +102,7 @@ export const useBoardStore = defineStore('board', () => {
       });
       return response.data;
     } catch (error) {
-      console.error('Failed to fetch board detail:', error);
-      throw error;
+      alert('다시 시도해보세요.')
     }
   };
 

@@ -24,7 +24,7 @@ export const useFriendStore = defineStore("friend", () => {
       await updateFriendRecruitingStatus(friendIds);
       await updateFriendRelationStatus(friendIds);
     } catch (error) {
-      console.error("There was an error!", error);
+      alert('다시 시도해보세요.')
       allFriendList.value = [];
     }
   };
@@ -43,7 +43,7 @@ export const useFriendStore = defineStore("friend", () => {
       });
       friendRecruitingStatus.value = status;
     } catch (error) {
-      console.error("There was an error fetching friend thunders!", error);
+      alert('다시 시도해보세요.')
     }
   };
 
@@ -63,7 +63,7 @@ export const useFriendStore = defineStore("friend", () => {
       });
       friendRelationStatus.value = status;
     } catch (error) {
-      console.error("There was an error fetching friend relations!", error);
+      alert('다시 시도해보세요.')
     }
   };
 
@@ -79,7 +79,7 @@ export const useFriendStore = defineStore("friend", () => {
         friendThunderList.value = response.data;
       })
       .catch((error) => {
-        console.error("There was an error fetching friend thunder!", error);
+        alert('다시 시도해보세요.')
       });
   };
 
@@ -89,11 +89,10 @@ export const useFriendStore = defineStore("friend", () => {
       withCredentials: true, // 쿠키를 포함한 요청
     })
       .then((response) => {
-        console.log(response.data)
         friendRequestList.value = Array.isArray(response.data) ? response.data : [];
       })
       .catch((error) => {
-        console.error("There was an error!", error);
+        alert('다시 시도해보세요.')
         friendRequestList.value = [];
       });
   }
@@ -111,7 +110,7 @@ export const useFriendStore = defineStore("friend", () => {
       await updateFriendRecruitingStatus(friendIds);
       await updateFriendRelationStatus(friendIds);
     } catch (error) {
-      console.error("There was an error!", error);
+      alert('다시 시도해보세요.')
       myFriendList.value = [];
     }
   };

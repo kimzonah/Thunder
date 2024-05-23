@@ -14,8 +14,7 @@ export const useCommentStore = defineStore('comment', () => {
       });
       return response.data;
     } catch (error) {
-      console.error('Failed to fetch comments:', error);
-      throw error;
+      alert('다시 시도해보세요.')
     }
     };
 
@@ -26,8 +25,7 @@ export const useCommentStore = defineStore('comment', () => {
               });
             return response.data;
           } catch (error) {
-            // console.error('Failed to add comment:', error);
-            // throw error;
+            alert('다시 시도해보세요.')
           }
     }
 

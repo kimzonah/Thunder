@@ -2,7 +2,7 @@
     <div>
         <div class="allfriend-header">
             <h2>전체 친구</h2>
-            <p>{{ friendStore.allFriendList.length }}명</p>
+            <p>{{ filteredFriends.length }}명</p>
         </div>
         <div class="nothing" v-if="filteredFriends.length === 0">
             전체 유저 중 검색 결과가 없습니다.
@@ -23,18 +23,18 @@
                                 <div class="profile-name">{{ friend.name }}</div>
                             </div>
                             <div class="actions">
-                            <button v-if="isRecruiting(friend.id)" class="btn view-lightning"
-                                @click="goFriendThunder(friend.id)">번개 보러가기</button>
-                            <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action add-friend"
-                                @click="addFriend(friend.id)">친구 맺기</button>
-                            <button v-else-if="getFriendRelationStatus(friend.id) === 1"
-                                class="btn friend-action active delete-friend" @click="removeFriend(friend.id)">친구 끊기</button>
-                            <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action wait-friend"
-                                style="pointer-events: none;">승인 대기중</button>
-                            <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action go-friend-manage"
-                                @click="goFriendManage">받은 요청 보기</button>
-                            <button v-else class="btn friend-action">상태 알 수 없음</button>
-                        </div>
+                                <button v-if="isRecruiting(friend.id)" class="btn view-lightning"
+                                    @click="goFriendThunder(friend.id)">번개 보러가기</button>
+                                <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action add-friend"
+                                    @click="addFriend(friend.id)">친구 맺기</button>
+                                <button v-else-if="getFriendRelationStatus(friend.id) === 1"
+                                    class="btn friend-action active delete-friend" @click="removeFriend(friend.id)">친구 끊기</button>
+                                <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action wait-friend"
+                                    style="pointer-events: none;">승인 대기중</button>
+                                <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action go-friend-manage"
+                                    @click="goFriendManage">받은 요청 보기</button>
+                                <button v-else class="btn friend-action">상태 알 수 없음</button>
+                            </div>
                         </div>
                     </div>
                     <button class="nav-btn next-btn" @click="nextSlide">›</button>
@@ -168,13 +168,13 @@ const getFriendRelationStatus = (friendId) => {
 
 .cards-wrapper {
     display: flex;
+    justify-content: center;
     overflow: hidden;
     width: 90%;
-    justify-content: flex-start;
 }
 
 .friend-card {
-    flex: 0 0 calc(33.33% - 16px);
+    flex: 0 0 calc(33.33% - 100px);
     padding: 24px;
     margin: 8px;
     border-radius: 10px;
@@ -213,15 +213,16 @@ const getFriendRelationStatus = (friendId) => {
 }
 
 .btn {
-    width: 100%;
+    width: 70%;
     padding: 12px;
     margin: 4px 0;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 520;
 }
+
 /* 번개보러가기 */
 .view-lightning {
     background-color: white;

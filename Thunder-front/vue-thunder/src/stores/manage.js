@@ -28,7 +28,7 @@ export const useManageStore = defineStore('manage', () => {
           });
           applyUsers.value = response.data;
         } catch (error) {
-        //   console.log('Failed to fetch users:', error);
+            alert('다시 시도해보세요.')
         }
       };
   
@@ -41,7 +41,7 @@ export const useManageStore = defineStore('manage', () => {
             alert('유저 가입 신청을 거절하였습니다.')
             window.location.reload();
         } catch (error) {
-            console.log('Failed to fetch users:', error);
+            alert('다시 시도해보세요.')
         }
     }
     
@@ -53,12 +53,10 @@ export const useManageStore = defineStore('manage', () => {
                 // },
                 withCredentials: true // 세션 정보를 포함한 요청
             });
-            console.log(response)
-            // applyUsers.value = response.data;
             alert('유저 가입 신청을 승인하였습니다.')
             window.location.reload();
           } catch (error) {
-            console.log('Failed to fetch users:', error);
+            alert('다시 시도해보세요.')
         }
     }
 

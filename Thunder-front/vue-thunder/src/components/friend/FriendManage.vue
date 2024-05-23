@@ -1,17 +1,22 @@
 <template>
     <h2>나의 친구 요청 관리</h2>
-    <div v-for="friend in friendStore.friendRequestList" :key="friend.id" class="friend-card">
-        <div class="profile">
-            <img :src="imageUrl(friend.image)" alt="Profile Image" class="profile-icon" />
-            <div class="profile-name">{{ friend.name }}</div>
-        </div>
-        <div class="action-buttons">
-            <button class="accept-button" @click="addFriend(friend.id)">
-                <img src="@/components/icons/common/accept.png" alt="accept" />
-            </button>
-            <button class="decline-button" @click="rejectFriend(friend.id)">
-                <img src="@/components/icons/common/refuse.png" alt="decline" />
-            </button>
+    <div class="nothing" v-if="friendStore.friendRequestList.length === 0">
+        받은 친구 요청이 없습니다.
+    </div>
+    <div v-else>
+        <div v-for="friend in friendStore.friendRequestList" :key="friend.id" class="friend-card">
+            <div class="profile">
+                <img :src="imageUrl(friend.image)" alt="Profile Image" class="profile-icon" />
+                <div class="profile-name">{{ friend.name }}</div>
+            </div>
+            <div class="action-buttons">
+                <button class="accept-button" @click="addFriend(friend.id)">
+                    <img src="@/components/icons/common/accept.png" alt="accept" />
+                </button>
+                <button class="decline-button" @click="rejectFriend(friend.id)">
+                    <img src="@/components/icons/common/refuse.png" alt="decline" />
+                </button>
+            </div>
         </div>
     </div>
 </template>
@@ -62,6 +67,11 @@ const rejectFriend = async (friendId) => {
 </script>
 
 <style scoped>
+.nothing {
+    align-items: center;
+    text-align: center;
+}
+
 .friend-card {
     display: flex;
     align-items: center;

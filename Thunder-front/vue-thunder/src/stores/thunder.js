@@ -47,7 +47,7 @@ export const useThunderStore = defineStore('thunder', () => {
       alert('번개를 나갔습니다.')
       router.push({name : 'myThunder'})
     }).catch((error) => {
-      console.log(error)
+      alert('다시 시도해보세요.')
     })
   }
 
@@ -139,11 +139,8 @@ export const useThunderStore = defineStore('thunder', () => {
     try {
       const response = await axios.get(`${REST_THUNDER_API}/status/${thunderId}`, { withCredentials: true });
       joinStatus.value = response.data;
-      console.log(response.data)
-      console.log(sessionStorage.getItem("loginUser"))
-      console.log(thunderId)
     } catch (error) {
-      console.error('There was an error!', error);
+      alert('다시 시도해보세요.')
     }
   };
 

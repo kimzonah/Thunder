@@ -11,7 +11,6 @@ export const useMyThunderStore = defineStore('mythunder', () => {
 
     const fetchRemainThunders = () => {
         const userId  = sessionStorage.getItem('loginUser');
-        // console.log(userId)
 
         axios.get(`${REST_THUNDER_API}/remain`,{
             headers: {
@@ -20,11 +19,10 @@ export const useMyThunderStore = defineStore('mythunder', () => {
             withCredentials: true // 세션 정보를 포함한 요청
         })
         .then((response) => {
-            // console.log(response)
             thunders.value = response.data;
         })
         .catch((error) => {
-            alert('error')
+            alert('다시 시도해보세요.')
         })
     };
 
@@ -38,11 +36,10 @@ export const useMyThunderStore = defineStore('mythunder', () => {
             withCredentials: true // 세션 정보를 포함한 요청
         })
         .then((response) => {
-            // console.log(response)
             thunders.value = response.data;
         })
         .catch((error) => {
-            alert(error)
+            alert('다시 시도해보세요.')
         })
     };
   
