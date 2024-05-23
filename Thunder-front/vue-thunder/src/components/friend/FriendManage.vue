@@ -5,9 +5,13 @@
             <img :src="imageUrl(friend.image)" alt="Profile Image" class="profile-icon" />
             <div class="profile-name">{{ friend.name }}</div>
         </div>
-        <div class="actions">
-            <button class="btn action-btn accept-btn" @click="addFriend(friend.id)"></button>
-            <button class="btn action-btn reject-btn" @click="rejectFriend(friend.id)"></button>
+        <div class="action-buttons">
+            <button class="accept-button" @click="addFriend(friend.id)">
+                <img src="@/components/icons/common/accept.png" alt="accept" />
+            </button>
+            <button class="decline-button" @click="rejectFriend(friend.id)">
+                <img src="@/components/icons/common/refuse.png" alt="decline" />
+            </button>
         </div>
     </div>
 </template>
@@ -98,44 +102,31 @@ const rejectFriend = async (friendId) => {
     color: #333;
 }
 
-.actions {
-    display: flex;
-    align-items: center;
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-right: 10px;
 }
 
-.btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 10px;
+.accept-button,
+.decline-button {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  transition: background-color 0.3s;
 }
 
-.accept-btn {
-    background-color: #F3D849;
-    /* Accept button color */
-}
-
-.accept-btn::before {
-    content: '✔️';
-    /* Accept icon */
-    font-size: 16px;
-    color: white;
-}
-
-.reject-btn {
-    background-color: #e0e5e9;
-    /* Reject button color */
-}
-
-.reject-btn::before {
-    content: '❌';
-    /* Reject icon */
-    font-size: 16px;
-    color: white;
+.accept-button img,
+.decline-button img {
+  width: 35px;
+  height: 35px;
 }
 </style>

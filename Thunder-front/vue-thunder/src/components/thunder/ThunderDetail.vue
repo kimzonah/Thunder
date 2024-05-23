@@ -7,23 +7,38 @@
       <h1 class="title">{{ thunderStore.thunder.title }}</h1>
       <p class="category">{{ thunderStore.thunder.category }}</p>
       <div class="date-location">
-        <span>📅 {{ thunderStore.thunder.dateTime }}</span>
-        <span><img src="@/components/icons/common/picker.png" style="width: 15px; height: 15px; margin-right: 5px;">{{ trimmedAddress }}</span>
+        <div>
+          <img src="@/components/icons/common/calendar-icon.png" style="width: 17px; height: 17px; margin-right: 5px;">
+          <span>{{ thunderStore.thunder.dateTime }}</span>
+        </div>
+        <div>
+          <img src="@/components/icons/common/picker.png" style="width: 15px; height: 15px; margin-right: 5px;">
+          <span>{{ trimmedAddress }}</span>
+        </div>
       </div>
     </div>
     <div class="no-name">
-      <button v-if="thunderStore.joinStatus === 0" class="status-btn join-btn"
+      <div class="buttons">
+        <button v-if="thunderStore.joinStatus === 0" class="status-btn join-btn"
         @click="joinThunder(thunderStore.thunder.id)">번개 참여하기</button>
-      <button v-else-if="thunderStore.joinStatus === 1" class="status-btn already-btn">참여중</button>
-      <button v-else-if="thunderStore.joinStatus === 2" class="status-btn wait-btn">승인 대기중</button>
-      <button v-else>알 수 없음</button>
+        <button v-else-if="thunderStore.joinStatus === 1" class="status-btn already-btn">참여중</button>
+        <button v-else-if="thunderStore.joinStatus === 2" class="status-btn wait-btn">승인 대기중</button>
+        <button v-else>알 수 없음</button>
+      </div>
       <div class="details">
-        <h3>소개글</h3>
+        <div class="details-header">
+
+          <img src="@/components/icons/common/megaphone.png" style="width: 20px; height: 20px; margin-right: 5px;">
+          <h3>소개글</h3>
+        </div>
         <p>{{ thunderStore.thunder.description }}</p>
       </div>
       <div class="people">
         <div class="members">
-          <h3>매니저 소개</h3>
+          <div class="members-header">
+            <img src="@/components/icons/common/person.png" style="width: 20px; height: 20px; margin-right: 5px;">
+            <h3>매니저 정보</h3>
+          </div>
           <div class="member-list">
             <div class="member">
               <i class="icon-user"></i>
@@ -31,7 +46,7 @@
                 <div class="manager-profile">
                   <img :src="userImageUrl(userStore.user.image)" alt="">
                 </div>
-                <div>
+                <div class="manager-info">
                   <div class="manager-name">
                     <h4>이름</h4>
                     <p>{{ userStore.user.name }}</p>
@@ -46,7 +61,10 @@
           </div>
         </div>
         <div class="additional-info">
-          <h3><img src="@/components/icons/common/person.png" style="width: 20px; height: 20px; margin-right: 5px;">모집 현황</h3>
+          <div class="additional-info-header">
+            <img src="@/components/icons/common/people.png" style="width: 20px; height: 20px; margin-right: 5px;">
+            <h3>모집현황</h3>
+          </div>
           <div class="info">
             <i class="icon-users"></i>
             <span>{{ thunderStore.joinNum }} / {{ thunderStore.thunder.scale }}명</span>
@@ -58,13 +76,14 @@
 </template>
 
 <script setup>
-import { onMounted, computed, ref, watch } from "vue";
+import { onMounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useThunderStore } from '@/stores/thunder';
 import { useUserStore } from "@/stores/user";
 import axios from "axios";
 
 const route = useRoute();
+const router = useRouter();
 const thunderStore = useThunderStore();
 const userStore = useUserStore();
 
@@ -73,22 +92,20 @@ const REST_THUNDER_API = `http://localhost:8080/thunder`;
 
 // 유저 프로필 사진 가져오기
 const userImageUrl = (friendImage) => {
-    if (friendImage === null) {
-        return new URL('@/assets/userProfile/profile.png', import.meta.url).href;
-    }
-    else {
-        return new URL(`/src/assets/userProfile/${friendImage}`, import.meta.url).href;
-    }
+  if (friendImage === null) {
+    return new URL('@/assets/userProfile/profile.png', import.meta.url).href;
+  } else {
+    return new URL(`/src/assets/userProfile/${friendImage}`, import.meta.url).href;
+  }
 }
 
 // 번개 대표 이미지 가져오기
 const thunderImageUrl = (thunderImage) => {
-    if (thunderImage === null) {
-        return new URL('@/assets/thunder/thunderDefault.png', import.meta.url).href;
-    }
-    else {
-        return new URL(`/src/assets/thunder/${thunderImage}`, import.meta.url).href;
-    }
+  if (thunderImage === null) {
+    return new URL('@/assets/thunder/thunderDefault.png', import.meta.url).href;
+  } else {
+    return new URL(`/src/assets/thunder/${thunderImage}`, import.meta.url).href;
+  }
 }
 
 onMounted(async () => {
@@ -130,9 +147,17 @@ watch(
 
 const joinThunder = async (thunderId) => {
   try {
-    await axios.post(`${REST_THUNDER_API}/join/${thunderId}`, {}, { withCredentials: true });
-    await thunderStore.checkJoinStatus(thunderId); // 서버에서 상태를 다시 가져옴
-    alert("번개 참여 신청에 성공했습니다.");
+    const userSession = sessionStorage.getItem('loginUser')
+    if (!userSession) {
+      alert('로그인이 필요합니다.')
+      router.push({ name: 'login' })
+    }
+    else {
+
+      await axios.post(`${REST_THUNDER_API}/join/${thunderId}`, {}, { withCredentials: true });
+      await thunderStore.checkJoinStatus(thunderId); // 서버에서 상태를 다시 가져옴
+      alert("번개 참여 신청 완료");
+    }
   } catch (error) {
     console.error('There was an error!', error);
   }
@@ -140,14 +165,23 @@ const joinThunder = async (thunderId) => {
 </script>
 
 <style scoped>
-.thunder-detail {
+/* .thunder-detail {
   width: 100%;
   max-width: 1400px;
-  margin: 20px auto;
+  margin: 10px auto;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
+} */
+
+.thunder-detail{
+  padding: 10px 30px 30px 30px;
+  background-color: white;
+  border-radius: 30px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 2000px;
+  margin: 20px auto 0px;
 }
 
 .header {
@@ -177,28 +211,33 @@ const joinThunder = async (thunderId) => {
   margin-top: 5px;
   background-color: #E0E5E9;
   padding: 5px 10px;
-  border-radius: 10px;
+  border-radius: 20px;
   display: inline-block;
+}
+
+.buttons {
+  display: flex;
+  justify-content: end;
+}
+
+.buttons button:hover {
+  background-color: #DDC12B;
 }
 
 .status-btn {
   margin-top: 10px;
-  padding: 10px 20px;
+  padding: 10px 30px;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px;
   cursor: pointer;
-  margin-left: 1050px;
+  margin-left: auto;
 }
 
 .join-btn {
   background-color: #F3D849;
 }
 
-.already-btn {
-  background-color: #E0E5E9;
-  pointer-events: none;
-}
-
+.already-btn,
 .wait-btn {
   background-color: #E0E5E9;
   pointer-events: none;
@@ -207,10 +246,15 @@ const joinThunder = async (thunderId) => {
 .date-location {
   display: flex;
   justify-content: center;
-  /* 가운데 정렬 */
   gap: 20px;
-  /* 간격 조절 */
   padding: 20px;
+  align-items: center;
+}
+
+.date-location div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .date-time,
@@ -223,14 +267,16 @@ const joinThunder = async (thunderId) => {
 .details {
   padding: 20px;
   font-size: 16px;
-  color: #666;
+}
+
+.details-header {
+  display: flex;
+  align-items: center;
 }
 
 .no-name {
   max-width: 1200px;
-  /* 폭을 좁히기 위해 추가 */
   margin: auto;
-  /* 중앙 정렬 */
   padding: 20px;
   border-top: 1px solid #eee;
 }
@@ -243,26 +289,76 @@ const joinThunder = async (thunderId) => {
 
 .members {
   width: 48%;
-  /* 나란히 놓기 위해 폭 설정 */
+}
+
+.members-header{
+  display: flex;
+  align-items: center;
 }
 
 .member-list {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-top: 10px;
 }
 
 .member {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
+  gap: 20px;
+}
+
+.manager {
+  display: flex;
+  align-items: center;
+  gap: 60px; /* 간격을 넓혔습니다 */
+}
+
+.manager-profile {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.manager-profile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.manager-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* 간격 추가 */
+}
+
+.manager-name,
+.manager-favor {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  gap: 2px; /* 간격을 좁혔습니다 */
+}
+
+.manager-name h4,
+.manager-favor h4 {
+  margin-bottom: 2px; /* 간격을 좁혔습니다 */
+}
+
+.manager-name p,
+.manager-favor p {
+  margin-top: 2px; /* 간격을 좁혔습니다 */
 }
 
 .additional-info {
-  padding: 20px;
   width: 48%;
-  /* 나란히 놓기 위해 폭 설정 */
+}
+
+.additional-info-header{
+  display: flex;
+  align-items: center;
 }
 
 .info {
@@ -272,38 +368,8 @@ const joinThunder = async (thunderId) => {
   margin-top: 5px;
 }
 
-h3 {
-  color: #000;
+button {
+  font-weight: 600;
 }
 
-.manager-profile {
-  width: 150px;
-  height: 150px;
-  border-radius: 70%;
-  overflow: hidden;
-  margin-right: 80px;
-}
-
-.manager-profile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.manager {
-  display: flex;
-  align-items: center;
-}
-
-.manager p {
-  font-weight: 600px;
-}
-
-.manager h4 {
-  margin-right: 10px;
-}
-
-.manager-name .manager-favor {
-  display: inline;
-}
 </style>

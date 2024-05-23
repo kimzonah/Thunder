@@ -1,15 +1,16 @@
 <template>
     <div class="container">
-      <h2>🔎검색</h2>
-      <input type="date" class="search-bar" v-model="searchCon.date">
-      <input type="time" class="search-bar" v-model="searchCon.time">
+      <img src="@/components/icons/common/search.png" alt="">
+      <h2>검색</h2>
+      <input type="date" class="search-bar" v-model="searchCon.date" @keyup.enter="searchAll">
+      <!-- <input type="time" class="search-bar" v-model="searchCon.time"> -->
   
-      <select class="dropdown" v-model="searchCon.category" name="운동 종목">
+      <select class="dropdown" v-model="searchCon.category" name="운동 종목" @keyup.enter="searchAll">
         <option v-for="(category, index) in categories" :key="index" :value="category.value">{{ category.label }}</option>
       </select>
   
-      <input type="text" class="search-bar" v-model="region" placeholder="지역명 또는 동으로 검색해보세요. (ex. 둔산동)" />
-      <button class="search-btn" @click="searchAll">검색</button>
+      <input type="text" class="search-bar" v-model="region" placeholder="지역명 또는 동으로 검색해보세요. (ex. 둔산동)" @keyup.enter="searchAll">
+      <button class="search-btn" @click="searchAll" >검색</button>
     </div>
   </template>
   
@@ -62,6 +63,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    
   }
   
   .btn {
@@ -72,12 +74,14 @@
     border-radius: 10px;
   }
   
-  .datepicker,
   .dropdown,
   .search-bar {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-radius: 50px;
+    font-family: "Noto Sans KR", sans-serif; 
+    font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
   
   .search-bar {
@@ -87,9 +91,18 @@
   .search-btn {
     background-color: #F3D849;
     border: none;
-    padding: 10px 20px;
+    padding: 10px 22px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 20px;
+    color: #333;
+  }
+
+  .search-btn:hover{
+    background-color: #DDC12B;
+  }
+
+  button{
+    font-weight: 600;
   }
   </style>
   

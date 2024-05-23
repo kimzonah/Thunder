@@ -1,1 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thunder.model.dao.ScheduleDao">
+	
+	<!-- 검색 조건으로 번개 조회 -->
+	<select id="selectScheduleByCon" parameterType="Map"
+		resultType="Schedule">
+		SELECT * FROM schedule
+		<where>
+			
+			<!-- dateTime이 null 또는 빈 문자열인 경우 현재 시간 이후의 데이터 -->
+            <if test="dateTime == null or dateTime == ''">
+                date_time >= CURRENT_TIMESTAMP
+            </if>
+            <!-- dateTime이 빈 문자열이 아닌 경우 date_time에 포함되는 데이터 -->
+            <if test="dateTime != null and dateTime != ''">
+                AND date_time LIKE CONCAT('%', #{dateTime}, '%')
+            </if>
+
+			<!-- 선택된 카테고리가 있을 때만 적용 -->
+			<if test="category != 'none'">
+				AND category LIKE CONCAT('%', #{category}, '%')
+			</if>
+
+			<!-- 입력한 지역이 있을 때만 적용 -->
+			<if test="addressName != 'none'">
+				AND address_name LIKE CONCAT('%', #{addressName}, '%')
+			</if>
+			
+		</where>
+	</select>
+
+	<!-- 번개 상세 조회 -->
+	<select id="selectOneSchedule" parameterType="int"
+		resultType="Schedule">
+		SELECT * FROM schedule
+		WHERE id = #{scheduleId}
+	</select>
+
+	<!-- 번개 등록 -->
+	<insert id="insertSchedule" parameterType="Schedule" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO schedule (manager_id, title, category, scale, image, org_image, description, date_time, address_name, longitude, latitude, chat_url)
+		VALUES (#{managerId}, #{title}, #{category}, #{scale}, #{image}, #{orgImage}, #{description}, #{dateTime}, #{addressName}, #{longitude}, #{latitude}, #{chatUrl})
+	</insert>
+	
+	<!-- 번개 참여 신청 -->
+	<insert id="insertUserSchedule" parameterType="Map">
+		INSERT INTO userSchedule (user_id, schedule_id)
+		VALUES (#{userId}, #{scheduleId})
+	</insert>
+	
+	<!-- 예정 번개 조회 -->
+	<select id="selectRemainSchedule" parameterType="string" resultType="Schedule">
+		SELECT s.* 
+		FROM schedule s
+		JOIN userSchedule us ON us.schedule_id = s.id
+		WHERE us.user_id = #{userId} AND us.status = 1 AND s.date_time &gt; CURRENT_TIMESTAMP;
+	</select>
+
+	<!-- 지난 번개 조회 -->
+	<select id="selectPastSchedule" parameterType="string" resultType="Schedule">
+		SELECT s.* 
+		FROM schedule s
+		JOIN userSchedule us ON us.schedule_id = s.id
+		WHERE us.user_id = #{userId} AND us.status = 1 AND s.date_time &lt; CURRENT_TIMESTAMP;
+	</select>
+	
+	<!--신청한 번개 조회-->
+	<select id="selectApply" parameterType="Map" resultType="int">
+		SELECT IFNULL(COUNT(*),0) FROM userSchedule
+		WHERE user_id = #{userId} AND schedule_id = #{scheduleId}
+	</select>
+	
+	<!--전체 조회-->
+	<select id="selectAllSchedule" resultType="Schedule">
+		SELECT * FROM schedule
+		WHERE date_time >= now()
+	</select>
+</mapper>
