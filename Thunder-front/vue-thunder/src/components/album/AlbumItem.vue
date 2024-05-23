@@ -37,10 +37,11 @@ const formattedDate = computed(() => {
 
 <style scoped>
 .item {
-  display: inline-block;
-  margin-top: 2rem;
+  flex: 0 0 calc(33.33% - 2rem);
+  /* margin-top: 2rem; */
+  margin : 1rem 1rem;
   filter: grayscale(100%);
-  transition: all 0.35s;
+  /* transition: all 0.35s; */
 }
 
 .item:hover {
@@ -58,12 +59,12 @@ const formattedDate = computed(() => {
 }
 
 .polaroid:hover {
-  transform: scale(1.1); /* 호버 시 폴라로이드 크기 증가 */
+  transform: scale(1.05); /* 호버 시 폴라로이드 크기 증가 */
 }
 
 .polaroid-img {
   width: 300px; /* 고정된 가로 크기 */
-  height: 300px; /* 고정된 세로 크기 */
+  height: 400px; /* 조정된 세로 크기 */
   object-fit: cover; /* 이미지 비율 유지하며 잘라내기 */
   border-radius: 10px;
   margin-bottom: 10px;
