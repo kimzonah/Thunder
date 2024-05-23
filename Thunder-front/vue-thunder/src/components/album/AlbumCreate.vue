@@ -43,7 +43,7 @@ onMounted(() => {
   // 로그인 되지 않은 경우
   if (!userSession) {
     alert('로그인이 필요합니다.');
-    router.push({ name: 'home' });
+    router.push({ name: 'login' });
   }
 
   myThunderStore.fetchPastThunders();
@@ -151,8 +151,10 @@ const triggerFileUpload = () => {
   border: none;
   padding: 10px 16px;
   font-size: 14px;
-  border-radius: 15px;
+  font-weight: 600;
+  border-radius: 20px;
   cursor: pointer;
+  color: #333;
 }
 
 .select-picture:hover {
@@ -165,9 +167,10 @@ const triggerFileUpload = () => {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 15px;
+  border-radius: 20px;
   cursor: pointer;
   margin-left: auto;
+  color: #333;
 }
 
 .regist-picture:hover {

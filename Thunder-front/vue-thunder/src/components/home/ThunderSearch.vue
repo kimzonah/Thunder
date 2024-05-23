@@ -63,6 +63,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    
   }
   
   .btn {
@@ -76,10 +77,11 @@
   .dropdown,
   .search-bar {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: none;
+    border-radius: 50px;
     font-family: "Noto Sans KR", sans-serif; 
     font-size: 14px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
   
   .search-bar {
@@ -91,7 +93,12 @@
     border: none;
     padding: 10px 22px;
     cursor: pointer;
-    border-radius: 10px;
+    border-radius: 20px;
+    color: #333;
+  }
+
+  .search-btn:hover{
+    background-color: #DDC12B;
   }
 
   button{

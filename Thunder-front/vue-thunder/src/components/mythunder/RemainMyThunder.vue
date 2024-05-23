@@ -1,24 +1,28 @@
 <template>
   <div class="thunder-container">
-      <div class="thunder-list">
-          <div v-for="thunder in store.thunders" :key="thunder.id" class="thunder-item">
-              <img :src="getImageUrl(thunder.image)" alt="thunder image" class="thunder-image" />
-              <div class="thunder-info">
-                <div class="category">{{ thunder.category }}</div>
-                <div class="item">
-                  <h4 class="title">{{ thunder.title }}</h4>
-                  <div class="location"><img src="@/components/icons/common/picker.png" style="width: 12px; margin-right: 5px;">{{ getAddressName(thunder.addressName) }}</div>
-                </div>
-                <!-- <div>{{ getShortDescription(thunder.description) }}</div> -->
-              </div>
-              <div class="thunder-actions">
-                <RouterLink v-if="thunder.managerId === userStore.loginUser.id" class="manage-button" :to="{name : 'manage', params : {thunderId: thunder.id}}">
-                  <img src="@/components/icons/common/manage-icon.png" alt="manage icon" class="manage-icon" /> 번개 관리하기
-                </RouterLink>
-                <RouterLink :to="{ name: 'board', params: {thunderId: thunder.id} }" class="thunder-detail-link" />
-              </div>
+    <div class="thunder-list">
+      <div v-for="thunder in store.thunders" :key="thunder.id" class="thunder-item">
+        <img :src="getImageUrl(thunder.image)" alt="thunder image" class="thunder-image" />
+        <div class="thunder-info">
+          <div class="category">{{ thunder.category }}</div>
+          <div class="item">
+            <h4 class="title">{{ thunder.title }}</h4>
+            <div class="location"><img src="@/components/icons/common/picker.png"
+                style="width: 12px; margin-right: 5px;">{{ getAddressName(thunder.addressName) }}</div>
+            <div class="location"><img src="@/components/icons/common/calendar-icon.png"
+                style="width: 15px; height: 15px; margin-right: 5px;">{{ thunder.dateTime }}</div>
           </div>
+          <!-- <div>{{ getShortDescription(thunder.description) }}</div> -->
+        </div>
+        <div class="thunder-actions">
+          <RouterLink v-if="thunder.managerId === userStore.loginUser.id" class="manage-button"
+            :to="{ name: 'manage', params: { thunderId: thunder.id } }">
+            <img src="@/components/icons/common/manage-icon.png" alt="manage icon" class="manage-icon" /> 번개 관리하기
+          </RouterLink>
+          <RouterLink :to="{ name: 'board', params: { thunderId: thunder.id } }" class="thunder-detail-link" />
+        </div>
       </div>
+    </div>
   </div>
 </template>
 
@@ -34,19 +38,19 @@ const userStore = useUserStore();
 onMounted(() => {
   store.fetchRemainThunders();
   const userSession = sessionStorage.getItem('loginUser')
-  if(!userSession) {
+  if (!userSession) {
     alert('로그인이 필요합니다.')
-    router.push({name:'home'})
+    router.push({ name: 'login' })
   }
 });
 
 const getImageUrl = (imagePath) => {
-  return imagePath ? new URL(`/src/assets/thunder/${imagePath}`, import.meta.url).href : 
+  return imagePath ? new URL(`/src/assets/thunder/${imagePath}`, import.meta.url).href :
     new URL(`@/assets/thunder/thunderDefault.png`, import.meta.url).href;
 };
 
 const getAddressName = (address) => {
-  if(address) {
+  if (address) {
     return address.split(')')[0] + ')';
   }
 }
@@ -136,20 +140,23 @@ const getShortDescription = (description) => {
 }
 
 .thunder-detail-link {
-  position: absolute; /* 수정: 부모 요소 내에서 절대 위치로 설정 */
-  right: 20px; /* 오른쪽 여백 */
+  position: absolute;
+  /* 수정: 부모 요소 내에서 절대 위치로 설정 */
+  right: 20px;
+  /* 오른쪽 여백 */
   width: 50px;
   height: 50px;
   border-radius: 30%;
   transition: background-color 0.2s;
-  background-image: url('@/components/icons/common/detail-link.png'); 
+  background-image: url('@/components/icons/common/detail-link.png');
   background-size: cover;
   background-position: center;
   cursor: pointer;
 }
 
 .thunder-detail-link:hover {
-  background-image: url('@/components/icons/common/detail-link-active.png'); /* hover 시 이미지 변경 */
+  background-image: url('@/components/icons/common/detail-link-active.png');
+  /* hover 시 이미지 변경 */
 }
 
 .manage-button {
@@ -165,7 +172,7 @@ const getShortDescription = (description) => {
   transition: background-color 0.2s, color 0.2s;
   margin-right: 60px;
   margin-top: 35px;
-  font-size:12px;
+  font-size: 12px;
   line-height: 1;
 }
 

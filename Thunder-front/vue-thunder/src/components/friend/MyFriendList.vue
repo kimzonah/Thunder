@@ -1,16 +1,22 @@
 <template>
     <div>
         <FriendSearch />
-        <h2>내 친구</h2>
-        <div v-if="filteredMyFriends.length === 0">
-            검색된 친구가 없습니다.
+        <div class="myfriend-header">
+            <h2>내 친구</h2>
+            <p>{{ friendStore.myFriendList.length }}명</p>
+        </div>
+        <div class="nothing" v-if="filteredMyFriends.length === 0">
+            내 친구 중 검색 결과가 없습니다.
         </div>
         <div v-else>
             <div class="friends-container">
                 <button class="nav-btn prev-btn" @click="prevMySlide">‹</button>
                 <div class="cards-wrapper">
                     <div class="friend-card" v-for="friend in displayedMyFriends" :key="friend.id">
-                        <div v-if="isRecruiting(friend.id)" class="status">⚡ 번개 모집 중</div>
+                        <div v-if="isRecruiting(friend.id)" class="status">
+                            <img src="@/components/icons/common/thunder.png" style="width: 15px; height: 15px; margin-right: 5px;"> 
+                            <div>번개 모집 중</div>
+                        </div>
                         <div class="profile">
                             <img :src="imageUrl(friend.image)" alt="Profile Image" class="profile-img" />
                             <div class="profile-name">{{ friend.name }}</div>
@@ -18,14 +24,13 @@
                         <div class="actions">
                             <button v-if="isRecruiting(friend.id)" class="btn view-lightning"
                                 @click="goFriendThunder(friend.id)">번개 보러가기</button>
-                            <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action"
-                                @click="addFriend(friend.id)">친구
-                                맺기</button>
+                            <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action add-friend"
+                                @click="addFriend(friend.id)">친구 맺기</button>
                             <button v-else-if="getFriendRelationStatus(friend.id) === 1"
-                                class="btn friend-action active" @click="removeFriend(friend.id)">친구 끊기</button>
-                            <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action"
+                                class="btn friend-action active delete-friend" @click="removeFriend(friend.id)">친구 끊기</button>
+                            <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action wait-friend"
                                 style="pointer-events: none;">승인 대기중</button>
-                            <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action"
+                            <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action go-friend-manage"
                                 @click="goFriendManage">받은 요청 보기</button>
                             <button v-else class="btn friend-action">상태 알 수 없음</button>
                         </div>
@@ -53,14 +58,14 @@ const loginUserId = sessionStorage.getItem("loginUser");
 // 온마운트 : 처음엔 검색어 없음(전체 조회)
 onMounted(async () => {
     const userSession = sessionStorage.getItem('loginUser')
-  if(!userSession) {
-    alert('로그인이 필요합니다.')
-    router.push({name:'home'})
-  }
-  else{
+    if (!userSession) {
+        alert('로그인이 필요합니다.')
+        router.push({ name: 'login' })
+    }
+    else {
 
-      await updateFriendLists();
-      console.log(loginUserId);
+        await updateFriendLists();
+        console.log(loginUserId);
     }
 });
 
@@ -155,6 +160,17 @@ const getFriendRelationStatus = (friendId) => {
 </script>
 
 <style scoped>
+.myfriend-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nothing{
+    align-items: center;
+    text-align: center;
+}
+
 .friends-container {
     display: flex;
     align-items: center;
@@ -174,7 +190,7 @@ const getFriendRelationStatus = (friendId) => {
     display: flex;
     overflow: hidden;
     width: 90%;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .friend-card {
@@ -194,7 +210,9 @@ const getFriendRelationStatus = (friendId) => {
     top: 10px;
     right: 10px;
     font-size: 12px;
-    color: #F3D849;
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
 }
 
 .profile {
@@ -229,25 +247,57 @@ const getFriendRelationStatus = (friendId) => {
     padding: 12px;
     margin: 4px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 520;
 }
 
+/* 번개보러가기 */
 .view-lightning {
     background-color: white;
-    color: #f7d85f;
-    border: 1px solid #f7d85f;
+    border: 2px solid #F08989;
 }
 
-.friend-action {
-    background-color: #e0e5e9;
-    color: black;
+.view-lightning:hover{
+    border: 2px solid #F08989;
+    background-color: #FFF1F1;
 }
-
-.friend-action.active {
+/* 친구맺기 */
+.add-friend {
     background-color: #F3D849;
-    color: white;
+}
+
+.add-friend:hover{
+    background-color: #DDC12B;
+}
+
+/* 친구끊기 */
+.delete-friend {
+    background-color: #E0E5E9;
+}
+
+.delete-friend:hover{
+    background-color: #BCBCBC;
+}
+/* 승인 대기중 */
+.wait-friend {
+    background-color: #E0E5E9;
+}
+
+.wait-friend:hover{
+    background-color: #BCBCBC;
+}
+
+/* 받은 요청 보기 */
+.go-friend-manage{
+    background-color: white;
+    border: 2px solid #F3D849;
+}
+
+.go-friend-manage:hover{
+    background-color: #FCF6D5;
+    border: 2px solid #F3D849;
 }
 
 .profile-img {

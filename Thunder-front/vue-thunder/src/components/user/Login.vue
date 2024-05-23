@@ -14,7 +14,8 @@
         <button type="submit" class="login-button">로그인</button>
       </form>
       <div class="signup-link">
-        <router-link :to="{ name: 'signup' }">회원가입</router-link>
+        <router-link :to="{name: 'home'}" style="margin-right: 20px">홈</router-link> 
+        <router-link :to="{ name: 'signup' }" style="margin-left: 20px">회원가입</router-link>
       </div>
     </div>
 

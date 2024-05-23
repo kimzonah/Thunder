@@ -1,25 +1,24 @@
 <template>
-    <h2>{{ userStore.user.name }}님이 모집중인 번개</h2>
-    <div class="thunder-container">
-        <div class="thunder-list">
-            <div v-for="thunder in friendStore.friendThunderList" :key="thunder.id" class="thunder-item">
-                <img :src="getImageUrl(thunder.image)" alt="thunder image" class="thunder-image" />
-                <div class="thunder-info">
-                  <div class="category">{{ thunder.category }}</div>
-                  <div class="item">
-                    <h4 class="title">{{ thunder.title }}</h4>
-                    <div class="location"><img src="@/components/icons/common/picker.png" style="width: 12px; margin-right: 5px;">{{ getAddressName(thunder.addressName) }}</div>
-                  </div>
-                  <!-- <div>{{ getShortDescription(thunder.description) }}</div> -->
-                </div>
-                <RouterLink :to="{ name: 'thunderDetail', params: {thunderId: thunder.id} }" class="thunder-detail-link">
-                  >
-                <!-- <img src="@/assets/detail-arrow.png" alt="상세 보기" /> \ -->
-                </RouterLink>
-            </div>
+  <h2>{{ userStore.user.name }}님이 모집중인 번개</h2>
+  <div class="thunder-container">
+    <div class="thunder-list">
+      <div v-for="thunder in friendStore.friendThunderList" :key="thunder.id" class="thunder-item">
+        <img :src="getImageUrl(thunder.image)" alt="thunder image" class="thunder-image" />
+        <div class="thunder-info">
+          <div class="category">{{ thunder.category }}</div>
+          <div class="item">
+            <h4 class="title">{{ thunder.title }}</h4>
+            <div class="location"><img src="@/components/icons/common/picker.png"
+                style="width: 12px; margin-right: 5px;">{{ getAddressName(thunder.addressName) }}</div>
+            <div class="location"><img src="@/components/icons/common/calendar-icon.png"
+                style="width: 15px; height: 15px; margin-right: 5px;">{{ thunder.dateTime }}</div>
+          </div>
         </div>
+        <RouterLink :to="{ name: 'thunderDetail', params: { thunderId: thunder.id } }" class="thunder-detail-link"/>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
@@ -32,19 +31,19 @@ const friendStore = useFriendStore();
 const route = useRoute();
 
 
-onMounted(()=>{
-    userStore.getUserById(route.params.friendId)
-    console.log(route.params.friendId)
-    friendStore.getFriendThunder(route.params.friendId)
+onMounted(() => {
+  userStore.getUserById(route.params.friendId)
+  console.log(route.params.friendId)
+  friendStore.getFriendThunder(route.params.friendId)
 });
 
 const getImageUrl = (imagePath) => {
-  return imagePath ? new URL(`/src/assets/thunder/${imagePath}`, import.meta.url).href : 
+  return imagePath ? new URL(`/src/assets/thunder/${imagePath}`, import.meta.url).href :
     new URL(`@/assets/thunder/thunderDefault.png`, import.meta.url).href;
 };
 
 const getAddressName = (address) => {
-  if(address) {
+  if (address) {
     return address.split(')')[0] + ')';
   }
 }
@@ -70,6 +69,7 @@ const getAddressName = (address) => {
   border-radius: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  position: relative;
 }
 
 .thunder-item:hover {
@@ -115,25 +115,24 @@ const getAddressName = (address) => {
   margin-right: 5px;
 }
 
-.description {
-  margin: 5px 0;
-  font-size: 14px;
-  color: #888;
-}
-
 .thunder-detail-link {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background-color: #F3D849;
-  border-radius: 50%;
+  position: absolute;
+  /* 수정: 부모 요소 내에서 절대 위치로 설정 */
+  right: 20px;
+  /* 오른쪽 여백 */
+  width: 50px;
+  height: 50px;
+  border-radius: 30%;
   transition: background-color 0.2s;
+  background-image: url('@/components/icons/common/detail-link.png');
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
 }
 
 .thunder-detail-link:hover {
-  background-color: #ff9900;
+  background-image: url('@/components/icons/common/detail-link-active.png');
+  /* hover 시 이미지 변경 */
 }
 
 .detail-arrow {

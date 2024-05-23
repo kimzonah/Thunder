@@ -16,19 +16,15 @@
             <h4 class="title">{{ thunder.title }}</h4>
             <div class="location"><img src="@/components/icons/common/picker.png"
                 style="width: 12px; margin-right: 5px;">{{ getAddressName(thunder.addressName) }}</div>
-            <div class="location"><img src="@/components/icons/common/calendar.png"
+            <div class="location"><img src="@/components/icons/common/calendar-icon.png"
                 style="width: 15px; height: 15px; margin-right: 5px;">{{ thunder.dateTime }}</div>
           </div>
-          <!-- <div>{{ getShortDescription(thunder.description) }}</div> -->
         </div>
-        <RouterLink :to="{ name: 'thunderDetail', params: { thunderId: thunder.id } }" class="thunder-detail-link">
-          <!-- <img src="@/assets/detail-arrow.png" alt="상세 보기" /> \ -->
-        </RouterLink>
-        <!-- <button class="thunder-detail-link" @click="router.push({name:'thunderDetail'})"></button> -->
+        <RouterLink :to="{ name: 'thunderDetail', params: { thunderId: thunder.id } }" class="thunder-detail-link"/>
       </div>
     </div>
     <div v-else>
-      해당 조건의 번개가 없습니다.
+      선택한 조건의 번개가 없습니다.
     </div>
 
     <div class="pagination">

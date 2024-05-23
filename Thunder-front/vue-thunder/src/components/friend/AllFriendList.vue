@@ -1,8 +1,11 @@
 <template>
     <div>
-        <h2>전체 친구</h2>
-        <div v-if="filteredFriends.length === 0">
-            검색된 친구가 없습니다.
+        <div class="allfriend-header">
+            <h2>전체 친구</h2>
+            <p>{{ friendStore.allFriendList.length }}명</p>
+        </div>
+        <div class="nothing" v-if="filteredFriends.length === 0">
+            전체 유저 중 검색 결과가 없습니다.
         </div>
         <div v-else>
             <div>
@@ -10,25 +13,28 @@
                     <button class="nav-btn prev-btn" @click="prevSlide">‹</button>
                     <div class="cards-wrapper">
                         <div class="friend-card" v-for="friend in displayedFriends" :key="friend.id">
-                            <div v-if="isRecruiting(friend.id)" class="status">⚡ 번개 모집 중</div>
+                            <div v-if="isRecruiting(friend.id)" class="status">
+                                <img src="@/components/icons/common/thunder.png"
+                                    style="width: 15px; height: 15px; margin-right: 5px;">
+                                <div>번개 모집 중</div>
+                            </div>
                             <div class="profile">
                                 <img :src="imageUrl(friend.image)" alt="Profile Image" class="profile-img" />
                                 <div class="profile-name">{{ friend.name }}</div>
                             </div>
                             <div class="actions">
-                                <button v-if="isRecruiting(friend.id)" class="btn view-lightning"
-                                    @click="goFriendThunder(friend.id)">번개 보러가기</button>
-                                <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action"
-                                    @click="addFriend(friend.id)">친구
-                                    맺기</button>
-                                <button v-else-if="getFriendRelationStatus(friend.id) === 1"
-                                    class="btn friend-action active" @click="removeFriend(friend.id)">친구 끊기</button>
-                                <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action"
-                                    style="pointer-events: none;">승인 대기중</button>
-                                <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action"
-                                    @click="goFriendManage">받은 요청 보기</button>
-                                <button v-else class="btn friend-action">상태 알 수 없음</button>
-                            </div>
+                            <button v-if="isRecruiting(friend.id)" class="btn view-lightning"
+                                @click="goFriendThunder(friend.id)">번개 보러가기</button>
+                            <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action add-friend"
+                                @click="addFriend(friend.id)">친구 맺기</button>
+                            <button v-else-if="getFriendRelationStatus(friend.id) === 1"
+                                class="btn friend-action active delete-friend" @click="removeFriend(friend.id)">친구 끊기</button>
+                            <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action wait-friend"
+                                style="pointer-events: none;">승인 대기중</button>
+                            <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action go-friend-manage"
+                                @click="goFriendManage">받은 요청 보기</button>
+                            <button v-else class="btn friend-action">상태 알 수 없음</button>
+                        </div>
                         </div>
                     </div>
                     <button class="nav-btn next-btn" @click="nextSlide">›</button>
@@ -137,6 +143,17 @@ const getFriendRelationStatus = (friendId) => {
 </script>
 
 <style scoped>
+.allfriend-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nothing {
+    text-align: center;
+    align-content: center;
+}
+
 .friends-container {
     display: flex;
     align-items: center;
@@ -156,7 +173,7 @@ const getFriendRelationStatus = (friendId) => {
     display: flex;
     overflow: hidden;
     width: 90%;
-    justify-content: center;
+    justify-content: flex-start;
 }
 
 .friend-card {
@@ -169,14 +186,6 @@ const getFriendRelationStatus = (friendId) => {
     text-align: center;
     position: relative;
     box-sizing: border-box;
-}
-
-.status {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    font-size: 12px;
-    color: #F3D849;
 }
 
 .profile {
@@ -211,25 +220,56 @@ const getFriendRelationStatus = (friendId) => {
     padding: 12px;
     margin: 4px 0;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
+    font-weight: 520;
 }
-
+/* 번개보러가기 */
 .view-lightning {
     background-color: white;
-    color: #F3D849;
-    border: 1px solid #F3D849;
+    border: 2px solid #F08989;
 }
 
-.friend-action {
-    background-color: #e0e5e9;
-    color: black;
+.view-lightning:hover{
+    border: 2px solid #F08989;
+    background-color: #FFF1F1;
 }
-
-.friend-action.active {
+/* 친구맺기 */
+.add-friend {
     background-color: #F3D849;
-    color: white;
+}
+
+.add-friend:hover{
+    background-color: #DDC12B;
+}
+
+/* 친구끊기 */
+.delete-friend {
+    background-color: #E0E5E9;
+}
+
+.delete-friend:hover{
+    background-color: #BCBCBC;
+}
+/* 승인 대기중 */
+.wait-friend {
+    background-color: #E0E5E9;
+}
+
+.wait-friend:hover{
+    background-color: #BCBCBC;
+}
+
+/* 받은 요청 보기 */
+.go-friend-manage{
+    background-color: white;
+    border: 2px solid #F3D849;
+}
+
+.go-friend-manage:hover{
+    background-color: #FCF6D5;
+    border: 2px solid #F3D849;
 }
 
 .profile-img {
@@ -237,5 +277,15 @@ const getFriendRelationStatus = (friendId) => {
     height: 80px;
     border-radius: 50%;
     margin-bottom: 15px;
+}
+
+.status {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    padding: 0px 5px;
 }
 </style>

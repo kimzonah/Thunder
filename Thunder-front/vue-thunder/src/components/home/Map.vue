@@ -24,7 +24,15 @@ const overlays = ref([]);
 
 const router = useRouter();
 const goCreateThunder = () => {
-  router.push({ name: 'thunderCreate' });
+
+  const userSession = sessionStorage.getItem('loginUser')
+  if (!userSession) {
+    alert('로그인이 필요합니다.')
+    router.push({ name: 'login' })
+  }
+  else {
+    router.push({ name: 'thunderCreate' });
+  }
 };
 
 const getAddressName = (address) => {
@@ -147,10 +155,10 @@ const addMarkers = (thunders) => {
     detail.appendChild(category);
     detail.appendChild(title);
     detail.appendChild(datelocation);
-    
+
     info.appendChild(image);
     info.appendChild(detail);
-    
+
     content.appendChild(closebutton);
     content.appendChild(info);
     content.appendChild(detailbutton);
@@ -255,15 +263,28 @@ button {
   border: none;
   padding: 10px 20px;
   cursor: pointer;
-  border-radius: 15px;
+  border-radius: 20px;
+  color: #333;
+}
+
+.btn:hover{
+  background-color: #DDC12B;
+  color: #333;
 }
 
 .map-btn {
   background-color: #E0E5E9;
   border: none;
   padding: 10px 20px;
-  border-radius: 15px;
+  border-radius: 20px;
   margin-right: 10px;
+  cursor: pointer;
+  color: #333;
+}
+
+.map-btn:hover{
+  background-color: #BCBCBC;
+  color: #333;
 }
 </style>
 
@@ -294,14 +315,18 @@ button {
 }
 
 .customoverlay .thunder-info {
-  display: flex; /* 가로 배치 */
+  display: flex;
+  /* 가로 배치 */
   align-items: center;
-  flex-direction: row; /* 세로 배치 추가 */
+  flex-direction: row;
+  /* 세로 배치 추가 */
 }
 
 .customoverlay .thunder-image {
-  width: 70px; /* 원하는 크기로 조정 */
-  height: 70px; /* 원하는 크기로 조정 */
+  width: 70px;
+  /* 원하는 크기로 조정 */
+  height: 70px;
+  /* 원하는 크기로 조정 */
   border-radius: 10px;
   margin-right: 20px;
   object-fit: cover;
@@ -331,7 +356,8 @@ button {
 }
 
 .customoverlay .date-location {
-  display: block; /* 세로 배치 */
+  display: block;
+  /* 세로 배치 */
   margin-top: 10px;
 }
 
@@ -340,8 +366,10 @@ button {
   padding: 10px 20px;
   background-color: #F3D849;
   border: none;
-  border-radius: 50px; /* 둥근 모양 */
+  border-radius: 50px;
+  /* 둥근 모양 */
   cursor: pointer;
-  align-self: center; /* 중앙에 배치 */
+  align-self: center;
+  /* 중앙에 배치 */
 }
 </style>

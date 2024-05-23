@@ -8,19 +8,35 @@
       <img src="../icons/common/logout.png" alt="로그아웃" style="width: 15px;">로그아웃
     </a>
     <div v-else class="signup-login">
-      <RouterLink :to="{name : 'signup'}">
+      <RouterLink :to="{ name: 'signup' }" active-class="active-link">
         <img src="../icons/common/signup.png" alt="회원가입" style="width: 15px;">회원가입
       </RouterLink>
       <span class="separator">|</span>
-      <RouterLink :to="{name : 'login'}">
+      <RouterLink :to="{ name: 'login' }" active-class="active-link">
         <img src="../icons/common/login.png" alt="로그인" style="width: 15px;">로그인
       </RouterLink>
     </div>
     <ul class="nav-links">
-      <li class="search"><RouterLink :to="{name : 'home'}"><img class="icon" src="../icons/common/searchThunder.png" alt="번개 찾기">번개 찾기</RouterLink></li>
-      <li class="my"><RouterLink :to="{name : 'myThunder'}"><img class="icon" src="../icons/common/mythunder.png" alt="내 번개">내 번개</RouterLink></li>
-      <li class="friend"><RouterLink :to="{name: 'myFriendList'}"><img class="icon" src="../icons/common/friend.png" alt="친구">친구</RouterLink></li>
-      <li class="album"><RouterLink :to="{name : 'album'}"><img class="icon" src="../icons/common/album.png" alt="사진첩">사진첩</RouterLink></li>
+      <li class="search">
+        <RouterLink :to="{ name: 'home' }" active-class="active-link">
+          <img class="icon" src="../icons/common/searchThunder.png" alt="번개 찾기">번개 찾기
+        </RouterLink>
+      </li>
+      <li class="my">
+        <RouterLink :to="{ name: 'myThunder' }" active-class="active-link">
+          <img class="icon" src="../icons/common/mythunder.png" alt="내 번개">내 번개
+        </RouterLink>
+      </li>
+      <li class="friend">
+        <RouterLink :to="{ name: 'myFriendList' }" active-class="active-link">
+          <img class="icon" src="../icons/common/friend.png" alt="친구">친구
+        </RouterLink>
+      </li>
+      <li class="album">
+        <RouterLink :to="{ name: 'album' }" active-class="active-link">
+          <img class="icon" src="../icons/common/album.png" alt="사진첩">사진첩
+        </RouterLink>
+      </li>
     </ul>
   </nav>
 </template>
@@ -35,19 +51,15 @@ const handleLogout = async () => {
   await store.logout();
 };
 
-// const defaultImage = new URL('../assets/profile.png', import.meta.url).href;
-
 const imageUrl = computed(() => {
   if (store.isLoggedIn) {
-    // 로그인 되어 있지만, 유저 프로필이 없으면 기본 이미지 제공
     const defaultManagerImageUrl = new URL(`/src/assets/userProfile/profile.png`, import.meta.url).href;
     if (store.loginUser.image) {
       return new URL(`/src/assets/userProfile/${store.loginUser.image}`, import.meta.url).href;
     }
     return defaultManagerImageUrl;
-  } else {// 로그인 되지 않은 경우 기본 유저 프로필
+  } else {
     return new URL('@/assets/userProfile/profile.png', import.meta.url).href;
-    // return new URL('@/assets/thunderDafault.png', import.meta.url).href;
   }
 });
 
@@ -118,15 +130,15 @@ nav a > img {
 }
 
 a {
-  display: flex; /* flex 레이아웃 사용 */
-  align-items: center; /* 수직 정렬 */
+  display: flex;
+  align-items: center;
 }
 
 .nav-links a {
   text-decoration: none;
   color: #807F7F;
   font-size: 16px;
-  padding: 5px 40px; /* 왼쪽으로 더 이동 */
+  padding: 5px 40px;
 }
 
 .nav-links a:hover {
@@ -144,6 +156,11 @@ a {
 }
 
 .signup-login img {
-  margin-right: 7px; /* 이미지 간 간격을 추가 */
+  margin-right: 7px;
+}
+
+.active-link {
+  background-color: #F1F1F1;
+  border-radius: 10px;
 }
 </style>

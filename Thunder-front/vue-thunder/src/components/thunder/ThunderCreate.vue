@@ -102,7 +102,7 @@ onMounted(() => {
   const userSession = sessionStorage.getItem('loginUser')
   if(!userSession) {
     alert('로그인이 필요합니다.')
-    router.push({name:'home'})
+    router.push({name:'login'})
   }
 });
 
