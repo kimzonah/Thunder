@@ -58,25 +58,28 @@
   
   .comment-input-field {
     flex-grow: 1;
-    padding: 10px;
+    padding: 15px 10px 10px 15px;
     font-size: 14px;
     border: 1px solid #e0e0e0;
-    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
     margin-right: 10px;
   }
   
   .comment-submit-button {
     padding: 10px 20px;
     font-size: 14px;
-    color: #fff;
-    background-color: #007bff;
+    /* color: #fff; */
+    background-color: #ffcc00;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+    height: 45px;
     border: none;
-    border-radius: 4px;
+    border-radius: 15px;
     cursor: pointer;
   }
   
   .comment-submit-button:hover {
-    background-color: #0056b3;
+    background-color: #f6c502;
   }
   </style>
   

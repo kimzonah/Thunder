@@ -6,6 +6,10 @@
       :board="board"
       :loginUserId="userStore.loginUser.id"
     />
+    <div class="board-no-content" v-if="!boardStore.isExistBoard">
+      <h3>등록된 게시글이 없습니다.</h3>
+      <p><router-link :to="{name: 'boardRegist'}">여기</router-link>를 클릭해 게시글을 등록해보세요</p>
+    </div>
   </div>
 </template>
 
@@ -34,5 +38,10 @@ onMounted(() => {
   flex-direction: column;
   gap: 20px;
   padding: 20px;
+}
+
+.board-no-content {
+  text-align: center;
+  margin-top: 20px;
 }
 </style>
