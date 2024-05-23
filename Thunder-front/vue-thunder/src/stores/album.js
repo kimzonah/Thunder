@@ -18,7 +18,7 @@ export const useAlbumStore = defineStore('album', () => {
             });
             alert('사진이 등록되었습니다.');
         } catch (error) {
-            alert('사진 등록 실패');
+            alert('사진 등록에 실패 했습니다. 다시 시도해보세요.');
         }
     }
 
@@ -31,7 +31,7 @@ export const useAlbumStore = defineStore('album', () => {
             });
             albums.value = response.data;
         } catch (error) {
-            console.error('앨범 불러오기 실패', error);
+            alert('앨범을 불러오는데 실패 했습니다. 다시 시도해보세요.');
         }
     };
 

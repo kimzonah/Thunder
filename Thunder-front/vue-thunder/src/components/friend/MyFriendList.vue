@@ -27,7 +27,7 @@
                             <button v-if="getFriendRelationStatus(friend.id) === 0" class="btn friend-action add-friend"
                                 @click="addFriend(friend.id)">친구 맺기</button>
                             <button v-else-if="getFriendRelationStatus(friend.id) === 1"
-                                class="btn friend-action active delete-friend" @click="removeFriend(friend.id)">친구 끊기</button>
+                                class="btn friend-action active delete-friend" @click="confirmRemoveFriend(friend.id)">친구 끊기</button>
                             <button v-else-if="getFriendRelationStatus(friend.id) === 2" class="btn friend-action wait-friend"
                                 style="pointer-events: none;">승인 대기중</button>
                             <button v-else-if="getFriendRelationStatus(friend.id) === 3" class="btn friend-action go-friend-manage"
@@ -85,12 +85,20 @@ const addFriend = async (friendId) => {
     }
 };
 
+// 친구 끊기 확인
+const confirmRemoveFriend = (friendId) => {
+    if (confirm('정말 친구를 끊으시겠습니까?')) {
+        removeFriend(friendId);
+    }
+};
+
 // 친구 끊기
 const removeFriend = async (friendId) => {
     try {
         await axios.delete(`${REST_FRIEND_API}/${friendId}`, { withCredentials: true }); // 쿠키를 포함한 요청
         friendStore.setFriendRelationStatus(friendId, 0); // 상태를 친구 아님으로 업데이트
         alert("친구를 끊었습니다.")
+        window.location.reload();
     } catch (error) {
         alert('문제가 발생했습니다. 다시 시도해보세요.')
     }
@@ -148,7 +156,6 @@ const nextMySlide = () => {
     }
 };
 
-
 // 친구 관계 상태 가져오기
 const getFriendRelationStatus = (friendId) => {
     return friendStore.friendRelationStatus[friendId] ?? -1;
@@ -184,13 +191,13 @@ const getFriendRelationStatus = (friendId) => {
 
 .cards-wrapper {
     display: flex;
+    justify-content: center;
     overflow: hidden;
     width: 90%;
-    justify-content: flex-start;
 }
 
 .friend-card {
-    flex: 0 0 calc(33.33% - 16px);
+    flex: 0 0 calc(33.33% - 100px);
     padding: 24px;
     margin: 8px;
     border-radius: 10px;
@@ -239,13 +246,13 @@ const getFriendRelationStatus = (friendId) => {
 }
 
 .btn {
-    width: 100%;
+    width: 70%;
     padding: 12px;
     margin: 4px 0;
     border: none;
     border-radius: 50px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 520;
 }
 

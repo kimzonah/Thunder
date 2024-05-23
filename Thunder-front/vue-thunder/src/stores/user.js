@@ -13,7 +13,6 @@ export const useUserStore = defineStore('user', () => {
     
     const checkLoginStatus = () => {
         const userId  = sessionStorage.getItem('loginUser'); // 쿠키에서 토큰을 가져옵니다.
-        // console.log(userId)
         if (userId) {
             axios.get(`${REST_USER_API}/loginUser`, {
                 headers: {
@@ -22,26 +21,16 @@ export const useUserStore = defineStore('user', () => {
                 withCredentials: true // 세션 정보를 포함한 요청
             })
             .then((response) => {
-                // console.log(response)
                 isLoggedIn.value = true;
-                // console.log()
-                // console.log(isLoggedIn);
                 loginUser.value = response.data
-                // user.value =  {
-                //     id : response.data.id,
-                //     name : response.data.name,
-                //     image : response.data.image
-                // }
-                // console.log(user)
             })
             .catch((error) => {
-                // console.error('Error verifying token:', error);
+                alert('다시 시도해보세요.')
                 isLoggedIn.value = false;
             })
         } else {
             isLoggedIn.value = false;
         }
-        // console.log(isLoggedIn)
     };
 
     const login = (username, password) => {
@@ -52,11 +41,6 @@ export const useUserStore = defineStore('user', () => {
             withCredentials: true // 쿠키를 포함한 요청
         })
         .then((response) => {
-            // // 로그인 성공 알림
-            // response.data = username;
-            // // console.log(response)
-            // const token = response.data;
-            // console.log(token)
             sessionStorage.setItem('loginUser', username);
 
             alert('로그인 성공');
@@ -64,7 +48,7 @@ export const useUserStore = defineStore('user', () => {
             router.push({name : 'home'});
         })
         .catch((error) => {
-            console.log(error)
+            alert('다시 시도해보세요.')
             if (error.response && error.response.status === 400) {
                 alert('아이디 비밀번호가 일치하지 않습니다');
             } else {
@@ -109,14 +93,12 @@ export const useUserStore = defineStore('user', () => {
 
       const getUserById = async (userId) => {
         try {
-            // console.log('try')
           const response = await axios.get(`${REST_USER_API}/${userId}`, {
             timeout: 3000, // 5초 타임아웃 설정
           });
           user.value = response.data;
-        //   console.log(user)
         } catch (error) {
-          console.error('Error fetching user data:', error);
+            alert('다시 시도해보세요.')
         }
       };
 
