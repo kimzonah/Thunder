@@ -1,45 +1,71 @@
-<h1>⚡FiThunder</h1>
-![readme 이미지](https://github.com/kimzonah/Thunder/assets/110345050/3461e111-3c88-4456-a22a-d274b15f0fff)
-운동 번개 모임 서비스
-</br> 
+## ⚡FiThunder
+<img src="https://github.com/kimzonah/Thunder/assets/110345050/e1815e86-7f1c-41de-b1e0-6c0477d2dc7a">
 
-## 📑 개요
+
+- 쉽고 빠르게 운동 메이트를 찾는 운동 번개 서비스
+</br>
+
+
+## 프로젝트 개요 
 - 프로젝트 명 : FiThunder
-- 프로젝트 한 줄 소개 : 쉽고 빠르게 운동 메이트를 찾는 운동 번개 서비스
 - 프로젝트 일시 : 2024.05.10 ~ 2024.05.23
+- 개발 언어 및 툴 : JAVA, Spring Boot, VUE 
 </br>
 
-## 👥 멤버 소개
-|<img src="https://edu.ssafy.com/edu/comm/imgDownload.do?userId=bWoofIbH6NGHXL7v9VbScg%3D%3D"  width="150" height="150"/>|<img src="https://edu.ssafy.com/edu/comm/imgDownload.do?userId=sof91PFAPDO8KZYi6PkBMw%3D%3D"  width="150" height="150"/>|
-|:---:|:---:|
+## 멤버 소개
 |이지혜|김선하|
+|:---:|:---:|
+|<img src="https://avatars.githubusercontent.com/u/110345050?v=4"  width="150" height="150"/>|<img src="https://avatars.githubusercontent.com/u/124108725?v=4"  width="150" height="150"/>|
+|[@c0zl](https://github.com/C0Zl)|[@kimzonah](https://github.com/kimzonah)|
 </br>
 
-## 🚩 팀 공통 목표
-- 운동 영상 정보 사이트 구동을 위해 필요한 알고리즘을 기획한다.
+## 팀 공통 목표
+- 구현하고자 했던 서비스 기능을 완성도 있게 구현하도록 노력했습니다.
+- 원하는 운동 번개 모임을 쉽게 빠르게 찾을 수 있고, 유저들이 지속적인 운동 메이트가 될 수 있도록 돕습니다.
 </br>
 
-## 🔍 서비스 소개
-> 다이어터들을 위한 영상 추천 서비스
+## 서비스 소개
+> 정기 모임이 부담스러운 헬스인들을 위한 운동 번개 모임 서비스
 </br>
 
-🖥 다이어트에 도움이 되는 영상들을 보여드려요 !
-- 영상 시청 기록에 따라 추천하는 운동 영상을 볼 수 있어요.
-- 다양한 신체부위 중 어떤 운동이 되는지, 카테고리도 함께 나타내어 쉽게 찾아볼 수 있어요.
-- 조회수 기준으로 영상을 보여주기 때문에 많은 사람들에게 인기있는 영상을 쉽게 찾아볼 수 있어요 ~
-
-🏆 Level을 올려 목표를 달성해보세요
-- 영상을 시청하면 해당 운동 부위에 대한 경험치가 부여돼요~
-- 내 Level을 확인하고 운동을 통해 레벨을 올려보세요 !!
-
-🗓️ 다른 사람들이 남긴 리뷰도 함께 확인해보세요 ~
-- 같이 다이어트를 하는 다른 사람들의 리뷰를 확인하며 운동해보세요 !!
-- 운동에 도움이 되었다면, 리뷰를 통해 다른 분들에게 정보를 나눠주세요
-
-📌 영상 검색을 통해 원하는 영상을 쉽고 빠르게 찾아보세요 ! 
-- 원하는 키워드를 입력하면, 관련된 영상을 조회할 수 있어요
- 
+🗺️ 주변에 어떤 번개 모임이 있는지 찾아볼까요 ?
+- 사이트에 들어가거나 새로고침을 누르면, 현재 내 위치를 중심으로 지도를 볼 수 있어요
+- 접속하는 것만으로 주변의 번개 모임들을 한 눈에 찾아볼 수 있어요 ~
+- 원하는 장소의 모임을 선택해 번개에 참여해보세요 !
 </br>
+
+🔍 원하는 날짜, 카테고리, 장소 별로 번개 모임을 검색해보세요 !
+- 운동하고자 하는 날짜는 선택해 해당 날짜의 번개 모임을 찾아볼 수 있어요 ~
+- 배드민턴, 풋살, 사이클, 테니스 등 내가 원하는 운동만 모아서 검색할 수도 있어요
+</br>
+
+👁️ 나의 번개들을 한 눈에 살펴볼 수 있어요
+- 지난 번개와 예정된 번개를 따로 두어 남아 있는 번개들을 쉽게 확인 가능 !!
+- 내가 번개장이라면 ? 번개 장소와 일시도 수정하고 번개 신청도 관리해보세요 ~
+- 번개마다 있는 게시판 기능을 적극 활용해 번개원들과 소통해보세요
+</br>
+
+👤 마음에 드는 유저는 친구 추가해 번개 메이트로 !
+- 친구 검색을 통해 유저들을 찾아보세요
+- 마음에 드는 유저가 있다면 친구 추가도 할 수 있어요
+- 친구가 번개를 만들면 [번개 모집 중] 표시가 활성화 되니 원하는 번개에 참여해 보는 건 어떨까요 ?
+</br>
+
+📷 마음에 들었던 번개는 사진첩에 기록할 수 있어요 ~
+- 지난 번개 들 중 재밌었던 번개가 있다면 사진을 등록해 추억을 남겨보세요 :)
+ </br>
+</br>
+
+## 주요 기능 소개
+|기능|디자인|상세 설명|
+|:---:|:---:|:---:|
+|번개 조회하기|<img src="https://github.com/kimzonah/Thunder/assets/110345050/6603d50c-fb08-47b6-857a-97a50cbcaab5" alt="image" border="0" style="width: 500px;">|원하는 조건에 따라 <br>번개를 검색하고 찾을 수 있습니다.|
+|번개 만들기|<img src="https://github.com/kimzonah/Thunder/assets/110345050/15c74ece-8d88-4212-9be0-2a17b2755d6a" alt="image" border="0" style="width: 500px;">|희망하는 번개를 직접 만들어 볼 수 있습니다.|
+|내 번개|<img src="https://github.com/kimzonah/Thunder/assets/110345050/90b44299-d0db-40c2-9ddb-f93e1e60a5df" alt="image" border="0" style="width: 500px;">|나의 번개들을 한눈에 확인할 수 있습니다.|
+|친구|<img src="https://github.com/kimzonah/Thunder/assets/110345050/72dd06bc-de76-458a-bf11-b4d4bd0d5aea" alt="image" border="0" style="width: 500px;">|검색을 통해 친구를 맺을 수 있습니다.|
+|사진첩|<img src="https://github.com/kimzonah/Thunder/assets/110345050/c30c4f6b-17e4-42ad-bace-f0d64e7d9b08" alt="image" border="0" style="width: 500px;">|즐거웠던 번개 모임의 추억은 <br>사진으로 남겨 둡니다.|
+
+## 고민한 부분
 
 ## 📌 겪었던 어려움과 해결 과정
 > 인증되지 않은 유저 처리
