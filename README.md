@@ -1,19 +1,12 @@
-# Thunder
-운동 번개 모임 매칭 서비스입니다.
-</br>
-<div align="center">
-<h2>[5팀] SpringBoot 관통 프로젝트 🚩</h2>
-SSAFIT SpringBoot 프로젝트
+<h1>⚡FiThunder</h1>
+![readme 이미지](https://github.com/kimzonah/Thunder/assets/110345050/3461e111-3c88-4456-a22a-d274b15f0fff)
+운동 번개 모임 서비스
 </br> 
-</div>
-</br>
-
 
 ## 📑 개요
-- 프로젝트 명 : SSAFIT Project
-- 프로젝트 한 줄 소개 : 다이어터들을 위한 영상 정보 및 리뷰 관리 프로그램
-- 프로젝트 일시 : 2024.05.10
-- 알고리즘: 검색 알고리즘, 정렬(Quick Sort), 분류 알고리즘
+- 프로젝트 명 : FiThunder
+- 프로젝트 한 줄 소개 : 쉽고 빠르게 운동 메이트를 찾는 운동 번개 서비스
+- 프로젝트 일시 : 2024.05.10 ~ 2024.05.23
 </br>
 
 ## 👥 멤버 소개
