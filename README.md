@@ -104,4 +104,8 @@
 - 프로젝트 기획, 개발 전반에 대한 프로세스와 구현, 자신 없었던 front-end에 대해서도 프로젝트를 통해 많이 배우고 성장할 수 있었습니다.
  
 #### 김선하
-- 
+-
+
+## 9. 기타 자료
+- [API 명세서](https://guttural-single-1db.notion.site/API-59aed4ed8355475db8b0a49eb067a2ca?pvs=4)
+- [발표 자료](https://www.notion.so/00b85aacec2a43c5918f2ce3548f91a3)
